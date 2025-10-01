@@ -1,0 +1,24 @@
+{
+    "cli": { "version": ">= 14.0.0" },
+    "build": {
+      "development": {
+        "developmentClient": true,
+        "distribution": "internal",
+        "channel": "dev",
+        "android": { "buildType": "apk" },        // quick install for Android
+        "ios": { "simulator": true }               // quick install for iOS Simulator
+      },
+      "preview": {
+        "distribution": "internal",
+        "channel": "preview",
+        "android": { "buildType": "app-bundle" }   // AAB for Play internal testing
+      },
+      "production": {
+        "channel": "production"
+      }
+    },
+    "submit": {
+      "production": {}
+    }
+  }
+  
