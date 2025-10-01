@@ -6,7 +6,7 @@
         "distribution": "internal",
         "channel": "dev",
         "android": { "buildType": "apk" },        // quick install for Android
-        "ios": { "simulator": true }               // quick install for iOS Simulator
+        "ios": { "simulator": false }               // quick install for iOS Simulator
       },
       "preview": {
         "distribution": "internal",
