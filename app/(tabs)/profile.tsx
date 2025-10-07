@@ -63,7 +63,12 @@ export default function ProfileScreen() {
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>
-              <MaterialIcons name="receipt-long" size={20} color="#356671" />
+              <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
+                <Path d="M15.6082 26.4167C16.2915 25.6834 17.3332 25.7417 17.9332 26.5417L18.7748 27.6667C19.4498 28.5584 20.5415 28.5584 21.2165 27.6667L22.0582 26.5417C22.6582 25.7417 23.6998 25.6834 24.3832 26.4167C25.8665 28.0001 27.0748 27.4751 27.0748 25.2584V15.8667C27.0832 12.5084 26.2998 11.6667 23.1498 11.6667H16.8498C13.6998 11.6667 12.9165 12.5084 12.9165 15.8667V25.2501C12.9165 27.4751 14.1332 27.9917 15.6082 26.4167Z" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M16.6665 15.8333H23.3332" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M17.5 19.1667H22.5" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </Svg>
             </View>
             <Text style={styles.menuItemText}>Subscription & Plans</Text>
           </View>
@@ -74,7 +79,13 @@ export default function ProfileScreen() {
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>
-              <MaterialIcons name="support-agent" size={20} color="#356671" />
+              <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
+                <Path d="M23.6832 16.6249C25.7165 18.6582 25.7165 21.9582 23.6832 23.9915C21.6499 26.0248 18.3498 26.0248 16.3165 23.9915C14.2832 21.9582 14.2832 18.6582 16.3165 16.6249C18.3498 14.5915 21.6499 14.5915 23.6832 16.6249Z" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M16.875 28.0332C15.2083 27.3666 13.75 26.1582 12.7833 24.4832C11.8333 22.8416 11.5167 21.0166 11.7417 19.2749" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M14.875 13.7332C16.2917 12.6249 18.0667 11.9666 20 11.9666C21.8917 11.9666 23.6333 12.6082 25.0333 13.6749" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M23.125 28.0332C24.7917 27.3666 26.25 26.1582 27.2167 24.4832C28.1667 22.8416 28.4833 21.0166 28.2583 19.2749" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </Svg>
             </View>
             <Text style={styles.menuItemText}>Support</Text>
           </View>
