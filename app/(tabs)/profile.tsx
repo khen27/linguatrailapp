@@ -9,6 +9,7 @@ import { ThemedView } from '@/components/themed-view';
 export default function ProfileScreen() {
   const [darkTheme, setDarkTheme] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(false);
+  const [editProfile, setEditProfile] = useState(false);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -137,6 +138,32 @@ export default function ProfileScreen() {
           />
         </View>
         
+        </View>
+
+        {/* Feature Flags Section */}
+        <View style={styles.featureFlagsSection}>
+          <Text style={styles.sectionHeader}>Feature Flags</Text>
+          
+          {/* Edit Profile Feature Flag */}
+          <View style={styles.featureFlagItem}>
+            <View style={styles.featureFlagItemLeft}>
+              <View style={styles.featureFlagIconContainer}>
+                <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                  <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
+                  <Path d="M15.4 17.3555L12.2266 20L15.4 22.6445C15.4649 22.6965 15.5188 22.7608 15.5585 22.8338C15.5982 22.9068 15.6229 22.987 15.6313 23.0697C15.6396 23.1524 15.6314 23.2359 15.607 23.3154C15.5827 23.3949 15.5428 23.4687 15.4896 23.5325C15.4364 23.5964 15.371 23.649 15.2972 23.6872C15.2234 23.7255 15.1428 23.7487 15.0599 23.7554C14.9771 23.7621 14.8938 23.7523 14.8148 23.7264C14.7358 23.7005 14.6628 23.6591 14.6 23.6047L10.85 20.4797C10.7796 20.421 10.723 20.3476 10.6842 20.2647C10.6453 20.1817 10.6252 20.0912 10.6252 19.9996C10.6252 19.908 10.6453 19.8175 10.6842 19.7346C10.723 19.6516 10.7796 19.5782 10.85 19.5195L14.6 16.3945C14.7274 16.2884 14.8918 16.2373 15.0569 16.2524C15.222 16.2675 15.3744 16.3476 15.4805 16.475C15.5866 16.6024 15.6377 16.7668 15.6226 16.9319C15.6075 17.097 15.5274 17.2494 15.4 17.3555ZM29.15 19.5195L25.4 16.3945C25.3369 16.342 25.2641 16.3024 25.1857 16.278C25.1073 16.2536 25.0249 16.2449 24.9431 16.2524C24.8613 16.2599 24.7819 16.2834 24.7092 16.3216C24.6365 16.3598 24.5721 16.4119 24.5195 16.475C24.4134 16.6024 24.3623 16.7668 24.3774 16.9319C24.3925 17.097 24.4726 17.2494 24.6 17.3555L27.7734 20L24.6 22.6445C24.5351 22.6965 24.4813 22.7608 24.4415 22.8338C24.4018 22.9068 24.3771 22.987 24.3688 23.0697C24.3604 23.1524 24.3686 23.2359 24.393 23.3154C24.4173 23.3949 24.4572 23.4687 24.5104 23.5325C24.5636 23.5964 24.629 23.649 24.7028 23.6872C24.7766 23.7255 24.8572 23.7487 24.9401 23.7554C25.0229 23.7621 25.1062 23.7523 25.1852 23.7264C25.2642 23.7005 25.3372 23.6591 25.4 23.6047L29.15 20.4797C29.2204 20.421 29.277 20.3476 29.3158 20.2647C29.3547 20.1817 29.3748 20.0912 29.3748 19.9996C29.3748 19.908 29.3547 19.8175 29.3158 19.7346C29.277 19.6516 29.2204 19.5782 29.15 19.5195ZM22.7133 12.5375C22.6361 12.5095 22.5542 12.497 22.4722 12.5006C22.3902 12.5042 22.3097 12.524 22.2354 12.5588C22.161 12.5935 22.0942 12.6426 22.0388 12.7031C21.9834 12.7637 21.9405 12.8346 21.9125 12.9117L16.9125 26.6617C16.8844 26.7389 16.8717 26.8209 16.8753 26.903C16.8789 26.9851 16.8987 27.0656 16.9334 27.1401C16.9682 27.2145 17.0173 27.2814 17.0779 27.3369C17.1385 27.3923 17.2095 27.4353 17.2867 27.4633C17.3552 27.4876 17.4273 27.5 17.5 27.5C17.6284 27.5 17.7536 27.4605 17.8587 27.3868C17.9638 27.3132 18.0437 27.2089 18.0875 27.0883L23.0875 13.3383C23.1155 13.2611 23.1281 13.1792 23.1244 13.0972C23.1208 13.0152 23.101 12.9347 23.0662 12.8604C23.0315 12.786 22.9824 12.7192 22.9219 12.6638C22.8613 12.6084 22.7904 12.5655 22.7133 12.5375Z" stroke="#356671" strokeWidth="1.5"/>
+                </Svg>
+              </View>
+              <Text style={styles.featureFlagItemText}>Edit Profile</Text>
+            </View>
+            <Switch
+              value={editProfile}
+              onValueChange={setEditProfile}
+              trackColor={{ false: '#F6F7FA', true: '#356671' }}
+              thumbColor={editProfile ? '#FFFFFF' : '#64748B'}
+            />
+          </View>
+        </View>
+
         {/* Log Out Section */}
         <View style={styles.logoutSection}>
           <TouchableOpacity style={styles.logoutItem}>
@@ -154,7 +181,6 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
       </View>
-    </View>
     </ScrollView>
   );
 }
@@ -232,7 +258,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.32,
   },
   menuSection: {
-    marginBottom: 24,
+    marginBottom: 40,
   },
   sectionHeader: {
     fontSize: 16,
@@ -270,7 +296,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   preferencesSection: {
-    marginBottom: 30,
+    marginBottom: 40,
   },
   preferenceItem: {
     flexDirection: 'row',
@@ -300,8 +326,39 @@ const styles = StyleSheet.create({
     color: '#012629',
     flex: 1,
   },
+  featureFlagsSection: {
+    marginBottom: 40,
+  },
+  featureFlagItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F6F7FA',
+  },
+  featureFlagItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  featureFlagIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F6F7FA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  featureFlagItemText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#012629',
+    flex: 1,
+  },
   logoutSection: {
-    marginTop: 8,
+    marginTop: 0,
   },
   logoutItem: {
     flexDirection: 'row',
