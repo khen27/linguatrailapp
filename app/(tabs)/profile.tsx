@@ -1,6 +1,7 @@
 import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, Switch } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
+import Svg, { Path } from 'react-native-svg';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
@@ -43,7 +44,15 @@ export default function ProfileScreen() {
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>
-              <MaterialIcons name="tune" size={20} color="#356671" />
+              <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
+                <Path d="M28.3335 15.4167H23.3335" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M14.9998 15.4167H11.6665" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M18.3332 18.3333C19.944 18.3333 21.2498 17.0275 21.2498 15.4167C21.2498 13.8058 19.944 12.5 18.3332 12.5C16.7223 12.5 15.4165 13.8058 15.4165 15.4167C15.4165 17.0275 16.7223 18.3333 18.3332 18.3333Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M28.3333 24.5833H25" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M16.6665 24.5833H11.6665" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M21.6667 27.5001C23.2775 27.5001 24.5833 26.1942 24.5833 24.5834C24.5833 22.9726 23.2775 21.6667 21.6667 21.6667C20.0558 21.6667 18.75 22.9726 18.75 24.5834C18.75 26.1942 20.0558 27.5001 21.6667 27.5001Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              </Svg>
             </View>
             <Text style={styles.menuItemText}>Learning Configurations</Text>
           </View>
