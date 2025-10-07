@@ -11,8 +11,8 @@ export default function ProfileScreen() {
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
-        {/* Profile Header Section */}
-        <View style={styles.profileHeader}>
+      {/* Profile Header Section */}
+      <View style={styles.profileHeader}>
         {/* Profile Picture */}
         <View style={styles.profilePictureContainer}>
           <Image
@@ -33,41 +33,43 @@ export default function ProfileScreen() {
         </TouchableOpacity>
       </View>
 
-      {/* Menu Section */}
-      <View style={styles.menuSection}>
+      {/* Main Container Card - Menu + Preferences */}
+      <View style={styles.mainContainer}>
+        {/* Menu Section */}
+        <View style={styles.menuSection}>
         <Text style={styles.sectionHeader}>Menu</Text>
         
         {/* Learning Configurations Menu Item */}
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>
-              <MaterialIcons name="tune" size={24} color="#4A90E2" />
+              <MaterialIcons name="tune" size={20} color="#356671" />
             </View>
             <Text style={styles.menuItemText}>Learning Configurations</Text>
           </View>
-          <MaterialIcons name="chevron-right" size={24} color="#999999" />
+          <MaterialIcons name="chevron-right" size={20} color="#64748B" />
         </TouchableOpacity>
         
         {/* Subscription & Plans Menu Item */}
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>
-              <MaterialIcons name="receipt-long" size={24} color="#4A90E2" />
+              <MaterialIcons name="receipt-long" size={20} color="#356671" />
             </View>
             <Text style={styles.menuItemText}>Subscription & Plans</Text>
           </View>
-          <MaterialIcons name="chevron-right" size={24} color="#999999" />
+          <MaterialIcons name="chevron-right" size={20} color="#64748B" />
         </TouchableOpacity>
         
         {/* Support Menu Item */}
         <TouchableOpacity style={styles.menuItem}>
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>
-              <MaterialIcons name="support-agent" size={24} color="#4A90E2" />
+              <MaterialIcons name="support-agent" size={20} color="#356671" />
             </View>
             <Text style={styles.menuItemText}>Support</Text>
           </View>
-          <MaterialIcons name="chevron-right" size={24} color="#999999" />
+          <MaterialIcons name="chevron-right" size={20} color="#64748B" />
         </TouchableOpacity>
       </View>
 
@@ -79,15 +81,15 @@ export default function ProfileScreen() {
         <View style={styles.preferenceItem}>
           <View style={styles.preferenceItemLeft}>
             <View style={styles.preferenceIconContainer}>
-              <MaterialIcons name="dark-mode" size={24} color="#4A90E2" />
+              <MaterialIcons name="dark-mode" size={20} color="#356671" />
             </View>
             <Text style={styles.preferenceItemText}>Dark Theme</Text>
           </View>
           <Switch
             value={darkTheme}
             onValueChange={setDarkTheme}
-            trackColor={{ false: '#D1D1D6', true: '#34C759' }}
-            thumbColor="#FFFFFF"
+            trackColor={{ false: '#F6F7FA', true: '#34C759' }}
+            thumbColor={darkTheme ? '#FFFFFF' : '#64748B'}
           />
         </View>
         
@@ -95,17 +97,18 @@ export default function ProfileScreen() {
         <View style={styles.preferenceItem}>
           <View style={styles.preferenceItemLeft}>
             <View style={styles.preferenceIconContainer}>
-              <MaterialIcons name="notifications" size={24} color="#4A90E2" />
+              <MaterialIcons name="notifications" size={20} color="#356671" />
             </View>
             <Text style={styles.preferenceItemText}>Push Notifications</Text>
           </View>
           <Switch
             value={pushNotifications}
             onValueChange={setPushNotifications}
-            trackColor={{ false: '#D1D1D6', true: '#34C759' }}
-            thumbColor="#FFFFFF"
+            trackColor={{ false: '#F6F7FA', true: '#34C759' }}
+            thumbColor={pushNotifications ? '#FFFFFF' : '#64748B'}
           />
         </View>
+      </View>
       </View>
     </ScrollView>
   );
@@ -124,7 +127,22 @@ const styles = StyleSheet.create({
     paddingTop: 40,
     paddingBottom: 30,
     paddingHorizontal: 20,
+  },
+  mainContainer: {
     backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingVertical: 16,
+    paddingHorizontal: 24,
+    marginTop: 20,
+    shadowColor: '#000000',
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 10,
+    elevation: 5,
   },
   profilePictureContainer: {
     marginBottom: 12,
@@ -169,25 +187,22 @@ const styles = StyleSheet.create({
     letterSpacing: -0.32,
   },
   menuSection: {
-    marginTop: 20,
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 10,
+    marginBottom: 24,
   },
   sectionHeader: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333333',
-    paddingHorizontal: 20,
-    paddingVertical: 15,
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#012629',
+    opacity: 0.7,
+    marginBottom: 12,
   },
   menuItem: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 16,
-    paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: '#F6F7FA',
   },
   menuItemLeft: {
     flexDirection: 'row',
@@ -198,20 +213,18 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#F0F5FA',
+    backgroundColor: '#F6F7FA',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 8,
   },
   menuItemText: {
     fontSize: 16,
-    color: '#333333',
+    fontWeight: '500',
+    color: '#012629',
     flex: 1,
   },
   preferencesSection: {
-    marginTop: 20,
-    backgroundColor: '#FFFFFF',
-    paddingVertical: 10,
     marginBottom: 30,
   },
   preferenceItem: {
@@ -219,9 +232,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
     paddingVertical: 16,
-    paddingHorizontal: 20,
     borderBottomWidth: 1,
-    borderBottomColor: '#F0F0F0',
+    borderBottomColor: '#F6F7FA',
   },
   preferenceItemLeft: {
     flexDirection: 'row',
@@ -232,14 +244,15 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40,
     borderRadius: 20,
-    backgroundColor: '#F0F5FA',
+    backgroundColor: '#F6F7FA',
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
+    marginRight: 8,
   },
   preferenceItemText: {
     fontSize: 16,
-    color: '#333333',
+    fontWeight: '500',
+    color: '#012629',
     flex: 1,
   },
 });
