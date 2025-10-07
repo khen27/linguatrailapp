@@ -16,7 +16,7 @@ export default function ProfileScreen() {
         {/* Profile Picture */}
         <View style={styles.profilePictureContainer}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/120x120/4A90E2/FFFFFF?text=AJ' }}
+            source={{ uri: 'https://via.placeholder.com/95x95/4A90E2/FFFFFF?text=AJ' }}
             style={styles.profilePicture}
           />
         </View>
@@ -127,39 +127,46 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   profilePictureContainer: {
-    marginBottom: 20,
+    marginBottom: 12,
   },
   profilePicture: {
-    width: 120,
-    height: 120,
-    borderRadius: 60,
+    width: 95,
+    height: 95,
+    borderRadius: 47.5,
     backgroundColor: '#E0E0E0',
   },
   name: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#333333',
-    marginBottom: 8,
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#012629',
+    marginBottom: 5,
     textAlign: 'center',
+    letterSpacing: -0.44,
   },
   email: {
-    fontSize: 16,
-    color: '#666666',
-    marginBottom: 20,
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#012629',
+    opacity: 0.7,
+    marginBottom: 16,
     textAlign: 'center',
+    letterSpacing: -0.28,
   },
   editProfileButton: {
-    backgroundColor: '#2E8B57',
-    paddingHorizontal: 40,
-    paddingVertical: 12,
-    borderRadius: 25,
-    minWidth: 200,
+    backgroundColor: '#42646C',
+    paddingHorizontal: 24,
+    paddingVertical: 14,
+    borderRadius: 1000,
+    minWidth: 121,
+    height: 52,
     alignItems: 'center',
+    justifyContent: 'center',
   },
   editProfileButtonText: {
     color: '#FFFFFF',
     fontSize: 16,
     fontWeight: '600',
+    letterSpacing: -0.32,
   },
   menuSection: {
     marginTop: 20,
