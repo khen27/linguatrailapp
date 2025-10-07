@@ -111,7 +111,7 @@ export default function ProfileScreen() {
           <Switch
             value={darkTheme}
             onValueChange={setDarkTheme}
-            trackColor={{ false: '#F6F7FA', true: '#34C759' }}
+            trackColor={{ false: '#F6F7FA', true: '#356671' }}
             thumbColor={darkTheme ? '#FFFFFF' : '#64748B'}
           />
         </View>
@@ -132,7 +132,7 @@ export default function ProfileScreen() {
           <Switch
             value={pushNotifications}
             onValueChange={setPushNotifications}
-            trackColor={{ false: '#F6F7FA', true: '#34C759' }}
+            trackColor={{ false: '#F6F7FA', true: '#356671' }}
             thumbColor={pushNotifications ? '#FFFFFF' : '#64748B'}
           />
         </View>
