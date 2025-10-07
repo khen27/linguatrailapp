@@ -17,16 +17,16 @@ export default function ProfileScreen() {
         {/* Profile Picture */}
         <View style={styles.profilePictureContainer}>
           <Image
-            source={{ uri: 'https://via.placeholder.com/95x95/4A90E2/FFFFFF?text=AJ' }}
+            source={require('@/assets/images/zander-van-gogh.png')}
             style={styles.profilePicture}
           />
         </View>
         
         {/* Name */}
-        <Text style={styles.name}>Alex Jordan</Text>
+        <Text style={styles.name}>Zander Van Gogh</Text>
         
         {/* Email */}
-        <Text style={styles.email}>alexjordan@gmail.com</Text>
+        <Text style={styles.email}>zanvangogh@gmail.com</Text>
         
         {/* Edit Profile Button */}
         <TouchableOpacity style={styles.editProfileButton}>
@@ -103,7 +103,7 @@ export default function ProfileScreen() {
             <View style={styles.preferenceIconContainer}>
               <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
                 <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
-                <Path d="M3.38316 20.7C3.98316 29.2833 11.2665 36.2667 19.9832 36.65C26.1332 36.9167 31.6332 34.05 34.9332 29.5333C36.2999 27.6833 35.5665 26.45 33.2832 26.8667C32.1665 27.0667 31.0165 27.15 29.8165 27.1C21.6665 26.7667 14.9999 19.95 14.9665 11.9C14.9499 9.73333 15.3999 7.68333 16.2165 5.81667C17.1165 3.74997 16.0332 2.76667 13.9499 3.64997C7.34991 6.43333 2.83316 13.0833 3.38316 20.7Z" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M11.6916 20.35C11.9916 24.6416 15.6332 28.1333 19.9916 28.325C23.0666 28.4583 25.8166 27.025 27.4666 24.7666C28.1499 23.8416 27.7832 23.225 26.6416 23.4333C26.0832 23.5333 25.5082 23.575 24.9082 23.55C20.8332 23.3833 17.4999 19.975 17.4832 15.95C17.4749 14.8666 17.6999 13.8416 18.1082 12.9083C18.5582 11.875 18.0166 11.3833 16.9749 11.825C13.6749 13.2166 11.4166 16.5416 11.6916 20.35Z" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
             <Text style={styles.preferenceItemText}>Dark Theme</Text>
@@ -122,9 +122,9 @@ export default function ProfileScreen() {
             <View style={styles.preferenceIconContainer}>
               <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
                 <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
-                <Path d="M20.033 4.8501C14.5163 4.8501 10.033 9.33343 10.033 15.8501V19.6668C10.033 20.6834 9.59966 22.2334 9.083 23.1L7.16633 26.2834C5.983 28.25 6.79966 30.4334 8.96633 31.1668C16.1497 33.5668 23.8997 33.5668 31.083 31.1668C33.0997 30.5 33.983 28.1168 32.883 26.2834L30.9663 23.1C30.4663 22.2334 30.033 20.6834 30.033 19.6668V15.8501C30.033 9.3501 25.533 4.8501 20.033 4.8501Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round"/>
-                <Path d="M23.1166 5.3334C22.6003 5.1834 22.0666 5.06671 21.5166 5.00004C19.9166 4.80004 18.3833 4.91671 16.9503 5.3334C17.4333 4.10004 18.6333 3.23337 20.0333 3.23337C21.4333 3.23337 22.6333 4.10004 23.1166 5.3334Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-                <Path d="M25.0332 31.7667C25.0332 34.5167 22.7832 36.7667 20.0332 36.7667C18.6665 36.7667 17.3998 36.2 16.4998 35.3C15.5998 34.4 15.0332 33.1334 15.0332 31.7667" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10"/>
+                <Path d="M20.0165 12.425C17.2582 12.425 15.0165 14.6667 15.0165 17.425V19.8334C15.0165 20.3417 14.7998 21.1167 14.5415 21.55L13.5832 23.1417C12.9915 24.125 13.3998 25.2167 14.4832 25.5834C18.0748 26.7834 21.9498 26.7834 25.5415 25.5834C26.5498 25.25 26.9915 24.0584 26.4415 23.1417L25.4832 21.55C25.2332 21.1167 25.0165 20.3417 25.0165 19.8334V17.425C25.0165 14.675 22.7665 12.425 20.0165 12.425Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round"/>
+                <Path d="M21.5584 12.6667C21.3001 12.5917 21.0334 12.5334 20.7584 12.5C19.9584 12.4 19.1918 12.4584 18.4751 12.6667C18.7168 12.05 19.3168 11.6167 20.0168 11.6167C20.7168 11.6167 21.3168 12.05 21.5584 12.6667Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M22.5166 25.8833C22.5166 27.2583 21.3916 28.3833 20.0166 28.3833C19.3333 28.3833 18.6999 28.1 18.2499 27.65C17.7999 27.2 17.5166 26.5666 17.5166 25.8833" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10"/>
               </Svg>
             </View>
             <Text style={styles.preferenceItemText}>Push Notifications</Text>
@@ -135,6 +135,23 @@ export default function ProfileScreen() {
             trackColor={{ false: '#F6F7FA', true: '#34C759' }}
             thumbColor={pushNotifications ? '#FFFFFF' : '#64748B'}
           />
+        </View>
+        
+        {/* Log Out Section */}
+        <View style={styles.logoutSection}>
+          <TouchableOpacity style={styles.logoutItem}>
+            <View style={styles.logoutItemLeft}>
+              <View style={styles.logoutIconContainer}>
+                <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                  <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#FDF5F8"/>
+                  <Path d="M24.5332 22.1834L26.6665 20.0501L24.5332 17.9167" stroke="#FF6395" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M18.1333 20.05H26.6083" stroke="#FF6395" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M19.8 26.6666C16.1166 26.6666 13.1333 24.1666 13.1333 19.9999C13.1333 15.8333 16.1166 13.3333 19.8 13.3333" stroke="#FF6395" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                </Svg>
+              </View>
+              <Text style={styles.logoutItemText}>Log Out</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -281,6 +298,33 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '500',
     color: '#012629',
+    flex: 1,
+  },
+  logoutSection: {
+    marginTop: 8,
+  },
+  logoutItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 16,
+  },
+  logoutItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  logoutIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 8,
+  },
+  logoutItemText: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#FF6395',
     flex: 1,
   },
 });
