@@ -1,55 +1,238 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, Switch } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useState } from 'react';
 
-import ParallaxScrollView from '@/components/parallax-scroll-view';
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
 
 export default function ProfileScreen() {
+  const [darkTheme, setDarkTheme] = useState(false);
+  const [pushNotifications, setPushNotifications] = useState(false);
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#4D4D4D' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="person.fill"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Profile</ThemedText>
-      </ThemedView>
-      <ThemedText>This is your profile tab.</ThemedText>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">User Settings</ThemedText>
-        <ThemedText>
-          This tab will contain user profile information and settings.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Account</ThemedText>
-        <ThemedText>
-          Manage your account preferences and personal information here.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+        {/* Profile Header Section */}
+        <View style={styles.profileHeader}>
+        {/* Profile Picture */}
+        <View style={styles.profilePictureContainer}>
+          <Image
+            source={{ uri: 'https://via.placeholder.com/120x120/4A90E2/FFFFFF?text=AJ' }}
+            style={styles.profilePicture}
+          />
+        </View>
+        
+        {/* Name */}
+        <Text style={styles.name}>Alex Jordan</Text>
+        
+        {/* Email */}
+        <Text style={styles.email}>alexjordan@gmail.com</Text>
+        
+        {/* Edit Profile Button */}
+        <TouchableOpacity style={styles.editProfileButton}>
+          <Text style={styles.editProfileButtonText}>Edit Profile</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* Menu Section */}
+      <View style={styles.menuSection}>
+        <Text style={styles.sectionHeader}>Menu</Text>
+        
+        {/* Learning Configurations Menu Item */}
+        <TouchableOpacity style={styles.menuItem}>
+          <View style={styles.menuItemLeft}>
+            <View style={styles.menuIconContainer}>
+              <MaterialIcons name="tune" size={24} color="#4A90E2" />
+            </View>
+            <Text style={styles.menuItemText}>Learning Configurations</Text>
+          </View>
+          <MaterialIcons name="chevron-right" size={24} color="#999999" />
+        </TouchableOpacity>
+        
+        {/* Subscription & Plans Menu Item */}
+        <TouchableOpacity style={styles.menuItem}>
+          <View style={styles.menuItemLeft}>
+            <View style={styles.menuIconContainer}>
+              <MaterialIcons name="receipt-long" size={24} color="#4A90E2" />
+            </View>
+            <Text style={styles.menuItemText}>Subscription & Plans</Text>
+          </View>
+          <MaterialIcons name="chevron-right" size={24} color="#999999" />
+        </TouchableOpacity>
+        
+        {/* Support Menu Item */}
+        <TouchableOpacity style={styles.menuItem}>
+          <View style={styles.menuItemLeft}>
+            <View style={styles.menuIconContainer}>
+              <MaterialIcons name="support-agent" size={24} color="#4A90E2" />
+            </View>
+            <Text style={styles.menuItemText}>Support</Text>
+          </View>
+          <MaterialIcons name="chevron-right" size={24} color="#999999" />
+        </TouchableOpacity>
+      </View>
+
+      {/* Preferences Section */}
+      <View style={styles.preferencesSection}>
+        <Text style={styles.sectionHeader}>Preferences</Text>
+        
+        {/* Dark Theme Preference */}
+        <View style={styles.preferenceItem}>
+          <View style={styles.preferenceItemLeft}>
+            <View style={styles.preferenceIconContainer}>
+              <MaterialIcons name="dark-mode" size={24} color="#4A90E2" />
+            </View>
+            <Text style={styles.preferenceItemText}>Dark Theme</Text>
+          </View>
+          <Switch
+            value={darkTheme}
+            onValueChange={setDarkTheme}
+            trackColor={{ false: '#D1D1D6', true: '#34C759' }}
+            thumbColor="#FFFFFF"
+          />
+        </View>
+        
+        {/* Push Notifications Preference */}
+        <View style={styles.preferenceItem}>
+          <View style={styles.preferenceItemLeft}>
+            <View style={styles.preferenceIconContainer}>
+              <MaterialIcons name="notifications" size={24} color="#4A90E2" />
+            </View>
+            <Text style={styles.preferenceItemText}>Push Notifications</Text>
+          </View>
+          <Switch
+            value={pushNotifications}
+            onValueChange={setPushNotifications}
+            trackColor={{ false: '#D1D1D6', true: '#34C759' }}
+            thumbColor="#FFFFFF"
+          />
+        </View>
+      </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
+  container: {
+    flex: 1,
+    backgroundColor: '#F6F7FA',
   },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
+  contentContainer: {
+    paddingTop: 60,
   },
-  stepContainer: {
-    gap: 8,
+  profileHeader: {
+    alignItems: 'center',
+    paddingTop: 40,
+    paddingBottom: 30,
+    paddingHorizontal: 20,
+    backgroundColor: '#FFFFFF',
+  },
+  profilePictureContainer: {
+    marginBottom: 20,
+  },
+  profilePicture: {
+    width: 120,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: '#E0E0E0',
+  },
+  name: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333333',
     marginBottom: 8,
+    textAlign: 'center',
+  },
+  email: {
+    fontSize: 16,
+    color: '#666666',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  editProfileButton: {
+    backgroundColor: '#2E8B57',
+    paddingHorizontal: 40,
+    paddingVertical: 12,
+    borderRadius: 25,
+    minWidth: 200,
+    alignItems: 'center',
+  },
+  editProfileButtonText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+  menuSection: {
+    marginTop: 20,
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 10,
+  },
+  sectionHeader: {
+    fontSize: 18,
+    fontWeight: '600',
+    color: '#333333',
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+  },
+  menuItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  menuItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  menuIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F0F5FA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  menuItemText: {
+    fontSize: 16,
+    color: '#333333',
+    flex: 1,
+  },
+  preferencesSection: {
+    marginTop: 20,
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 10,
+    marginBottom: 30,
+  },
+  preferenceItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 16,
+    paddingHorizontal: 20,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F0F0F0',
+  },
+  preferenceItemLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  preferenceIconContainer: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    backgroundColor: '#F0F5FA',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
+  },
+  preferenceItemText: {
+    fontSize: 16,
+    color: '#333333',
+    flex: 1,
   },
 });
