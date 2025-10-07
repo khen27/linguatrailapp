@@ -71,9 +71,9 @@ export default function ProfileScreen() {
           </View>
           <MaterialIcons name="chevron-right" size={20} color="#64748B" />
         </TouchableOpacity>
-      </View>
+        </View>
 
-      {/* Preferences Section */}
+        {/* Preferences Section */}
       <View style={styles.preferencesSection}>
         <Text style={styles.sectionHeader}>Preferences</Text>
         
@@ -109,7 +109,7 @@ export default function ProfileScreen() {
           />
         </View>
       </View>
-      </View>
+    </View>
     </ScrollView>
   );
 }
