@@ -101,7 +101,10 @@ export default function ProfileScreen() {
         <View style={styles.preferenceItem}>
           <View style={styles.preferenceItemLeft}>
             <View style={styles.preferenceIconContainer}>
-              <MaterialIcons name="dark-mode" size={20} color="#356671" />
+              <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
+                <Path d="M3.38316 20.7C3.98316 29.2833 11.2665 36.2667 19.9832 36.65C26.1332 36.9167 31.6332 34.05 34.9332 29.5333C36.2999 27.6833 35.5665 26.45 33.2832 26.8667C32.1665 27.0667 31.0165 27.15 29.8165 27.1C21.6665 26.7667 14.9999 19.95 14.9665 11.9C14.9499 9.73333 15.3999 7.68333 16.2165 5.81667C17.1165 3.74997 16.0332 2.76667 13.9499 3.64997C7.34991 6.43333 2.83316 13.0833 3.38316 20.7Z" stroke="#356671" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              </Svg>
             </View>
             <Text style={styles.preferenceItemText}>Dark Theme</Text>
           </View>
@@ -117,7 +120,12 @@ export default function ProfileScreen() {
         <View style={styles.preferenceItem}>
           <View style={styles.preferenceItemLeft}>
             <View style={styles.preferenceIconContainer}>
-              <MaterialIcons name="notifications" size={20} color="#356671" />
+              <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#F6F7FA"/>
+                <Path d="M20.033 4.8501C14.5163 4.8501 10.033 9.33343 10.033 15.8501V19.6668C10.033 20.6834 9.59966 22.2334 9.083 23.1L7.16633 26.2834C5.983 28.25 6.79966 30.4334 8.96633 31.1668C16.1497 33.5668 23.8997 33.5668 31.083 31.1668C33.0997 30.5 33.983 28.1168 32.883 26.2834L30.9663 23.1C30.4663 22.2334 30.033 20.6834 30.033 19.6668V15.8501C30.033 9.3501 25.533 4.8501 20.033 4.8501Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round"/>
+                <Path d="M23.1166 5.3334C22.6003 5.1834 22.0666 5.06671 21.5166 5.00004C19.9166 4.80004 18.3833 4.91671 16.9503 5.3334C17.4333 4.10004 18.6333 3.23337 20.0333 3.23337C21.4333 3.23337 22.6333 4.10004 23.1166 5.3334Z" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M25.0332 31.7667C25.0332 34.5167 22.7832 36.7667 20.0332 36.7667C18.6665 36.7667 17.3998 36.2 16.4998 35.3C15.5998 34.4 15.0332 33.1334 15.0332 31.7667" stroke="#356671" strokeWidth="1.5" strokeMiterlimit="10"/>
+              </Svg>
             </View>
             <Text style={styles.preferenceItemText}>Push Notifications</Text>
           </View>
