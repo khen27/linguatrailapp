@@ -1,6 +1,7 @@
-import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, TextInput, ScrollView } from 'react-native';
 import { useRouter } from 'expo-router';
-import Svg, { Path, Rect, Defs, LinearGradient, Stop } from 'react-native-svg';
+import { LinearGradient } from 'expo-linear-gradient';
+import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 
 export default function EditProfileScreen() {
   const router = useRouter();
@@ -20,8 +21,9 @@ export default function EditProfileScreen() {
         <View style={styles.placeholder} />
       </View>
 
-      {/* Profile Picture */}
-      <View style={styles.profilePictureContainer}>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        {/* Profile Picture */}
+        <View style={styles.profilePictureContainer}>
         <View style={styles.imageWrapper}>
           <Image
             source={require('@/assets/images/zander-van-gogh.png')}
@@ -35,16 +37,17 @@ export default function EditProfileScreen() {
               <Path d="M21.9082 16.7083C22.2665 19.0083 24.1332 20.7666 26.4499 20.9999" stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
               <Path d="M14.5 30.8333H29.5" stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
               <Defs>
-                <LinearGradient id="paint0_linear_6066_2449" x1="1.81482" y1="2.66699" x2="46.4617" y2="8.79139" gradientUnits="userSpaceOnUse">
+                <SvgLinearGradient id="paint0_linear_6066_2449" x1="1.81482" y1="2.66699" x2="46.4617" y2="8.79139" gradientUnits="userSpaceOnUse">
                   <Stop stopColor="#42646C"/>
                   <Stop offset="1" stopColor="#012629"/>
-                </LinearGradient>
+                </SvgLinearGradient>
               </Defs>
             </Svg>
           </TouchableOpacity>
         </View>
       </View>
 
+      <View style={styles.formSection}>
       {/* First Name Field */}
       <View style={styles.fieldContainer}>
         <Text style={styles.label}>First Name</Text>
@@ -87,13 +90,22 @@ export default function EditProfileScreen() {
           keyboardType="phone-pad"
         />
       </View>
+      </View>
 
       {/* Save Button */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity style={styles.saveButton}>
-          <Text style={styles.saveButtonText}>Save</Text>
+        <TouchableOpacity>
+          <LinearGradient
+            colors={['#42646C', '#012629']}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 0 }}
+            style={styles.saveButton}
+          >
+            <Text style={styles.saveButtonText}>Save</Text>
+          </LinearGradient>
         </TouchableOpacity>
       </View>
+      </ScrollView>
     </View>
   );
 }
@@ -119,16 +131,26 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#012629',
+    letterSpacing: -0.32,
   },
   placeholder: {
     width: 42,
   },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 40,
+  },
   profilePictureContainer: {
     alignItems: 'center',
-    marginTop: 40,
+    marginTop: 32,
   },
   imageWrapper: {
     position: 'relative',
+  },
+  formSection: {
+    marginTop: 32,
   },
   profilePicture: {
     width: 140,
@@ -142,30 +164,32 @@ const styles = StyleSheet.create({
   },
   fieldContainer: {
     paddingHorizontal: 20,
-    marginTop: 32,
+    marginTop: 12,
   },
   label: {
     fontSize: 16,
     fontWeight: '500',
     color: '#012629',
     marginBottom: 6,
+    letterSpacing: -0.32,
   },
   input: {
     height: 48,
     backgroundColor: '#FFFFFF',
-    borderRadius: 24,
+    borderRadius: 1000,
     paddingHorizontal: 16,
     fontSize: 16,
+    fontWeight: '500',
     color: '#012629',
+    letterSpacing: -0.32,
   },
   buttonContainer: {
     paddingHorizontal: 20,
-    marginTop: 32,
+    marginTop: 16,
   },
   saveButton: {
     height: 52,
-    backgroundColor: '#42646C',
-    borderRadius: 26,
+    borderRadius: 1000,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -173,6 +197,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#FFFFFF',
+    letterSpacing: -0.32,
   },
 });
 
