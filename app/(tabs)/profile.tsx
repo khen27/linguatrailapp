@@ -2,11 +2,13 @@ import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity, Switch } f
 import { MaterialIcons } from '@expo/vector-icons';
 import { useState } from 'react';
 import Svg, { Path } from 'react-native-svg';
+import { useRouter } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
 
 export default function ProfileScreen() {
+  const router = useRouter();
   const [darkTheme, setDarkTheme] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(false);
   const [editProfile, setEditProfile] = useState(false);
@@ -30,7 +32,7 @@ export default function ProfileScreen() {
         <Text style={styles.email}>zanvangogh@gmail.com</Text>
         
         {/* Edit Profile Button */}
-        <TouchableOpacity style={styles.editProfileButton}>
+        <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/edit-profile')}>
           <Text style={styles.editProfileButtonText}>Edit Profile</Text>
         </TouchableOpacity>
       </View>
