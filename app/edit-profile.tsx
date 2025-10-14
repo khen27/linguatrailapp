@@ -90,7 +90,6 @@ export default function EditProfileScreen() {
           keyboardType="phone-pad"
         />
       </View>
-      </View>
 
       {/* Buttons */}
       <View style={styles.buttonContainer}>
@@ -108,6 +107,7 @@ export default function EditProfileScreen() {
         <TouchableOpacity style={styles.changePasswordButton}>
           <Text style={styles.changePasswordButtonText}>Change Password</Text>
         </TouchableOpacity>
+      </View>
       </View>
       </ScrollView>
     </View>
