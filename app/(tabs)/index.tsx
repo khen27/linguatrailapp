@@ -78,14 +78,14 @@ export default function HomeScreen() {
           
           {/* Motivational Message */}
           <View style={styles.motivationSection}>
-            <Text style={styles.motivationText}>You're so close - make sure to get some practice in today 💪!</Text>
+            <Text style={styles.motivationText}>You're so close 💪 get some practice in today!</Text>
           </View>
         </View>
       </View>
 
-      {/* Recent Transactions Title & First Task Card */}
+      {/* Ongoing Tasks Title & Task Cards */}
       <View style={styles.tasksSection}>
-        <Text style={styles.tasksTitle}>Recent Transactions</Text>
+        <Text style={styles.tasksTitle}>Ongoing Tasks</Text>
         
         <View style={styles.taskCard}>
           <View style={styles.taskIcon}>
@@ -263,8 +263,8 @@ const styles = StyleSheet.create({
   },
   // Trail Progress outer card
   progressOuter: {
-    width: '100%',
-    marginHorizontal: 8,
+    marginLeft: 20,
+    marginRight: 20,
     marginBottom: 20,
     backgroundColor: '#2F4291',
     borderRadius: 20,
@@ -367,8 +367,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tasksSection: {
-    width: '100%',
-    paddingHorizontal: 8,
+    width: 359,
+    marginHorizontal: 20,
     marginBottom: 20,
     gap: 12,
   },
@@ -376,10 +376,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#012629',
-    letterSpacing: -0.32,
+    letterSpacing: -0.02,
     lineHeight: 24,
     marginBottom: 12,
-    textAlign: 'center',
   },
   taskCard: {
     backgroundColor: '#FFFFFF',
@@ -388,7 +387,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 12,
-    width: '100%',
+    width: 359,
+    height: 103,
     marginBottom: 12,
   },
   taskIcon: {
@@ -404,20 +404,22 @@ const styles = StyleSheet.create({
     lineHeight: 46,
   },
   taskContent: {
-    flex: 1,
-    gap: 12,
+    width: 244,
+    height: 71,
+    justifyContent: 'space-between',
   },
   taskHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 4,
+    height: 21,
   },
   taskCategory: {
     fontSize: 14,
     fontWeight: '500',
     color: '#012629',
     opacity: 0.7,
-    letterSpacing: -0.28,
+    letterSpacing: -0.02,
     lineHeight: 21,
     flex: 1,
   },
@@ -426,22 +428,25 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#012629',
     opacity: 0.7,
-    letterSpacing: -0.28,
+    letterSpacing: -0.02,
     lineHeight: 21,
   },
   taskTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: '#012629',
-    letterSpacing: -0.32,
+    letterSpacing: -0.02,
     lineHeight: 24,
     textTransform: 'capitalize',
+    width: 244,
+    height: 24,
   },
   taskProgressContainer: {
     width: 244,
     height: 10,
     backgroundColor: '#F6F7FA',
     borderRadius: 1000,
+    marginTop: 12,
   },
   taskProgressTrack: {
     position: 'absolute',
@@ -455,5 +460,6 @@ const styles = StyleSheet.create({
     height: 10,
     backgroundColor: '#2F4291',
     borderRadius: 1000,
+    marginTop: 12,
   },
 });
