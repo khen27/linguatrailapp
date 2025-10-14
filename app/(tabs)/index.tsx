@@ -60,27 +60,22 @@ export default function HomeScreen() {
 
       {/* What Would You Like To Learn Today Section */}
       <View style={styles.learningInputSection}>
-        <Text style={styles.learningInputTitle}>What Would You Like To Learn Today?</Text>
         <View style={styles.learningInputCard}>
-          <View style={styles.inputContainer}>
-            <TextInput
-              style={styles.learningInput}
-              placeholder="Type your learning goal..."
-              placeholderTextColor="#64748B"
-              multiline
-            />
-            <View style={styles.inputButtons}>
+          <Text style={styles.learningInputTitle}>What Would You Like To Learn Today?</Text>
+          <View style={styles.learningInputContainer}>
+            <Text style={styles.learningInputSubtitle}>Ask anything...</Text>
+            <View style={styles.learningInputButtons}>
               <TouchableOpacity style={styles.uploadButton}>
-                <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <Path d="M7.5 13.3333L10 10.8333L12.5 13.3333" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <Path d="M10 10.8333V17.5" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <Path d="M16.6667 14.1667C17.5833 13.5833 18.3333 12.5 18.3333 11.25C18.3333 9.16667 16.6667 7.5 14.5833 7.5C14.25 5.83333 12.75 2.5 10 2.5C7.25 2.5 5.75 5.83333 5.41667 7.5C3.33333 7.5 1.66667 9.16667 1.66667 11.25C1.66667 12.5 2.41667 13.5833 3.33333 14.1667" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+                  <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" fill="white"/>
+                  <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" stroke="#E0E3EF"/>
+                  <Path d="M20.9749 21V23.9167C20.9749 25.525 22.2833 26.8333 23.8916 26.8333C25.4999 26.8333 26.8083 25.525 26.8083 23.9167V19.3333C26.8083 16.1083 24.1999 13.5 20.9749 13.5C17.7499 13.5 15.1416 16.1083 15.1416 19.3333V24.3333C15.1416 27.0917 17.3833 29.3333 20.1416 29.3333" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </TouchableOpacity>
               <TouchableOpacity style={styles.sendButton}>
-                <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <Path d="M18.3333 1.66667L9.16667 10.8333" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <Path d="M18.3333 1.66667L12.5 18.3333L9.16667 10.8333L1.66667 7.5L18.3333 1.66667Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <Path d="M12 19L12 5" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M5 12L12 5L19 12" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </TouchableOpacity>
             </View>
@@ -511,59 +506,97 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
+    marginTop: 16,
+    zIndex: 1,
   },
   learningInputTitle: {
-    fontSize: 16,
+    fontSize: 22,
     fontWeight: '600',
-    color: '#012629',
-    letterSpacing: -0.32,
-    lineHeight: 24,
-    marginBottom: 12,
+    color: '#263574',
+    letterSpacing: -0.02,
+    lineHeight: 29,
+    fontFamily: 'Urbanist',
+    textTransform: 'capitalize',
+    width: 311,
+    height: 58,
   },
   learningInputCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
-    padding: 16,
-  },
-  inputContainer: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    gap: 12,
-  },
-  learningInput: {
-    flex: 1,
-    minHeight: 44,
-    maxHeight: 88,
-    backgroundColor: '#F6F7FA',
-    borderRadius: 12,
+    paddingTop: 12,
     paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 16,
-    fontWeight: '400',
-    color: '#012629',
-    letterSpacing: -0.32,
-    lineHeight: 24,
-    textAlignVertical: 'top',
+    paddingBottom: 12,
+    width: '100%',
+    height: 230,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 12,
+    // Note: backdrop-filter is not supported in React Native
   },
-  inputButtons: {
+  learningInputContainer: {
+    backgroundColor: '#F6F7FA',
+    borderWidth: 1,
+    borderColor: '#F6F7FA',
+    borderRadius: 16,
+    padding: 16,
+    width: '100%',
+    height: 136,
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+    gap: 24,
+    // Note: backdrop-filter is not supported in React Native
+  },
+  learningInputSubtitle: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#5C5C5C',
+    letterSpacing: -0.02,
+    lineHeight: 24,
+    fontFamily: 'Urbanist',
+    opacity: 0.9,
+    width: '100%',
+    height: 24,
+    textAlign: 'center',
+    alignSelf: 'center',
+  },
+  learningInputButtons: {
     flexDirection: 'row',
-    gap: 8,
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    height: 42,
+    gap: 24,
+    alignSelf: 'center',
   },
   uploadButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
-    backgroundColor: '#F6F7FA',
+    width: 42,
+    height: 42,
+    borderRadius: 1036.36,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E3EF',
     alignItems: 'center',
     justifyContent: 'center',
+    padding: 11,
+    transform: [{ rotate: '180deg' }],
   },
   sendButton: {
-    width: 44,
-    height: 44,
-    borderRadius: 12,
+    width: 42,
+    height: 42,
+    borderRadius: 48,
     backgroundColor: '#2F4291',
     alignItems: 'center',
     justifyContent: 'center',
+    paddingHorizontal: 8,
+    shadowColor: '#0E091A',
+    shadowOffset: {
+      width: 0,
+      height: 12,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 28,
+    elevation: 12,
   },
   // Notification Banner
   notificationBanner: {
