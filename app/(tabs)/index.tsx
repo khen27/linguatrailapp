@@ -139,6 +139,24 @@ export default function HomeScreen() {
             </View>
           </View>
         </View>
+
+        {/* Fourth Task Card */}
+        <View style={styles.taskCard}>
+          <View style={[styles.taskIcon, { backgroundColor: 'rgba(255, 179, 0, 0.05)' }]}>
+            <Text style={styles.taskEmoji}>🏜️</Text>
+          </View>
+          <View style={styles.taskContent}>
+            <View style={styles.taskHeader}>
+              <Text style={styles.taskCategory}>Gamified 🎮</Text>
+              <Text style={styles.taskPoints}>15 🔥</Text>
+            </View>
+            <Text style={styles.taskTitle}>Spanish Vocabulary - Verbs 2</Text>
+            <View style={styles.taskProgressContainer}>
+              <View style={styles.taskProgressTrack} />
+              <View style={[styles.taskProgressFill, { width: 122 }]} />
+            </View>
+          </View>
+        </View>
       </View>
         </ScrollView>
       </View>
@@ -367,8 +385,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   tasksSection: {
-    width: 359,
-    marginHorizontal: 20,
+    marginLeft: 20,
+    marginRight: 20,
     marginBottom: 20,
     gap: 12,
   },
@@ -407,14 +425,15 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   taskContent: {
-    width: 244,
+    flex: 1,
     height: 71,
     justifyContent: 'space-between',
   },
   taskHeader: {
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 4,
+    justifyContent: 'space-between',
+    width: '100%',
     height: 21,
   },
   taskCategory: {
@@ -424,7 +443,6 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     letterSpacing: -0.02,
     lineHeight: 21,
-    flex: 1,
   },
   taskPoints: {
     fontSize: 14,
@@ -433,6 +451,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     letterSpacing: -0.02,
     lineHeight: 21,
+    flexShrink: 0,
   },
   taskTitle: {
     fontSize: 16,
