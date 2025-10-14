@@ -14,7 +14,7 @@ export default function HomeScreen() {
           {/* Top Header Section */}
           <View style={styles.header}>
         <View style={styles.headerLeft}>
-          <Image
+        <Image
             source={require('@/assets/images/zander-van-gogh.png')}
             style={styles.profileAvatar}
           />
@@ -89,7 +89,7 @@ export default function HomeScreen() {
         
         <View style={styles.taskCard}>
           <View style={styles.taskIcon}>
-            <Text style={styles.taskEmoji}>🇺🇸</Text>
+            <Text style={styles.taskEmoji}>🗽</Text>
           </View>
           <View style={styles.taskContent}>
             <View style={styles.taskHeader}>
@@ -106,8 +106,8 @@ export default function HomeScreen() {
 
         {/* Second Task Card */}
         <View style={styles.taskCard}>
-          <View style={[styles.taskIcon, { backgroundColor: 'rgba(47, 66, 145, 0.05)' }]}>
-            <Text style={styles.taskEmoji}>🎙️</Text>
+          <View style={[styles.taskIcon, { backgroundColor: '#F6F7FA' }]}>
+            <Text style={[styles.taskEmoji, { fontSize: 34, lineHeight: 41 }]}>🥘</Text>
           </View>
           <View style={styles.taskContent}>
             <View style={styles.taskHeader}>
@@ -387,14 +387,13 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'flex-start',
     gap: 12,
-    width: 359,
+    width: '100%',
     height: 103,
     marginBottom: 12,
   },
   taskIcon: {
     width: 71,
     height: 71,
-    backgroundColor: 'rgba(29, 197, 118, 0.05)',
     borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
@@ -402,6 +401,10 @@ const styles = StyleSheet.create({
   taskEmoji: {
     fontSize: 38,
     lineHeight: 46,
+    fontWeight: '600',
+    letterSpacing: -0.02,
+    color: '#012629',
+    textAlign: 'center',
   },
   taskContent: {
     width: 244,
@@ -460,6 +463,5 @@ const styles = StyleSheet.create({
     height: 10,
     backgroundColor: '#2F4291',
     borderRadius: 1000,
-    marginTop: 12,
   },
 });
