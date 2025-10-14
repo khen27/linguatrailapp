@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#263574',
     letterSpacing: -0.32,
+    fontFamily: 'Urbanist',
   },
   placeholder: {
     width: 42,
@@ -176,6 +177,7 @@ const styles = StyleSheet.create({
     color: '#263574',
     marginBottom: 6,
     letterSpacing: -0.32,
+    fontFamily: 'Urbanist',
   },
   input: {
     height: 48,
@@ -186,6 +188,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
     color: '#263574',
     letterSpacing: -0.32,
+    fontFamily: 'Urbanist',
   },
   buttonContainer: {
     paddingHorizontal: 20,
@@ -206,6 +209,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#2F4291',
     letterSpacing: -0.32,
+    fontFamily: 'Urbanist',
   },
   changePasswordButton: {
     height: 52,
@@ -221,6 +225,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#F84E5B',
     letterSpacing: -0.32,
+    fontFamily: 'Urbanist',
   },
 });
 
