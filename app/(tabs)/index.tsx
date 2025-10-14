@@ -557,8 +557,8 @@ const styles = StyleSheet.create({
     opacity: 0.9,
     width: '100%',
     height: 24,
-    textAlign: 'center',
-    alignSelf: 'center',
+    textAlign: 'left',
+    alignSelf: 'flex-start',
   },
   learningInputButtons: {
     flexDirection: 'row',
@@ -632,7 +632,7 @@ const styles = StyleSheet.create({
     width: 303,
     height: 42,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'flex-start',
   },
   notificationTitle: {
     fontSize: 14,
