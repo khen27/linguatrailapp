@@ -14,9 +14,17 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
+        tabBarActiveTintColor: '#263574',
+        tabBarInactiveTintColor: '#64748B',
         headerShown: false,
         tabBarButton: HapticTab,
+        tabBarStyle: {
+          backgroundColor: '#FFFFFF',
+          borderTopWidth: 0,
+          elevation: 0,
+          shadowOpacity: 0,
+          height: 100,
+        },
       }}>
       <Tabs.Screen
         name="index"
@@ -57,7 +65,13 @@ export default function TabLayout() {
         name="profile"
         options={{
           title: '',
-          tabBarIcon: ({ color }) => <ProfileTabIcon color={color} size={28} />,
+          tabBarIcon: ({ color, focused }) => (
+            <ProfileTabIcon 
+              color={focused ? '#263574' : '#64748B'} 
+              size={24} 
+              focused={focused}
+            />
+          ),
         }}
       />
     </Tabs>
