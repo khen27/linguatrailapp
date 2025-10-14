@@ -169,26 +169,27 @@ export default function HomeScreen() {
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
                 <Svg width="60" height="60" viewBox="0 0 60 60">
-                  {/* Background track */}
+                  {/* Background track - transparent */}
                   <Circle
                     cx="30"
                     cy="30"
-                    r="25"
-                    fill="#E9FDF8"
-                    stroke="#FFFFFF"
-                    strokeWidth="2.73267"
+                    r="22"
+                    fill="none"
+                    stroke="#E9FDF8"
+                    strokeWidth="8"
                   />
                   {/* Progress fill - 87% */}
                   <Circle
                     cx="30"
                     cy="30"
-                    r="25"
+                    r="22"
                     fill="none"
                     stroke="#27EDB7"
-                    strokeWidth="2.73267"
-                    strokeDasharray={`${2 * Math.PI * 25 * 0.87} ${2 * Math.PI * 25}`}
-                    strokeDashoffset={2 * Math.PI * 25 * 0.25}
+                    strokeWidth="8"
+                    strokeDasharray={`${2 * Math.PI * 22 * 0.87} ${2 * Math.PI * 22}`}
+                    strokeDashoffset={2 * Math.PI * 22 * 0.25}
                     transform="rotate(-90 30 30)"
+                    strokeLinecap="round"
                   />
                 </Svg>
                 <Text style={styles.progressPercentage}>87%</Text>
@@ -205,26 +206,27 @@ export default function HomeScreen() {
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
                 <Svg width="60" height="60" viewBox="0 0 60 60">
-                  {/* Background track */}
+                  {/* Background track - transparent */}
                   <Circle
                     cx="30"
                     cy="30"
-                    r="25"
-                    fill="#FEF9EB"
-                    stroke="#FFFFFF"
-                    strokeWidth="2.73267"
+                    r="22"
+                    fill="none"
+                    stroke="#FEF9EB"
+                    strokeWidth="8"
                   />
                   {/* Progress fill - 69% */}
                   <Circle
                     cx="30"
                     cy="30"
-                    r="25"
+                    r="22"
                     fill="none"
                     stroke="#F5C63B"
-                    strokeWidth="2.73267"
-                    strokeDasharray={`${2 * Math.PI * 25 * 0.69} ${2 * Math.PI * 25}`}
-                    strokeDashoffset={2 * Math.PI * 25 * 0.25}
+                    strokeWidth="8"
+                    strokeDasharray={`${2 * Math.PI * 22 * 0.69} ${2 * Math.PI * 22}`}
+                    strokeDashoffset={2 * Math.PI * 22 * 0.25}
                     transform="rotate(-90 30 30)"
+                    strokeLinecap="round"
                   />
                 </Svg>
                 <Text style={styles.progressPercentage}>69%</Text>
@@ -241,26 +243,27 @@ export default function HomeScreen() {
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
                 <Svg width="60" height="60" viewBox="0 0 60 60">
-                  {/* Background track */}
+                  {/* Background track - transparent */}
                   <Circle
                     cx="30"
                     cy="30"
-                    r="25"
-                    fill="#FEEDEF"
-                    stroke="#FFFFFF"
-                    strokeWidth="2.73267"
+                    r="22"
+                    fill="none"
+                    stroke="#FEEDEF"
+                    strokeWidth="8"
                   />
                   {/* Progress fill - 48% */}
                   <Circle
                     cx="30"
                     cy="30"
-                    r="25"
+                    r="22"
                     fill="none"
                     stroke="#F84E5B"
-                    strokeWidth="2.73267"
-                    strokeDasharray={`${2 * Math.PI * 25 * 0.48} ${2 * Math.PI * 25}`}
-                    strokeDashoffset={2 * Math.PI * 25 * 0.25}
+                    strokeWidth="8"
+                    strokeDasharray={`${2 * Math.PI * 22 * 0.48} ${2 * Math.PI * 22}`}
+                    strokeDashoffset={2 * Math.PI * 22 * 0.25}
                     transform="rotate(-90 30 30)"
+                    strokeLinecap="round"
                   />
                 </Svg>
                 <Text style={styles.progressPercentage}>48%</Text>
