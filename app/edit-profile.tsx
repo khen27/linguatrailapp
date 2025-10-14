@@ -13,8 +13,8 @@ export default function EditProfileScreen() {
         <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
           <Svg width={42} height={42} viewBox="0 0 42 42" fill="none">
             <Rect x="42" y="42" width="42" height="42" rx="21" transform="rotate(180 42 42)" fill="white"/>
-            <Path d="M18.9748 15.9416L13.9165 21L18.9748 26.0583" stroke="#012629" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-            <Path d="M28.0831 21L14.0581 21" stroke="#012629" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+            <Path d="M18.9748 15.9416L13.9165 21L18.9748 26.0583" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+            <Path d="M28.0831 21L14.0581 21" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
           </Svg>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Edit Profile</Text>
@@ -33,13 +33,13 @@ export default function EditProfileScreen() {
             <Svg width={44} height={45} viewBox="0 0 44 45" fill="none">
               <Rect x="1" y="1.5" width="42" height="42" rx="21" fill="url(#paint0_linear_6066_2449)"/>
               <Rect x="1" y="1.5" width="42" height="42" rx="21" stroke="white" strokeWidth="2"/>
-              <Path d="M23.05 15.5L16.2083 22.7417C15.95 23.0167 15.7 23.5584 15.65 23.9334L15.3416 26.6334C15.2333 27.6084 15.9333 28.275 16.9 28.1084L19.5833 27.65C19.9583 27.5834 20.4833 27.3084 20.7416 27.025L27.5833 19.7834C28.7666 18.5334 29.3 17.1084 27.4583 15.3667C25.625 13.6417 24.2333 14.25 23.05 15.5Z" stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-              <Path d="M21.9082 16.7083C22.2665 19.0083 24.1332 20.7666 26.4499 20.9999" stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-              <Path d="M14.5 30.8333H29.5" stroke="white" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              <Path d="M23.05 15.5L16.2083 22.7417C15.95 23.0167 15.7 23.5584 15.65 23.9334L15.3416 26.6334C15.2333 27.6084 15.9333 28.275 16.9 28.1084L19.5833 27.65C19.9583 27.5834 20.4833 27.3084 20.7416 27.025L27.5833 19.7834C28.7666 18.5334 29.3 17.1084 27.4583 15.3667C25.625 13.6417 24.2333 14.25 23.05 15.5Z" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              <Path d="M21.9082 16.7083C22.2665 19.0083 24.1332 20.7666 26.4499 20.9999" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              <Path d="M14.5 30.8333H29.5" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
               <Defs>
                 <SvgLinearGradient id="paint0_linear_6066_2449" x1="1.81482" y1="2.66699" x2="46.4617" y2="8.79139" gradientUnits="userSpaceOnUse">
-                  <Stop stopColor="#42646C"/>
-                  <Stop offset="1" stopColor="#012629"/>
+                  <Stop stopColor="#27EDB7"/>
+                  <Stop offset="1" stopColor="#27EDB7"/>
                 </SvgLinearGradient>
               </Defs>
             </Svg>
@@ -92,17 +92,21 @@ export default function EditProfileScreen() {
       </View>
       </View>
 
-      {/* Save Button */}
+      {/* Buttons */}
       <View style={styles.buttonContainer}>
-        <TouchableOpacity>
+        <TouchableOpacity style={styles.saveButtonWrapper}>
           <LinearGradient
-            colors={['#42646C', '#012629']}
+            colors={['#27EDB7', '#27EDB7']}
             start={{ x: 0, y: 0 }}
             end={{ x: 1, y: 0 }}
             style={styles.saveButton}
           >
             <Text style={styles.saveButtonText}>Save</Text>
           </LinearGradient>
+        </TouchableOpacity>
+        
+        <TouchableOpacity style={styles.changePasswordButton}>
+          <Text style={styles.changePasswordButtonText}>Change Password</Text>
         </TouchableOpacity>
       </View>
       </ScrollView>
@@ -130,7 +134,7 @@ const styles = StyleSheet.create({
   headerTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#012629',
+    color: '#263574',
     letterSpacing: -0.32,
   },
   placeholder: {
@@ -169,7 +173,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#012629',
+    color: '#263574',
     marginBottom: 6,
     letterSpacing: -0.32,
   },
@@ -180,12 +184,16 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     fontSize: 16,
     fontWeight: '500',
-    color: '#012629',
+    color: '#263574',
     letterSpacing: -0.32,
   },
   buttonContainer: {
     paddingHorizontal: 20,
     marginTop: 16,
+    gap: 16,
+  },
+  saveButtonWrapper: {
+    marginBottom: 0,
   },
   saveButton: {
     height: 52,
@@ -196,7 +204,22 @@ const styles = StyleSheet.create({
   saveButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#FFFFFF',
+    color: '#2F4291',
+    letterSpacing: -0.32,
+  },
+  changePasswordButton: {
+    height: 52,
+    backgroundColor: '#F6F7FA',
+    borderWidth: 1,
+    borderColor: '#F84E5B',
+    borderRadius: 1000,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  changePasswordButtonText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#F84E5B',
     letterSpacing: -0.32,
   },
 });
