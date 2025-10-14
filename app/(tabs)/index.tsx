@@ -168,8 +168,29 @@ export default function HomeScreen() {
           <View style={styles.horizontalTaskCard}>
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
-                <View style={styles.progressDonut5} />
-                <View style={styles.progressDonut1} />
+                <Svg width="60" height="60" viewBox="0 0 60 60">
+                  {/* Background track */}
+                  <Circle
+                    cx="30"
+                    cy="30"
+                    r="25"
+                    fill="#E9FDF8"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.73267"
+                  />
+                  {/* Progress fill - 87% */}
+                  <Circle
+                    cx="30"
+                    cy="30"
+                    r="25"
+                    fill="none"
+                    stroke="#27EDB7"
+                    strokeWidth="2.73267"
+                    strokeDasharray={`${2 * Math.PI * 25 * 0.87} ${2 * Math.PI * 25}`}
+                    strokeDashoffset={2 * Math.PI * 25 * 0.25}
+                    transform="rotate(-90 30 30)"
+                  />
+                </Svg>
                 <Text style={styles.progressPercentage}>87%</Text>
               </View>
             </View>
@@ -183,8 +204,29 @@ export default function HomeScreen() {
           <View style={styles.horizontalTaskCard}>
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
-                <View style={[styles.progressDonut5, { backgroundColor: '#FEF9EB' }]} />
-                <View style={[styles.progressDonut1, { backgroundColor: '#F5C63B' }]} />
+                <Svg width="60" height="60" viewBox="0 0 60 60">
+                  {/* Background track */}
+                  <Circle
+                    cx="30"
+                    cy="30"
+                    r="25"
+                    fill="#FEF9EB"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.73267"
+                  />
+                  {/* Progress fill - 69% */}
+                  <Circle
+                    cx="30"
+                    cy="30"
+                    r="25"
+                    fill="none"
+                    stroke="#F5C63B"
+                    strokeWidth="2.73267"
+                    strokeDasharray={`${2 * Math.PI * 25 * 0.69} ${2 * Math.PI * 25}`}
+                    strokeDashoffset={2 * Math.PI * 25 * 0.25}
+                    transform="rotate(-90 30 30)"
+                  />
+                </Svg>
                 <Text style={styles.progressPercentage}>69%</Text>
               </View>
             </View>
@@ -198,8 +240,29 @@ export default function HomeScreen() {
           <View style={styles.horizontalTaskCard}>
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
-                <View style={[styles.progressDonut5, { backgroundColor: '#FEEDEF' }]} />
-                <View style={[styles.progressDonut1, { backgroundColor: '#F84E5B' }]} />
+                <Svg width="60" height="60" viewBox="0 0 60 60">
+                  {/* Background track */}
+                  <Circle
+                    cx="30"
+                    cy="30"
+                    r="25"
+                    fill="#FEEDEF"
+                    stroke="#FFFFFF"
+                    strokeWidth="2.73267"
+                  />
+                  {/* Progress fill - 48% */}
+                  <Circle
+                    cx="30"
+                    cy="30"
+                    r="25"
+                    fill="none"
+                    stroke="#F84E5B"
+                    strokeWidth="2.73267"
+                    strokeDasharray={`${2 * Math.PI * 25 * 0.48} ${2 * Math.PI * 25}`}
+                    strokeDashoffset={2 * Math.PI * 25 * 0.25}
+                    transform="rotate(-90 30 30)"
+                  />
+                </Svg>
                 <Text style={styles.progressPercentage}>48%</Text>
               </View>
             </View>
@@ -687,11 +750,11 @@ const styles = StyleSheet.create({
   },
   tasksHeader: {
     flexDirection: 'row',
-    justifyContent: 'center',
+    justifyContent: 'space-between',
     alignItems: 'center',
     padding: 0,
     gap: 8,
-    width: 335,
+    width: '100%',
     height: 24,
   },
   tasksTitle: {
@@ -701,7 +764,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
-    width: 279,
     height: 24,
     flex: 1,
   },
@@ -712,7 +774,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
-    width: 48,
     height: 21,
     flex: 0,
   },
