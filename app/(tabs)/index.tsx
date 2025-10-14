@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, Image, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Image, SafeAreaView, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
 
 export default function HomeScreen() {
@@ -27,6 +27,83 @@ export default function HomeScreen() {
           <Text style={styles.streakEmoji}>🔥</Text>
           <Text style={styles.streakNumber}>12</Text>
           <Text style={styles.streakText}>Day</Text>
+        </View>
+      </View>
+
+      {/* Learned Today Section */}
+      <View style={styles.learnedTodaySection}>
+        <View style={styles.learnedTodayCard}>
+          <View style={styles.learnedTodayContent}>
+            <View style={styles.learnedTodayStats}>
+              <Text style={styles.learnedTodayTitle}>Learned Today</Text>
+              <View style={styles.learnedTodayTimeContainer}>
+                <Text style={styles.learnedTodayTimeMain}>36</Text>
+                <Text style={styles.learnedTodayTimeUnit}> Min</Text>
+                <Text style={styles.learnedTodayTimeSlash}> / </Text>
+                <Text style={styles.learnedTodayTimeTotal}>60 Min</Text>
+              </View>
+              <View style={styles.learnedTodayProgressContainer}>
+                <View style={styles.learnedTodayProgressTrack} />
+                <View style={styles.learnedTodayProgressFill} />
+              </View>
+            </View>
+            <View style={styles.trophyIcon}>
+              <Image
+                source={require('@/assets/icons/trophy.png')}
+                style={styles.trophyImage}
+                resizeMode="contain"
+              />
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* What Would You Like To Learn Today Section */}
+      <View style={styles.learningInputSection}>
+        <Text style={styles.learningInputTitle}>What Would You Like To Learn Today?</Text>
+        <View style={styles.learningInputCard}>
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.learningInput}
+              placeholder="Type your learning goal..."
+              placeholderTextColor="#64748B"
+              multiline
+            />
+            <View style={styles.inputButtons}>
+              <TouchableOpacity style={styles.uploadButton}>
+                <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <Path d="M7.5 13.3333L10 10.8333L12.5 13.3333" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M10 10.8333V17.5" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M16.6667 14.1667C17.5833 13.5833 18.3333 12.5 18.3333 11.25C18.3333 9.16667 16.6667 7.5 14.5833 7.5C14.25 5.83333 12.75 2.5 10 2.5C7.25 2.5 5.75 5.83333 5.41667 7.5C3.33333 7.5 1.66667 9.16667 1.66667 11.25C1.66667 12.5 2.41667 13.5833 3.33333 14.1667" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </Svg>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.sendButton}>
+                <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                  <Path d="M18.3333 1.66667L9.16667 10.8333" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M18.3333 1.66667L12.5 18.3333L9.16667 10.8333L1.66667 7.5L18.3333 1.66667Z" stroke="#FFFFFF" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                </Svg>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </View>
+
+      {/* Notification Banner */}
+      <View style={styles.notificationBanner}>
+        <View style={styles.notificationContent}>
+          <View style={styles.notificationIcon}>
+            <Text style={styles.notificationEmoji}>🎉</Text>
+          </View>
+          <View style={styles.notificationText}>
+            <Text style={styles.notificationTitle}>First Spanish lesson completed!</Text>
+            <Text style={styles.notificationSubtitle}>Great job! Keep up the momentum.</Text>
+          </View>
+          <TouchableOpacity style={styles.notificationClose}>
+            <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+              <Path d="M12 4L4 12" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <Path d="M4 4L12 12" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </Svg>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -83,80 +160,131 @@ export default function HomeScreen() {
         </View>
       </View>
 
-      {/* Ongoing Tasks Title & Task Cards */}
+      {/* Ongoing Tasks - Horizontal Scrollable */}
       <View style={styles.tasksSection}>
         <Text style={styles.tasksTitle}>Ongoing Tasks</Text>
-        
-        <View style={styles.taskCard}>
-          <View style={styles.taskIcon}>
-            <Text style={styles.taskEmoji}>🗽</Text>
-          </View>
-          <View style={styles.taskContent}>
-            <View style={styles.taskHeader}>
-              <Text style={styles.taskCategory}>Gamified 🎮</Text>
-              <Text style={styles.taskPoints}>15 🔥</Text>
+        <ScrollView 
+          horizontal 
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.tasksScrollContainer}
+          style={styles.tasksScrollView}
+        >
+          {/* English Task Card */}
+          <View style={styles.horizontalTaskCard}>
+            <View style={styles.horizontalTaskHeader}>
+              <Text style={styles.horizontalTaskLanguage}>English</Text>
+              <Text style={styles.horizontalTaskPercentage}>22%</Text>
             </View>
-            <Text style={styles.taskTitle}>English Vocabulary – Chapter 3</Text>
-            <View style={styles.taskProgressContainer}>
-              <View style={styles.taskProgressTrack} />
-              <View style={styles.taskProgressFill} />
+            <View style={styles.circularProgressContainer}>
+              <Svg width="80" height="80" viewBox="0 0 80 80">
+                <Path
+                  d="M40 10 A30 30 0 1 1 39.999 10"
+                  fill="none"
+                  stroke="#F6F7FA"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+                <Path
+                  d="M40 10 A30 30 0 0 1 58.66 25"
+                  fill="none"
+                  stroke="#2F4291"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+              </Svg>
+              <Text style={styles.circularProgressEmoji}>🗽</Text>
             </View>
+            <Text style={styles.horizontalTaskTitle}>Vocabulary</Text>
+            <Text style={styles.horizontalTaskSubtitle}>Chapter 3</Text>
           </View>
-        </View>
 
-        {/* Second Task Card */}
-        <View style={styles.taskCard}>
-          <View style={[styles.taskIcon, { backgroundColor: '#F6F7FA' }]}>
-            <Text style={[styles.taskEmoji, { fontSize: 34, lineHeight: 41 }]}>🥘</Text>
-          </View>
-          <View style={styles.taskContent}>
-            <View style={styles.taskHeader}>
-              <Text style={styles.taskCategory}>Voice 🎙️</Text>
-              <Text style={styles.taskPoints}>12 🔥</Text>
+          {/* Spanish Task Card */}
+          <View style={styles.horizontalTaskCard}>
+            <View style={styles.horizontalTaskHeader}>
+              <Text style={styles.horizontalTaskLanguage}>Spanish</Text>
+              <Text style={styles.horizontalTaskPercentage}>80%</Text>
             </View>
-            <Text style={styles.taskTitle}>Spanish Speaking Session</Text>
-            <View style={styles.taskProgressContainer}>
-              <View style={styles.taskProgressTrack} />
-              <View style={[styles.taskProgressFill, { width: 196 }]} />
+            <View style={styles.circularProgressContainer}>
+              <Svg width="80" height="80" viewBox="0 0 80 80">
+                <Path
+                  d="M40 10 A30 30 0 1 1 39.999 10"
+                  fill="none"
+                  stroke="#F6F7FA"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+                <Path
+                  d="M40 10 A30 30 0 1 1 10 40 A30 30 0 0 1 40 10"
+                  fill="none"
+                  stroke="#27EDB7"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+              </Svg>
+              <Text style={styles.circularProgressEmoji}>🥘</Text>
             </View>
+            <Text style={styles.horizontalTaskTitle}>Speaking</Text>
+            <Text style={styles.horizontalTaskSubtitle}>Session 4</Text>
           </View>
-        </View>
 
-        {/* Third Task Card */}
-        <View style={styles.taskCard}>
-          <View style={[styles.taskIcon, { backgroundColor: 'rgba(255, 99, 149, 0.05)' }]}>
-            <Text style={styles.taskEmoji}>🗼</Text>
-          </View>
-          <View style={styles.taskContent}>
-            <View style={styles.taskHeader}>
-              <Text style={styles.taskCategory}>Chat 💬</Text>
-              <Text style={styles.taskPoints}>20 🔥</Text>
+          {/* French Task Card */}
+          <View style={styles.horizontalTaskCard}>
+            <View style={styles.horizontalTaskHeader}>
+              <Text style={styles.horizontalTaskLanguage}>French</Text>
+              <Text style={styles.horizontalTaskPercentage}>95%</Text>
             </View>
-            <Text style={styles.taskTitle}>French Grammar Chat</Text>
-            <View style={styles.taskProgressContainer}>
-              <View style={styles.taskProgressTrack} />
-              <View style={[styles.taskProgressFill, { width: 255, backgroundColor: '#68C0A5' }]} />
+            <View style={styles.circularProgressContainer}>
+              <Svg width="80" height="80" viewBox="0 0 80 80">
+                <Path
+                  d="M40 10 A30 30 0 1 1 39.999 10"
+                  fill="none"
+                  stroke="#F6F7FA"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+                <Path
+                  d="M40 10 A30 30 0 1 1 39.999 10"
+                  fill="none"
+                  stroke="#68C0A5"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+              </Svg>
+              <Text style={styles.circularProgressEmoji}>🗼</Text>
             </View>
+            <Text style={styles.horizontalTaskTitle}>Grammar</Text>
+            <Text style={styles.horizontalTaskSubtitle}>Chat Bot</Text>
           </View>
-        </View>
 
-        {/* Fourth Task Card */}
-        <View style={styles.taskCard}>
-          <View style={[styles.taskIcon, { backgroundColor: 'rgba(255, 179, 0, 0.05)' }]}>
-            <Text style={styles.taskEmoji}>🏜️</Text>
-          </View>
-          <View style={styles.taskContent}>
-            <View style={styles.taskHeader}>
-              <Text style={styles.taskCategory}>Gamified 🎮</Text>
-              <Text style={styles.taskPoints}>15 🔥</Text>
+          {/* German Task Card */}
+          <View style={styles.horizontalTaskCard}>
+            <View style={styles.horizontalTaskHeader}>
+              <Text style={styles.horizontalTaskLanguage}>German</Text>
+              <Text style={styles.horizontalTaskPercentage}>50%</Text>
             </View>
-            <Text style={styles.taskTitle}>Spanish Vocabulary - Verbs 2</Text>
-            <View style={styles.taskProgressContainer}>
-              <View style={styles.taskProgressTrack} />
-              <View style={[styles.taskProgressFill, { width: 122 }]} />
+            <View style={styles.circularProgressContainer}>
+              <Svg width="80" height="80" viewBox="0 0 80 80">
+                <Path
+                  d="M40 10 A30 30 0 1 1 39.999 10"
+                  fill="none"
+                  stroke="#F6F7FA"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+                <Path
+                  d="M40 10 A30 30 0 0 1 70 40"
+                  fill="none"
+                  stroke="#FFB300"
+                  strokeWidth="6"
+                  strokeLinecap="round"
+                />
+              </Svg>
+              <Text style={styles.circularProgressEmoji}>🏜️</Text>
             </View>
+            <Text style={styles.horizontalTaskTitle}>Vocabulary</Text>
+            <Text style={styles.horizontalTaskSubtitle}>Verbs 2</Text>
           </View>
-        </View>
+        </ScrollView>
       </View>
         </ScrollView>
       </View>
@@ -279,6 +407,216 @@ const styles = StyleSheet.create({
     color: '#012629',
     letterSpacing: -0.22,
   },
+  // Learned Today Section
+  learnedTodaySection: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+  },
+  learnedTodayTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#263574',
+    letterSpacing: -0.02,
+    lineHeight: 21,
+    fontFamily: 'Urbanist',
+  },
+  learnedTodayCard: {
+    backgroundColor: 'rgba(255, 255, 255, 0.75)',
+    borderWidth: 1,
+    borderColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 12,
+    // Note: backdrop-filter is not supported in React Native
+  },
+  learnedTodayContent: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 4,
+  },
+  trophyIcon: {
+    width: 52,
+    height: 52,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  trophyImage: {
+    width: 52,
+    height: 52,
+  },
+  learnedTodayStats: {
+    flex: 1,
+    gap: 2,
+  },
+  learnedTodayTimeContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 6,
+  },
+  learnedTodayTimeMain: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#263574',
+    letterSpacing: -0.02,
+    lineHeight: 29,
+    fontFamily: 'Urbanist',
+  },
+  learnedTodayTimeUnit: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#5C5C5C',
+    letterSpacing: -0.02,
+    lineHeight: 24,
+    fontFamily: 'Urbanist',
+  },
+  learnedTodayTimeSlash: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#5C5C5C',
+    letterSpacing: -0.02,
+    lineHeight: 24,
+    fontFamily: 'Urbanist',
+  },
+  learnedTodayTimeTotal: {
+    fontSize: 16,
+    fontWeight: '500',
+    color: '#5C5C5C',
+    letterSpacing: -0.02,
+    lineHeight: 24,
+    fontFamily: 'Urbanist',
+  },
+  learnedTodayProgressContainer: {
+    position: 'relative',
+    width: '100%',
+    height: 10,
+    backgroundColor: '#F6F7FA',
+    borderRadius: 1000,
+  },
+  learnedTodayProgressTrack: {
+    position: 'absolute',
+    width: '100%',
+    height: 10,
+    borderRadius: 1000,
+    backgroundColor: '#F6F7FA',
+  },
+  learnedTodayProgressFill: {
+    position: 'absolute',
+    width: '60%', // 36/60 = 60%
+    height: 10,
+    backgroundColor: '#27EDB7',
+    borderRadius: 1000,
+  },
+  // Learning Input Section
+  learningInputSection: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+  },
+  learningInputTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#012629',
+    letterSpacing: -0.32,
+    lineHeight: 24,
+    marginBottom: 12,
+  },
+  learningInputCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    padding: 16,
+  },
+  inputContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-end',
+    gap: 12,
+  },
+  learningInput: {
+    flex: 1,
+    minHeight: 44,
+    maxHeight: 88,
+    backgroundColor: '#F6F7FA',
+    borderRadius: 12,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    fontSize: 16,
+    fontWeight: '400',
+    color: '#012629',
+    letterSpacing: -0.32,
+    lineHeight: 24,
+    textAlignVertical: 'top',
+  },
+  inputButtons: {
+    flexDirection: 'row',
+    gap: 8,
+  },
+  uploadButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#F6F7FA',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sendButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    backgroundColor: '#2F4291',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  // Notification Banner
+  notificationBanner: {
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+  },
+  notificationContent: {
+    backgroundColor: '#E8F5E8',
+    borderRadius: 12,
+    padding: 16,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    borderWidth: 1,
+    borderColor: '#27EDB7',
+  },
+  notificationIcon: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: '#27EDB7',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notificationEmoji: {
+    fontSize: 16,
+    lineHeight: 19,
+  },
+  notificationText: {
+    flex: 1,
+  },
+  notificationTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#012629',
+    letterSpacing: -0.28,
+    lineHeight: 21,
+    marginBottom: 2,
+  },
+  notificationSubtitle: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#64748B',
+    letterSpacing: -0.24,
+    lineHeight: 18,
+  },
+  notificationClose: {
+    width: 24,
+    height: 24,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   // Trail Progress outer card
   progressOuter: {
     marginLeft: 20,
@@ -385,99 +723,77 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
-    gap: 12,
   },
   tasksTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: '#012629',
-    letterSpacing: -0.02,
+    letterSpacing: -0.32,
     lineHeight: 24,
-    marginBottom: 12,
+    marginBottom: 16,
   },
-  taskCard: {
+  tasksScrollView: {
+    marginLeft: -20,
+    marginRight: -20,
+  },
+  tasksScrollContainer: {
+    paddingHorizontal: 20,
+    gap: 16,
+  },
+  horizontalTaskCard: {
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 16,
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    gap: 12,
-    width: '100%',
-    height: 103,
-    marginBottom: 12,
+    width: 140,
+    alignItems: 'center',
   },
-  taskIcon: {
-    width: 71,
-    height: 71,
-    borderRadius: 12,
+  horizontalTaskHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+    marginBottom: 16,
+  },
+  horizontalTaskLanguage: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#012629',
+    letterSpacing: -0.24,
+    lineHeight: 18,
+  },
+  horizontalTaskPercentage: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#64748B',
+    letterSpacing: -0.24,
+    lineHeight: 18,
+  },
+  circularProgressContainer: {
+    position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
+    marginBottom: 16,
   },
-  taskEmoji: {
-    fontSize: 38,
-    lineHeight: 46,
-    fontWeight: '600',
-    letterSpacing: -0.02,
-    color: '#012629',
-    textAlign: 'center',
-  },
-  taskContent: {
-    flex: 1,
-    height: 71,
-    justifyContent: 'space-between',
-  },
-  taskHeader: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    width: '100%',
-    height: 21,
-  },
-  taskCategory: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#012629',
-    opacity: 0.7,
-    letterSpacing: -0.02,
-    lineHeight: 21,
-  },
-  taskPoints: {
-    fontSize: 14,
-    fontWeight: '500',
-    color: '#012629',
-    opacity: 0.7,
-    letterSpacing: -0.02,
-    lineHeight: 21,
-    flexShrink: 0,
-  },
-  taskTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#012629',
-    letterSpacing: -0.02,
-    lineHeight: 24,
-    textTransform: 'capitalize',
-    width: 244,
-    height: 24,
-  },
-  taskProgressContainer: {
-    width: 244,
-    height: 10,
-    backgroundColor: '#F6F7FA',
-    borderRadius: 1000,
-    marginTop: 12,
-  },
-  taskProgressTrack: {
+  circularProgressEmoji: {
     position: 'absolute',
-    width: 244,
-    height: 10,
-    borderRadius: 1000,
-    backgroundColor: '#F6F7FA',
+    fontSize: 32,
+    lineHeight: 38,
   },
-  taskProgressFill: {
-    width: 53,
-    height: 10,
-    backgroundColor: '#2F4291',
-    borderRadius: 1000,
+  horizontalTaskTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#012629',
+    letterSpacing: -0.28,
+    lineHeight: 21,
+    textAlign: 'center',
+    marginBottom: 4,
+  },
+  horizontalTaskSubtitle: {
+    fontSize: 12,
+    fontWeight: '400',
+    color: '#64748B',
+    letterSpacing: -0.24,
+    lineHeight: 18,
+    textAlign: 'center',
   },
 });
