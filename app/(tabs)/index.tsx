@@ -369,9 +369,6 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
   },
   motivationSection: {
-    backgroundColor: '#F6F7FA',
-    borderBottomLeftRadius: 20,
-    borderBottomRightRadius: 20,
     paddingHorizontal: 16,
     paddingVertical: 12,
     marginTop: 16,
