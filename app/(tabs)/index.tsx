@@ -1,5 +1,5 @@
 import { View, StyleSheet, Text, Image, SafeAreaView, ScrollView, TextInput, TouchableOpacity } from 'react-native';
-import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop } from 'react-native-svg';
+import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
 
 export default function HomeScreen() {
   return (
