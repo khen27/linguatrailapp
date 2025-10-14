@@ -20,7 +20,7 @@ export default function HomeScreen() {
           />
           <View style={styles.greetingContainer}>
             <Text style={styles.greetingSubtitle}>Welcome back!</Text>
-            <Text style={styles.greetingTitle}>Good Morning, Alex 👋</Text>
+            <Text style={styles.greetingTitle}>Good Morning, Zander 👋</Text>
           </View>
         </View>
         <View style={styles.streakContainer}>
