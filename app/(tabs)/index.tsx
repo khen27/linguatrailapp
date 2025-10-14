@@ -87,18 +87,15 @@ export default function HomeScreen() {
       <View style={styles.notificationBanner}>
         <View style={styles.notificationContent}>
           <View style={styles.notificationIcon}>
-            <Text style={styles.notificationEmoji}>🎉</Text>
+            <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <Path opacity="0.4" d="M12.0001 7.88989L10.9301 9.74989C10.6901 10.1599 10.8901 10.4999 11.3601 10.4999H12.6301C13.1101 10.4999 13.3001 10.8399 13.0601 11.2499L12.0001 13.1099" stroke="#DDB235" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <Path d="M8.30011 18.0399V16.8799C6.00011 15.4899 4.11011 12.7799 4.11011 9.89993C4.11011 4.94993 8.66011 1.06993 13.8001 2.18993C16.0601 2.68993 18.0401 4.18993 19.0701 6.25993C21.1601 10.4599 18.9601 14.9199 15.7301 16.8699V18.0299C15.7301 18.3199 15.8401 18.9899 14.7701 18.9899H9.26011C8.16011 18.9999 8.30011 18.5699 8.30011 18.0399Z" stroke="#DDB235" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+              <Path opacity="0.4" d="M8.5 22C10.79 21.35 13.21 21.35 15.5 22" stroke="#DDB235" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+            </Svg>
           </View>
           <View style={styles.notificationText}>
-            <Text style={styles.notificationTitle}>First Spanish lesson completed!</Text>
-            <Text style={styles.notificationSubtitle}>Great job! Keep up the momentum.</Text>
+            <Text style={styles.notificationTitle}>First Spanish lesson completed! Add details for your next lesson.</Text>
           </View>
-          <TouchableOpacity style={styles.notificationClose}>
-            <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-              <Path d="M12 4L4 12" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-              <Path d="M4 4L12 12" stroke="#64748B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-            </Svg>
-          </TouchableOpacity>
         </View>
       </View>
 
@@ -505,7 +502,7 @@ const styles = StyleSheet.create({
   learningInputSection: {
     marginLeft: 20,
     marginRight: 20,
-    marginBottom: 20,
+    marginBottom: 0,
     marginTop: 16,
     zIndex: 1,
   },
@@ -531,6 +528,9 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: 12,
+    marginTop: -24,
+    marginBottom: 0,
+    zIndex: 1,
     // Note: backdrop-filter is not supported in React Native
   },
   learningInputContainer: {
@@ -603,52 +603,47 @@ const styles = StyleSheet.create({
     marginLeft: 20,
     marginRight: 20,
     marginBottom: 20,
+    marginTop: -24,
+    zIndex: 0,
   },
   notificationContent: {
-    backgroundColor: '#E8F5E8',
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: '#FEF9EB',
+    borderRadius: 0,
+    borderBottomLeftRadius: 16,
+    borderBottomRightRadius: 16,
+    paddingTop: 32,
+    paddingHorizontal: 16,
+    paddingBottom: 12,
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 12,
-    borderWidth: 1,
-    borderColor: '#27EDB7',
+    gap: 20,
+    width: '100%',
+    height: 86,
+    // Note: backdrop-filter is not supported in React Native
   },
   notificationIcon: {
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    backgroundColor: '#27EDB7',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  notificationEmoji: {
-    fontSize: 16,
-    lineHeight: 19,
-  },
-  notificationText: {
-    flex: 1,
-  },
-  notificationTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#012629',
-    letterSpacing: -0.28,
-    lineHeight: 21,
-    marginBottom: 2,
-  },
-  notificationSubtitle: {
-    fontSize: 12,
-    fontWeight: '400',
-    color: '#64748B',
-    letterSpacing: -0.24,
-    lineHeight: 18,
-  },
-  notificationClose: {
     width: 24,
     height: 24,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  notificationText: {
+    flex: 1,
+    width: 303,
+    height: 42,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  notificationTitle: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#263574',
+    letterSpacing: -0.02,
+    lineHeight: 21,
+    fontFamily: 'Urbanist',
+    width: 273,
+    height: 42,
+    textAlign: 'left',
   },
   // Trail Progress outer card
   progressOuter: {
