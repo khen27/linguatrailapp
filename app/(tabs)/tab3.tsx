@@ -69,11 +69,11 @@ export default function InsightsScreen() {
                     </View>
                   </View>
                 </View>
+              </View>
 
-                {/* Achievement Banner */}
-                <View style={styles.achievementBanner}>
-                  <Text style={styles.achievementText}>🏆 +15% better than last week</Text>
-                </View>
+              {/* Achievement Banner */}
+              <View style={styles.achievementBanner}>
+                <Text style={styles.achievementText}>🏆 +15% better than last week</Text>
               </View>
 
               {/* Metrics List */}
@@ -428,6 +428,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
+    width: '100%',
+    borderRadius: 12,
+    marginTop: 8,
   },
   achievementText: {
     fontSize: 14,
@@ -436,6 +439,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 21,
   },
   // Metrics List
   metricsList: {
