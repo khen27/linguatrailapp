@@ -5,12 +5,6 @@ export default function InsightsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Background Ellipses Group */}
-        <View style={styles.ellipseGroup}>
-          <View style={styles.ellipse12} />
-          <View style={styles.ellipse11} />
-          <View style={styles.ellipse13} />
-        </View>
 
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
           {/* Top Header Section */}
@@ -168,46 +162,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 120,
-  },
-  // Background Ellipses
-  ellipseGroup: {
-    position: 'absolute',
-    width: 381.6,
-    height: 281.39,
-    left: '50%',
-    marginLeft: -190.8 + 0.3,
-    top: -111,
-    opacity: 0.7,
-  },
-  ellipse12: {
-    position: 'absolute',
-    width: 235.6,
-    height: 381.6,
-    left: -72.7,
-    top: -65.62,
-    backgroundColor: '#EAECF4',
-    borderRadius: 190.8,
-    transform: [{ rotate: '90deg' }],
-  },
-  ellipse11: {
-    position: 'absolute',
-    width: 130.23,
-    height: 210.94,
-    left: -40.13,
-    top: -104.83,
-    backgroundColor: '#BFC4DD',
-    borderRadius: 105.47,
-    transform: [{ rotate: '90deg' }],
-  },
-  ellipse13: {
-    position: 'absolute',
-    width: 116.02,
-    height: 187.92,
-    left: -36.17,
-    top: -111,
-    backgroundColor: '#E0E3EF',
-    borderRadius: 93.96,
-    transform: [{ rotate: '90deg' }],
   },
   // Header Section
   header: {
