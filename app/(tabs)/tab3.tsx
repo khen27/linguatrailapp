@@ -295,14 +295,14 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
     lineHeight: 24,
-    width: 311,
+    width: '100%',
     height: 24,
     marginBottom: 8,
   },
   // Weekly Overview
   weeklyOverview: {
     gap: 8,
-    width: 311,
+    width: '100%',
     height: 170,
   },
   sectionTitle: {
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
     lineHeight: 21,
-    width: 287,
+    width: '100%',
     height: 21,
   },
   progressBarsContainer: {
@@ -322,7 +322,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
     paddingBottom: 0,
     gap: 12,
-    width: 311,
+    width: '100%',
     height: 138,
     flexDirection: 'column',
     justifyContent: 'center',
@@ -452,7 +452,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     gap: 4,
-    width: 311,
+    width: '100%',
     height: 37,
     justifyContent: 'space-between',
   },
