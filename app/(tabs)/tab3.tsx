@@ -39,14 +39,13 @@ export default function InsightsScreen() {
 
             {/* Card Content */}
             <View style={styles.cardContent}>
-              {/* Trail Progress Title */}
-              <Text style={styles.trailProgressTitle}>Trail Progress</Text>
-              {/* Weekly Overview Section */}
-              <View style={styles.weeklyOverview}>
-                <Text style={styles.sectionTitle}>Weekly Overview</Text>
+                {/* Trail Progress Title */}
+                <Text style={styles.trailProgressTitle}>Trail Progress</Text>
                 
-                {/* Progress Bars Container */}
+                {/* Progress Bars Container with Weekly Overview inside */}
                 <View style={styles.progressBarsContainer}>
+                  <Text style={styles.sectionTitle}>Weekly Overview</Text>
+                  
                   {/* Last Week */}
                   <View style={styles.progressRow}>
                     <Text style={styles.progressLabel}>Last</Text>
@@ -74,7 +73,6 @@ export default function InsightsScreen() {
                 <View style={styles.achievementBanner}>
                   <Text style={styles.achievementText}>🏆 +15% better than last week</Text>
                 </View>
-              </View>
 
               {/* Metrics List */}
               <View style={styles.metricsList}>
@@ -314,6 +312,7 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     width: '100%',
     height: 21,
+    paddingHorizontal: 12,
   },
   progressBarsContainer: {
     backgroundColor: '#E9FDF8',
@@ -331,25 +330,29 @@ const styles = StyleSheet.create({
   progressRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 12,
-    gap: 8,
+    paddingHorizontal: 0,
+    paddingLeft: 12,
+    gap: 12,
     width: '100%',
     height: 24,
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
   },
   progressLabel: {
     fontSize: 12,
     fontWeight: '600',
     color: '#263574',
-    width: 32,
     height: 18,
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
     lineHeight: 18,
     textAlign: 'left',
+    display: 'flex',
+    alignItems: 'center',
+    flexShrink: 0,
+    flexGrow: 0,
+    minWidth: 30,
   },
   progressBarContainer: {
-    // Expand to fill remaining space next to the label
     height: 24,
     backgroundColor: '#FFFFFF',
     borderRadius: 1000,
@@ -364,8 +367,7 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 0,
-    paddingRight: 8,
+    paddingHorizontal: 8,
     flexDirection: 'row',
     alignItems: 'center',
   },
@@ -387,6 +389,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     width: 136,
     height: 18,
+    flex: 1,
   },
   lastWeekPercentage: {
     fontSize: 12,
@@ -398,6 +401,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     width: 98,
     height: 18,
+    flex: 1,
   },
   thisWeekText: {
     fontSize: 12,
@@ -409,6 +413,7 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     width: 195,
     height: 18,
+    flex: 1,
   },
   thisWeekPercentage: {
     fontSize: 12,
@@ -418,8 +423,9 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
     lineHeight: 18,
-    width: 48,
+    width: 39,
     height: 18,
+    flex: 1,
   },
   achievementBanner: {
     backgroundColor: '#FEF9EB',
@@ -428,6 +434,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     gap: 10,
+    width: '100%',
+    height: 33,
+    borderRadius: 0,
+    marginTop: 8,
   },
   achievementText: {
     fontSize: 14,
@@ -436,6 +446,12 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 21,
+    width: '100%',
+    height: 21,
+    display: 'flex',
+    alignItems: 'center',
+    flex: 0,
   },
   // Metrics List
   metricsList: {
