@@ -5,10 +5,12 @@ export default function InsightsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Background Ellipses */}
-        <View style={styles.ellipse12} />
-        <View style={styles.ellipse11} />
-        <View style={styles.ellipse13} />
+        {/* Background Ellipses Group */}
+        <View style={styles.ellipseGroup}>
+          <View style={styles.ellipse12} />
+          <View style={styles.ellipse11} />
+          <View style={styles.ellipse13} />
+        </View>
 
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
           {/* Top Header Section */}
@@ -20,7 +22,7 @@ export default function InsightsScreen() {
               />
               <View style={styles.greetingContainer}>
                 <Text style={styles.greetingSubtitle}>Welcome back!</Text>
-                <Text style={styles.greetingTitle}>Hi Alex 👋</Text>
+                <Text style={styles.greetingTitle}>Hi Zander 👋</Text>
               </View>
             </View>
             <View style={styles.streakContainer}>
@@ -163,40 +165,43 @@ const styles = StyleSheet.create({
     paddingBottom: 120,
   },
   // Background Ellipses
+  ellipseGroup: {
+    position: 'absolute',
+    width: 381.6,
+    height: 281.39,
+    left: '50%',
+    marginLeft: -190.8 + 0.3,
+    top: -111,
+    opacity: 0.7,
+  },
   ellipse12: {
     position: 'absolute',
     width: 235.6,
     height: 381.6,
-    left: '50%',
-    marginLeft: -117.8 - 72.7,
-    top: -65.62 - 111,
+    left: -72.7,
+    top: -65.62,
     backgroundColor: '#EAECF4',
     borderRadius: 190.8,
-    opacity: 0.7,
     transform: [{ rotate: '90deg' }],
   },
   ellipse11: {
     position: 'absolute',
     width: 130.23,
     height: 210.94,
-    left: '50%',
-    marginLeft: -65.115 - 40.13,
-    top: -104.83 - 111,
+    left: -40.13,
+    top: -104.83,
     backgroundColor: '#BFC4DD',
     borderRadius: 105.47,
-    opacity: 0.7,
     transform: [{ rotate: '90deg' }],
   },
   ellipse13: {
     position: 'absolute',
     width: 116.02,
     height: 187.92,
-    left: '50%',
-    marginLeft: -58.01 - 36.17,
-    top: -111 - 111,
+    left: -36.17,
+    top: -111,
     backgroundColor: '#E0E3EF',
     borderRadius: 93.96,
-    opacity: 0.7,
     transform: [{ rotate: '90deg' }],
   },
   // Header Section
@@ -244,30 +249,30 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FEF9EB',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 20,
-    minWidth: 85,
-    height: 36,
-    gap: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 1000,
+    width: 80,
+    height: 40,
+    gap: 6,
     flexShrink: 0,
   },
   streakEmoji: {
-    fontSize: 14,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 18,
   },
   streakNumber: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 16,
+    lineHeight: 18,
     fontFamily: 'Urbanist',
   },
   streakText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 13,
+    lineHeight: 18,
     fontFamily: 'Urbanist',
   },
   // Main Card
