@@ -50,9 +50,9 @@ export default function InsightsScreen() {
                     <Text style={styles.progressLabel}>Last</Text>
                     <View style={styles.progressBarContainer}>
                       <View style={[styles.progressBar, styles.lastWeekBar]}>
-                        <Text style={styles.progressBarText}>23 mins</Text>
+                        <Text style={styles.lastWeekText}>23 mins</Text>
                       </View>
-                      <Text style={styles.progressPercentage}>+13%</Text>
+                      <Text style={styles.lastWeekPercentage}>+13%</Text>
                     </View>
                   </View>
 
@@ -61,9 +61,9 @@ export default function InsightsScreen() {
                     <Text style={styles.progressLabel}>This</Text>
                     <View style={styles.progressBarContainer}>
                       <View style={[styles.progressBar, styles.thisWeekBar]}>
-                        <Text style={styles.progressBarText}>29 mins</Text>
+                        <Text style={styles.thisWeekText}>29 mins</Text>
                       </View>
-                      <Text style={styles.progressPercentage}>+21%</Text>
+                      <Text style={styles.thisWeekPercentage}>+21%</Text>
                     </View>
                   </View>
                 </View>
@@ -281,12 +281,12 @@ const styles = StyleSheet.create({
     height: 21,
   },
   cardContent: {
-    padding: 20,
-    gap: 16,
+    padding: 12,
+    gap: 12,
   },
   // Weekly Overview
   weeklyOverview: {
-    gap: 12,
+    gap: 8,
   },
   sectionTitle: {
     fontSize: 16,
@@ -298,13 +298,15 @@ const styles = StyleSheet.create({
   progressBarsContainer: {
     backgroundColor: '#E9FDF8',
     borderRadius: 12,
-    padding: 16,
-    paddingTop: 12,
-    gap: 16,
+    paddingTop: 8,
+    gap: 12,
+    paddingHorizontal: 0,
+    paddingBottom: 0,
   },
   progressRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 12,
     gap: 12,
   },
   progressLabel: {
@@ -316,12 +318,13 @@ const styles = StyleSheet.create({
     fontFamily: 'Urbanist',
   },
   progressBarContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    width: 258,
+    height: 24,
     backgroundColor: '#FFFFFF',
     borderRadius: 1000,
     paddingRight: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   progressBar: {
     height: 24,
@@ -338,28 +341,49 @@ const styles = StyleSheet.create({
     backgroundColor: '#27EDB7',
     width: 211,
   },
-  progressBarText: {
+  lastWeekText: {
     fontSize: 12,
     fontWeight: '600',
     color: '#FFFFFF',
+    textAlign: 'right',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    width: 136,
   },
-  progressPercentage: {
+  lastWeekPercentage: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#B8952C',
+    textAlign: 'right',
+    letterSpacing: -0.02,
+    fontFamily: 'Urbanist',
+    width: 98,
+  },
+  thisWeekText: {
     fontSize: 12,
     fontWeight: '600',
     color: '#263574',
     textAlign: 'right',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
-    marginLeft: 8,
+    width: 195,
+  },
+  thisWeekPercentage: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#263574',
+    textAlign: 'right',
+    letterSpacing: -0.02,
+    fontFamily: 'Urbanist',
+    width: 39,
   },
   achievementBanner: {
     backgroundColor: '#FEF9EB',
-    paddingHorizontal: 20,
-    paddingVertical: 10,
+    paddingHorizontal: 16,
+    paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 10,
   },
   achievementText: {
     fontSize: 14,
@@ -371,16 +395,16 @@ const styles = StyleSheet.create({
   },
   // Metrics List
   metricsList: {
-    gap: 8,
+    gap: 6,
   },
   metricItem: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#F6F7FA',
     borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    gap: 8,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    gap: 4,
   },
   metricIcon: {
     width: 16,
@@ -407,7 +431,7 @@ const styles = StyleSheet.create({
   // AI Insights Section
   aiInsightsSection: {
     width: 335,
-    gap: 12,
+    gap: 8,
   },
   aiInsightsHeader: {
     flexDirection: 'row',
@@ -427,7 +451,8 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1.5,
     borderLeftColor: '#F5C63B',
     borderRadius: 16,
-    padding: 16,
+    padding: 12,
+    gap: 16,
   },
   aiInsightsText: {
     fontSize: 14,
