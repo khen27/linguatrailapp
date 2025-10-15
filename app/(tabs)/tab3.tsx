@@ -5,10 +5,6 @@ export default function InsightsScreen() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        {/* Background Ellipses */}
-        <View style={styles.ellipse12} />
-        <View style={styles.ellipse11} />
-        <View style={styles.ellipse13} />
 
         <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
           {/* Top Header Section */}
@@ -20,7 +16,7 @@ export default function InsightsScreen() {
               />
               <View style={styles.greetingContainer}>
                 <Text style={styles.greetingSubtitle}>Welcome back!</Text>
-                <Text style={styles.greetingTitle}>Hi Alex 👋</Text>
+                <Text style={styles.greetingTitle}>Hi Zander 👋</Text>
               </View>
             </View>
             <View style={styles.streakContainer}>
@@ -30,15 +26,21 @@ export default function InsightsScreen() {
             </View>
           </View>
 
-          {/* Main Content Card */}
-          <View style={styles.mainCard}>
-            {/* Trail Progress Header */}
+          {/* Main Content Container */}
+          <View style={styles.mainContentContainer}>
+            {/* Main Content Card */}
+            <View style={styles.mainCard}>
+            {/* Banner Header */}
             <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderTitle}>Trail Progress</Text>
+              <View style={styles.cardHeaderContent}>
+                <Text style={styles.bannerText}>Your pronunciation improved by 12%! Keep going 🎤</Text>
+              </View>
             </View>
 
             {/* Card Content */}
             <View style={styles.cardContent}>
+              {/* Trail Progress Title */}
+              <Text style={styles.trailProgressTitle}>Trail Progress</Text>
               {/* Weekly Overview Section */}
               <View style={styles.weeklyOverview}>
                 <Text style={styles.sectionTitle}>Weekly Overview</Text>
@@ -50,9 +52,9 @@ export default function InsightsScreen() {
                     <Text style={styles.progressLabel}>Last</Text>
                     <View style={styles.progressBarContainer}>
                       <View style={[styles.progressBar, styles.lastWeekBar]}>
-                        <Text style={styles.progressBarText}>23 mins</Text>
+                        <Text style={styles.lastWeekText}>23 mins</Text>
                       </View>
-                      <Text style={styles.progressPercentage}>+13%</Text>
+                      <Text style={styles.lastWeekPercentage}>+13%</Text>
                     </View>
                   </View>
 
@@ -61,9 +63,9 @@ export default function InsightsScreen() {
                     <Text style={styles.progressLabel}>This</Text>
                     <View style={styles.progressBarContainer}>
                       <View style={[styles.progressBar, styles.thisWeekBar]}>
-                        <Text style={styles.progressBarText}>29 mins</Text>
+                        <Text style={styles.thisWeekText}>29 mins</Text>
                       </View>
-                      <Text style={styles.progressPercentage}>+21%</Text>
+                      <Text style={styles.thisWeekPercentage}>+21%</Text>
                     </View>
                   </View>
                 </View>
@@ -78,9 +80,9 @@ export default function InsightsScreen() {
               <View style={styles.metricsList}>
                 {/* Words Memorized */}
                 <View style={styles.metricItem}>
-                  <View style={styles.metricIcon}>
-                    <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <Circle cx="8" cy="8" r="6.67" fill="#27EDB7" />
+                  <View style={[styles.metricIcon, { backgroundColor: '#E9FDF8' }]}>
+                    <Svg width="16" height="17" viewBox="0 0 16 17" fill="none">
+                      <Path d="M7.99992 1.83325C4.31992 1.83325 1.33325 4.81992 1.33325 8.49992C1.33325 12.1799 4.31992 15.1666 7.99992 15.1666C11.6799 15.1666 14.6666 12.1799 14.6666 8.49992C14.6666 4.81992 11.6799 1.83325 7.99992 1.83325ZM11.3333 12.1466C10.1933 12.1466 9.12659 11.6533 8.27325 10.7399C7.30659 11.6133 6.04659 12.1466 4.66659 12.1466C4.39325 12.1466 4.16659 11.9199 4.16659 11.6466C4.16659 11.3733 4.39325 11.1466 4.66659 11.1466C6.97992 11.1466 8.89325 9.31325 9.13992 6.96659H7.99992H4.67325C4.39992 6.96659 4.17325 6.73992 4.17325 6.46659C4.17325 6.19325 4.39992 5.97325 4.67325 5.97325H7.49992V5.35325C7.49992 5.07992 7.72659 4.85325 7.99992 4.85325C8.27325 4.85325 8.49992 5.07992 8.49992 5.35325V5.97325H9.62659C9.63992 5.97325 9.65325 5.96659 9.66659 5.96659C9.67992 5.96659 9.69325 5.97325 9.70659 5.97325H11.3266C11.5999 5.97325 11.8266 6.19992 11.8266 6.47325C11.8266 6.74659 11.5999 6.97325 11.3266 6.97325H10.1399C10.0399 8.11325 9.61325 9.15992 8.95992 10.0133C9.62659 10.7533 10.4599 11.1533 11.3333 11.1533C11.6066 11.1533 11.8333 11.3799 11.8333 11.6533C11.8333 11.9266 11.6066 12.1466 11.3333 12.1466Z" fill="#27EDB7"/>
                     </Svg>
                   </View>
                   <Text style={styles.metricLabel}>Words Memorized</Text>
@@ -89,10 +91,10 @@ export default function InsightsScreen() {
 
                 {/* Sentence Accuracy */}
                 <View style={styles.metricItem}>
-                  <View style={styles.metricIcon}>
-                    <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <Path d="M1.33 2.13L3.47 1.33C3.73 1.24 4 1.4 4 1.68V3.33C4 3.61 3.73 3.77 3.47 3.68L1.33 2.88C1.07 2.79 1.07 2.22 1.33 2.13Z" fill="#36BAAE"/>
-                      <Path d="M8.53 2.13L10.67 1.33C10.93 1.24 11.2 1.4 11.2 1.68V3.33C11.2 3.61 10.93 3.77 10.67 3.68L8.53 2.88C8.27 2.79 8.27 2.22 8.53 2.13Z" fill="#36BAAE"/>
+                  <View style={[styles.metricIcon, { backgroundColor: '#E9FDF8' }]}>
+                    <Svg width="16" height="17" viewBox="0 0 16 17" fill="none">
+                      <Path d="M5.39325 8.2534H2.26659C2.31992 5.14006 2.93325 4.62673 4.84659 3.4934C5.06659 3.36006 5.13992 3.08006 5.00659 2.8534C4.87992 2.6334 4.59325 2.56006 4.37325 2.6934C2.11992 4.02673 1.33325 4.84006 1.33325 8.7134V12.3067C1.33325 13.4467 2.25992 14.3667 3.39325 14.3667H5.39325C6.56659 14.3667 7.45325 13.4801 7.45325 12.3067V10.3067C7.45325 9.14006 6.56659 8.2534 5.39325 8.2534Z" fill="#36BAAE"/>
+                      <Path d="M12.6067 8.2534H9.48004C9.53337 5.14006 10.1467 4.62673 12.06 3.4934C12.28 3.36006 12.3534 3.08006 12.22 2.8534C12.0867 2.6334 11.8067 2.56006 11.58 2.6934C9.32671 4.02673 8.54004 4.84006 8.54004 8.72006V12.3134C8.54004 13.4534 9.46671 14.3734 10.6 14.3734H12.6C13.7734 14.3734 14.66 13.4867 14.66 12.3134V10.3134C14.6667 9.14006 13.78 8.2534 12.6067 8.2534Z" fill="#36BAAE"/>
                     </Svg>
                   </View>
                   <Text style={styles.metricLabel}>Sentence Accuracy</Text>
@@ -101,10 +103,9 @@ export default function InsightsScreen() {
 
                 {/* Lessons Done */}
                 <View style={styles.metricItem}>
-                  <View style={styles.metricIcon}>
-                    <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <Path d="M8.53 1.78L13.47 1.78C13.73 1.78 14 1.94 14 2.22V11.78C14 12.06 13.73 12.22 13.47 12.22L8.53 12.22" fill="#F5C63B"/>
-                      <Path d="M1.33 1.78L6.27 1.78C6.53 1.78 6.8 1.94 6.8 2.22V11.78C6.8 12.06 6.53 12.22 6.27 12.22L1.33 12.22" fill="#F5C63B"/>
+                  <View style={[styles.metricIcon, { backgroundColor: '#FEF9EB' }]}>
+                    <Svg width="16" height="17" viewBox="0 0 16 17" fill="none">
+                      <Path d="M14.6667 3.73329V11.66C14.6667 12.3066 14.14 12.9 13.4933 12.98L13.2867 13.0066C12.1933 13.1533 10.6533 13.6066 9.41333 14.1266C8.98 14.3066 8.5 13.98 8.5 13.5066V4.23329C8.5 3.98662 8.64 3.75995 8.86 3.63995C10.08 2.97995 11.9267 2.39329 13.18 2.28662H13.22C14.02 2.28662 14.6667 2.93329 14.6667 3.73329ZM7.13999 3.63995C5.91999 2.97995 4.07333 2.39329 2.81999 2.28662H2.77333C1.97333 2.28662 1.32666 2.93329 1.32666 3.73329V11.66C1.32666 12.3066 1.85333 12.9 2.49999 12.98L2.70666 13.0066C3.79999 13.1533 5.33999 13.6066 6.57999 14.1266C7.01333 14.3066 7.49333 13.98 7.49333 13.5066V4.23329C7.49333 3.97995 7.35999 3.75995 7.13999 3.63995ZM3.33333 5.65995H4.83333C5.10666 5.65995 5.33333 5.88662 5.33333 6.15995C5.33333 6.43995 5.10666 6.65995 4.83333 6.65995H3.33333C3.05999 6.65995 2.83333 6.43995 2.83333 6.15995C2.83333 5.88662 3.05999 5.65995 3.33333 5.65995ZM5.33333 8.65995H3.33333C3.05999 8.65995 2.83333 8.43995 2.83333 8.15995C2.83333 7.88662 3.05999 7.65995 3.33333 7.65995H5.33333C5.60666 7.65995 5.83333 7.88662 5.83333 8.15995C5.83333 8.43995 5.60666 8.65995 5.33333 8.65995Z" fill="#F5C63B"/>
                     </Svg>
                   </View>
                   <Text style={styles.metricLabel}>Lessons Done</Text>
@@ -113,9 +114,9 @@ export default function InsightsScreen() {
 
                 {/* Reviews Done */}
                 <View style={styles.metricItem}>
-                  <View style={styles.metricIcon}>
-                    <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                      <Circle cx="8" cy="8" r="6.67" fill="#2F4291" />
+                  <View style={[styles.metricIcon, { backgroundColor: '#FEEDEF' }]}>
+                    <Svg width="16" height="17" viewBox="0 0 16 17" fill="none">
+                      <Path d="M7.99992 1.83325C4.32659 1.83325 1.33325 4.82659 1.33325 8.49992C1.33325 12.1733 4.32659 15.1666 7.99992 15.1666C11.6733 15.1666 14.6666 12.1733 14.6666 8.49992C14.6666 4.82659 11.6733 1.83325 7.99992 1.83325ZM11.1866 6.96659L7.40659 10.7466C7.31325 10.8399 7.18659 10.8933 7.05325 10.8933C6.91992 10.8933 6.79325 10.8399 6.69992 10.7466L4.81325 8.85992C4.61992 8.66659 4.61992 8.34659 4.81325 8.15325C5.00659 7.95992 5.32659 7.95992 5.51992 8.15325L7.05325 9.68659L10.4799 6.25992C10.6733 6.06659 10.9933 6.06659 11.1866 6.25992C11.3799 6.45325 11.3799 6.76659 11.1866 6.96659Z" fill="#2F4291"/>
                     </Svg>
                   </View>
                   <Text style={styles.metricLabel}>Reviews Done</Text>
@@ -125,20 +126,21 @@ export default function InsightsScreen() {
             </View>
           </View>
 
-          {/* AI Insights Section */}
-          <View style={styles.aiInsightsSection}>
-            <View style={styles.aiInsightsHeader}>
-              <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <Path d="M8.04 12L12 8.04L15.96 12L12 15.96L8.04 12Z" fill="#F5C63B"/>
-                <Path d="M4.02 12L8 8.02L11.98 12L8 15.98L4.02 12Z" fill="#F5C63B"/>
-              </Svg>
-              <Text style={styles.aiInsightsTitle}>AI Insights</Text>
-            </View>
-            
-            <View style={styles.aiInsightsCard}>
-              <Text style={styles.aiInsightsText}>
-                You're making great progress with 72% overall completion and strong growth in speaking (78%) and listening (70%). With an 18-day streak and 640+ words learned, your consistency is paying off — keep it up to reach full fluency soon!
-              </Text>
+            {/* AI Insights Section */}
+            <View style={styles.aiInsightsSection}>
+              <View style={styles.aiInsightsHeader}>
+                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <Path d="M15.2599 21.9999C15.1999 21.9999 15.1299 21.9899 15.0699 21.9699C13.0599 21.3999 10.9499 21.3999 8.93991 21.9699C8.56991 22.0699 8.17991 21.8599 8.07991 21.4899C7.96991 21.1199 8.18991 20.7299 8.55991 20.6299C10.8199 19.9899 13.1999 19.9899 15.4599 20.6299C15.8299 20.7399 16.0499 21.1199 15.9399 21.4899C15.8399 21.7999 15.5599 21.9999 15.2599 21.9999Z" fill="#F5C63B"/>
+                  <Path d="M19.21 6.36001C18.17 4.26001 16.16 2.71001 13.83 2.20001C11.39 1.66001 8.88997 2.24001 6.97997 3.78001C5.05997 5.31001 3.96997 7.60001 3.96997 10.05C3.96997 12.64 5.51997 15.35 7.85997 16.92V17.75C7.84997 18.03 7.83997 18.46 8.17997 18.81C8.52997 19.17 9.04997 19.21 9.45997 19.21H14.59C15.13 19.21 15.54 19.06 15.82 18.78C16.2 18.39 16.19 17.89 16.18 17.62V16.92C19.28 14.83 21.23 10.42 19.21 6.36001ZM13.72 11.62L12.65 13.48C12.51 13.72 12.26 13.86 12 13.86C11.87 13.86 11.74 13.83 11.63 13.76C11.27 13.55 11.15 13.09 11.35 12.74L12.2 11.26H11.36C10.86 11.26 10.45 11.04 10.23 10.67C10.01 10.29 10.03 9.83001 10.28 9.39001L11.35 7.53001C11.56 7.17001 12.02 7.05001 12.37 7.25001C12.73 7.46001 12.85 7.92001 12.65 8.27001L11.8 9.75001H12.64C13.14 9.75001 13.55 9.97001 13.77 10.34C13.99 10.72 13.97 11.19 13.72 11.62Z" fill="#F5C63B"/>
+                </Svg>
+                <Text style={styles.aiInsightsTitle}>AI Insights</Text>
+              </View>
+              
+              <View style={styles.aiInsightsCard}>
+                <Text style={styles.aiInsightsText}>
+                  You're making great progress with 72% overall completion and strong growth in speaking (78%) and listening (70%). With an 18-day streak and 640+ words learned, your consistency is paying off — keep it up to reach full fluency soon!
+                </Text>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -161,43 +163,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 120,
-  },
-  // Background Ellipses
-  ellipse12: {
-    position: 'absolute',
-    width: 235.6,
-    height: 381.6,
-    left: '50%',
-    marginLeft: -117.8 - 72.7,
-    top: -65.62 - 111,
-    backgroundColor: '#EAECF4',
-    borderRadius: 190.8,
-    opacity: 0.7,
-    transform: [{ rotate: '90deg' }],
-  },
-  ellipse11: {
-    position: 'absolute',
-    width: 130.23,
-    height: 210.94,
-    left: '50%',
-    marginLeft: -65.115 - 40.13,
-    top: -104.83 - 111,
-    backgroundColor: '#BFC4DD',
-    borderRadius: 105.47,
-    opacity: 0.7,
-    transform: [{ rotate: '90deg' }],
-  },
-  ellipse13: {
-    position: 'absolute',
-    width: 116.02,
-    height: 187.92,
-    left: '50%',
-    marginLeft: -58.01 - 36.17,
-    top: -111 - 111,
-    backgroundColor: '#E0E3EF',
-    borderRadius: 93.96,
-    opacity: 0.7,
-    transform: [{ rotate: '90deg' }],
   },
   // Header Section
   header: {
@@ -243,105 +208,166 @@ const styles = StyleSheet.create({
   streakContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
     backgroundColor: '#FEF9EB',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    borderRadius: 20,
-    minWidth: 85,
-    height: 36,
-    gap: 4,
+    borderRadius: 1000,
+    width: 80,
+    height: 40,
+    gap: 6,
     flexShrink: 0,
   },
   streakEmoji: {
-    fontSize: 14,
-    lineHeight: 16,
+    fontSize: 16,
+    lineHeight: 18,
   },
   streakNumber: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 16,
+    lineHeight: 18,
     fontFamily: 'Urbanist',
   },
   streakText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 13,
+    lineHeight: 18,
     fontFamily: 'Urbanist',
+  },
+  // Main Content Container
+  mainContentContainer: {
+    marginLeft: 20,
+    marginRight: 20,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 20,
   },
   // Main Card
   mainCard: {
-    marginHorizontal: 20,
-    marginBottom: 16,
+    width: '100%',
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     overflow: 'hidden',
   },
   cardHeader: {
     backgroundColor: '#E9FDF8',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     paddingHorizontal: 12,
     paddingVertical: 12,
-    paddingBottom: 32,
-    marginBottom: -24,
+    paddingBottom: 12,
+    marginBottom: 0,
+    width: '100%',
+    height: 65,
   },
-  cardHeaderTitle: {
+  cardHeaderContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+    gap: 6,
+    width: '100%',
+    height: 21,
+  },
+  bannerText: {
     fontSize: 14,
     fontWeight: '500',
     color: '#263574',
-    textAlign: 'center',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 21,
+    textAlign: 'center',
+    flex: 1,
+    height: 21,
   },
   cardContent: {
     padding: 12,
     gap: 12,
   },
-  // Weekly Overview
-  weeklyOverview: {
-    gap: 8,
-  },
-  sectionTitle: {
+  trailProgressTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: '#263574',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 24,
+    width: '100%',
+    height: 24,
+    marginBottom: 8,
+  },
+  // Weekly Overview
+  weeklyOverview: {
+    gap: 8,
+    width: '100%',
+    height: 170,
+  },
+  sectionTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#263574',
+    letterSpacing: -0.02,
+    fontFamily: 'Urbanist',
+    lineHeight: 21,
+    width: '100%',
+    height: 21,
   },
   progressBarsContainer: {
     backgroundColor: '#E9FDF8',
     borderRadius: 12,
-    padding: 12,
     paddingTop: 8,
+    paddingHorizontal: 0,
+    paddingBottom: 0,
     gap: 12,
+    width: '100%',
+    height: 138,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
   },
   progressRow: {
     flexDirection: 'row',
     alignItems: 'center',
+    paddingHorizontal: 12,
     gap: 8,
+    width: '100%',
+    height: 24,
+    justifyContent: 'center',
   },
   progressLabel: {
     fontSize: 12,
     fontWeight: '600',
     color: '#263574',
-    width: 22,
+    width: 32,
+    height: 18,
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 18,
+    textAlign: 'left',
   },
   progressBarContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center',
+    // Expand to fill remaining space next to the label
+    height: 24,
     backgroundColor: '#FFFFFF',
     borderRadius: 1000,
+    paddingHorizontal: 0,
     paddingRight: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
   },
   progressBar: {
     height: 24,
     borderRadius: 1000,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 8,
+    paddingHorizontal: 0,
+    paddingRight: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   lastWeekBar: {
     backgroundColor: '#F5C63B',
@@ -351,21 +377,49 @@ const styles = StyleSheet.create({
     backgroundColor: '#27EDB7',
     width: 211,
   },
-  progressBarText: {
+  lastWeekText: {
     fontSize: 12,
     fontWeight: '600',
     color: '#FFFFFF',
+    textAlign: 'right',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 18,
+    width: 136,
+    height: 18,
   },
-  progressPercentage: {
+  lastWeekPercentage: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#B8952C',
+    textAlign: 'right',
+    letterSpacing: -0.02,
+    fontFamily: 'Urbanist',
+    lineHeight: 18,
+    width: 98,
+    height: 18,
+  },
+  thisWeekText: {
     fontSize: 12,
     fontWeight: '600',
     color: '#263574',
     textAlign: 'right',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
-    marginLeft: 8,
+    lineHeight: 18,
+    width: 195,
+    height: 18,
+  },
+  thisWeekPercentage: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#263574',
+    textAlign: 'right',
+    letterSpacing: -0.02,
+    fontFamily: 'Urbanist',
+    lineHeight: 18,
+    width: 48,
+    height: 18,
   },
   achievementBanner: {
     backgroundColor: '#FEF9EB',
@@ -373,6 +427,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: 10,
   },
   achievementText: {
     fontSize: 14,
@@ -385,6 +440,9 @@ const styles = StyleSheet.create({
   // Metrics List
   metricsList: {
     gap: 6,
+    width: '100%',
+    height: 166,
+    padding: 0,
   },
   metricItem: {
     flexDirection: 'row',
@@ -394,6 +452,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     gap: 4,
+    width: '100%',
+    height: 37,
+    justifyContent: 'space-between',
   },
   metricIcon: {
     width: 16,
@@ -408,6 +469,7 @@ const styles = StyleSheet.create({
     color: '#595959',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 18,
     marginLeft: 4,
   },
   metricValue: {
@@ -416,16 +478,18 @@ const styles = StyleSheet.create({
     color: '#263574',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    lineHeight: 21,
+    flexShrink: 0,
   },
   // AI Insights Section
   aiInsightsSection: {
-    marginHorizontal: 20,
+    width: '100%',
     gap: 8,
   },
   aiInsightsHeader: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
     gap: 6,
   },
   aiInsightsTitle: {
@@ -441,6 +505,7 @@ const styles = StyleSheet.create({
     borderLeftColor: '#F5C63B',
     borderRadius: 16,
     padding: 12,
+    gap: 16,
   },
   aiInsightsText: {
     fontSize: 14,
