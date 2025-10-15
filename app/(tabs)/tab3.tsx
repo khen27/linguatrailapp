@@ -32,11 +32,15 @@ export default function InsightsScreen() {
             </View>
           </View>
 
-          {/* Main Content Card */}
-          <View style={styles.mainCard}>
+          {/* Main Content Container */}
+          <View style={styles.mainContentContainer}>
+            {/* Main Content Card */}
+            <View style={styles.mainCard}>
             {/* Trail Progress Header */}
             <View style={styles.cardHeader}>
-              <Text style={styles.cardHeaderTitle}>Trail Progress</Text>
+              <View style={styles.cardHeaderContent}>
+                <Text style={styles.cardHeaderTitle}>Trail Progress</Text>
+              </View>
             </View>
 
             {/* Card Content */}
@@ -127,20 +131,21 @@ export default function InsightsScreen() {
             </View>
           </View>
 
-          {/* AI Insights Section */}
-          <View style={styles.aiInsightsSection}>
-            <View style={styles.aiInsightsHeader}>
-              <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <Path d="M8.04 12L12 8.04L15.96 12L12 15.96L8.04 12Z" fill="#F5C63B"/>
-                <Path d="M4.02 12L8 8.02L11.98 12L8 15.98L4.02 12Z" fill="#F5C63B"/>
-              </Svg>
-              <Text style={styles.aiInsightsTitle}>AI Insights</Text>
-            </View>
-            
-            <View style={styles.aiInsightsCard}>
-              <Text style={styles.aiInsightsText}>
-                You're making great progress with 72% overall completion and strong growth in speaking (78%) and listening (70%). With an 18-day streak and 640+ words learned, your consistency is paying off — keep it up to reach full fluency soon!
-              </Text>
+            {/* AI Insights Section */}
+            <View style={styles.aiInsightsSection}>
+              <View style={styles.aiInsightsHeader}>
+                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                  <Path d="M8.04 12L12 8.04L15.96 12L12 15.96L8.04 12Z" fill="#F5C63B"/>
+                  <Path d="M4.02 12L8 8.02L11.98 12L8 15.98L4.02 12Z" fill="#F5C63B"/>
+                </Svg>
+                <Text style={styles.aiInsightsTitle}>AI Insights</Text>
+              </View>
+              
+              <View style={styles.aiInsightsCard}>
+                <Text style={styles.aiInsightsText}>
+                  You're making great progress with 72% overall completion and strong growth in speaking (78%) and listening (70%). With an 18-day streak and 640+ words learned, your consistency is paying off — keep it up to reach full fluency soon!
+                </Text>
+              </View>
             </View>
           </View>
         </ScrollView>
@@ -275,36 +280,59 @@ const styles = StyleSheet.create({
     lineHeight: 18,
     fontFamily: 'Urbanist',
   },
+  // Main Content Container
+  mainContentContainer: {
+    position: 'absolute',
+    width: 335,
+    left: '50%',
+    marginLeft: -167.5, // -335/2
+    top: 115,
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    gap: 16,
+  },
   // Main Card
   mainCard: {
-    marginHorizontal: 20,
-    marginBottom: 16,
+    width: 335,
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     overflow: 'hidden',
   },
   cardHeader: {
     backgroundColor: '#E9FDF8',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
     paddingHorizontal: 12,
     paddingVertical: 12,
     paddingBottom: 32,
     marginBottom: -24,
+    width: 335,
+    height: 65,
+  },
+  cardHeaderContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 20,
   },
   cardHeaderTitle: {
     fontSize: 14,
     fontWeight: '500',
     color: '#263574',
-    textAlign: 'center',
+    textAlign: 'left',
     letterSpacing: -0.02,
     fontFamily: 'Urbanist',
+    width: 300,
+    height: 21,
   },
   cardContent: {
-    padding: 12,
-    gap: 12,
+    padding: 20,
+    gap: 16,
   },
   // Weekly Overview
   weeklyOverview: {
-    gap: 8,
+    gap: 12,
   },
   sectionTitle: {
     fontSize: 16,
@@ -316,14 +344,14 @@ const styles = StyleSheet.create({
   progressBarsContainer: {
     backgroundColor: '#E9FDF8',
     borderRadius: 12,
-    padding: 12,
-    paddingTop: 8,
-    gap: 12,
+    padding: 16,
+    paddingTop: 12,
+    gap: 16,
   },
   progressRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 8,
+    gap: 12,
   },
   progressLabel: {
     fontSize: 12,
@@ -374,8 +402,8 @@ const styles = StyleSheet.create({
   },
   achievementBanner: {
     backgroundColor: '#FEF9EB',
-    paddingHorizontal: 16,
-    paddingVertical: 6,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -389,16 +417,16 @@ const styles = StyleSheet.create({
   },
   // Metrics List
   metricsList: {
-    gap: 6,
+    gap: 8,
   },
   metricItem: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#F6F7FA',
     borderRadius: 12,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    gap: 4,
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    gap: 8,
   },
   metricIcon: {
     width: 16,
@@ -424,8 +452,8 @@ const styles = StyleSheet.create({
   },
   // AI Insights Section
   aiInsightsSection: {
-    marginHorizontal: 20,
-    gap: 8,
+    width: 335,
+    gap: 12,
   },
   aiInsightsHeader: {
     flexDirection: 'row',
@@ -445,7 +473,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 1.5,
     borderLeftColor: '#F5C63B',
     borderRadius: 16,
-    padding: 12,
+    padding: 16,
   },
   aiInsightsText: {
     fontSize: 14,
