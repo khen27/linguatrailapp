@@ -236,18 +236,15 @@ const styles = StyleSheet.create({
   },
   // Main Content Container
   mainContentContainer: {
-    position: 'absolute',
-    width: 335,
-    left: '50%',
-    marginLeft: -167.5, // -335/2
-    top: 115,
+    marginLeft: 20,
+    marginRight: 20,
     flexDirection: 'column',
     alignItems: 'flex-start',
-    gap: 16,
+    gap: 20,
   },
   // Main Card
   mainCard: {
-    width: 335,
+    width: '100%',
     backgroundColor: '#FFFFFF',
     borderRadius: 16,
     overflow: 'hidden',
@@ -262,7 +259,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     paddingBottom: 32,
     marginBottom: -24,
-    width: 335,
+    width: '100%',
     height: 65,
   },
   cardHeaderContent: {
@@ -299,9 +296,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#E9FDF8',
     borderRadius: 12,
     paddingTop: 8,
-    gap: 12,
     paddingHorizontal: 0,
     paddingBottom: 0,
+    gap: 12,
   },
   progressRow: {
     flexDirection: 'row',
@@ -430,7 +427,7 @@ const styles = StyleSheet.create({
   },
   // AI Insights Section
   aiInsightsSection: {
-    width: 335,
+    width: '100%',
     gap: 8,
   },
   aiInsightsHeader: {
