@@ -196,14 +196,14 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 24,
     zIndex: 2,
+    paddingHorizontal: 0,
   },
   // Progress Bar
   progressSection: {
-    marginLeft: 24,
-    width: 351, // Full width from back button (24px) to far right edge of X button (375px total)
+    paddingHorizontal: 24,
   },
   progressTrack: {
-    width: 351,
+    width: '100%',
     height: 10,
     backgroundColor: '#F6F7FA',
     borderRadius: 1000,
@@ -218,7 +218,8 @@ const styles = StyleSheet.create({
   // Title Section
   titleSection: {
     marginLeft: 24,
-    width: 351, // Full width from back button (24px) to X button (375px)
+    marginRight: 24, // EQUAL padding on both sides
+    width: 327, // 375 - 24 - 24 = 327px
     gap: 8,
   },
   mainTitle: {
@@ -228,7 +229,8 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     letterSpacing: -0.44,
     color: '#263574',
-    textAlign: 'center',
+    textAlign: 'left',
+    width: '100%',
   },
   subtitle: {
     fontFamily: 'Urbanist',
@@ -237,14 +239,16 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: -0.32,
     color: '#5C5C5C',
-    textAlign: 'center',
+    textAlign: 'left',
     opacity: 0.7,
+    width: '100%',
   },
   // Language List
   languageList: {
     flex: 1,
     marginLeft: 24,
-    width: 351, // Full width from back button (24px) to X button (375px)
+    marginRight: 24, // EQUAL padding on both sides
+    width: 327, // 375 - 24 - 24 = 327px
   },
   languageListContent: {
     gap: 8,
@@ -323,7 +327,8 @@ const styles = StyleSheet.create({
   // Next Button
   nextButton: {
     marginLeft: 24,
-    width: 351, // Full width from back button (24px) to X button (375px)
+    marginRight: 24, // EQUAL padding on both sides
+    width: 327, // 375 - 24 - 24 = 327px
     height: 52,
     backgroundColor: '#27EDB7',
     borderRadius: 1000,
