@@ -113,9 +113,7 @@ export default function AddScreen() {
                   <View style={[
                     styles.radioButton,
                     isSelected && styles.radioButtonSelected,
-                  ]}>
-                    {isSelected && <View style={styles.radioButtonInner} />}
-                  </View>
+                  ]} />
                 </TouchableOpacity>
               );
             })}
@@ -294,22 +292,14 @@ const styles = StyleSheet.create({
   radioButton: {
     width: 20,
     height: 20,
-    borderRadius: 1000,
+    borderRadius: 10,
     borderWidth: 1.25,
     borderColor: '#E0E3EF',
     backgroundColor: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   radioButtonSelected: {
     borderWidth: 4,
     borderColor: '#1FBE92',
-  },
-  radioButtonInner: {
-    width: 8,
-    height: 8,
-    borderRadius: 1000,
-    backgroundColor: '#1FBE92',
   },
   // Next Button
   nextButton: {
