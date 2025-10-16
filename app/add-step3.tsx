@@ -273,7 +273,6 @@ const styles = StyleSheet.create({
   },
   // Text Input Section
   inputSection: {
-    flex: 1,
     paddingHorizontal: 24,
     gap: 12,
   },
@@ -367,6 +366,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 24,
     gap: 8,
+    marginTop: 8,
   },
   separatorLine: {
     flex: 1,
@@ -385,7 +385,8 @@ const styles = StyleSheet.create({
   // Action Buttons Section
   actionButtonsSection: {
     paddingHorizontal: 24,
-    gap: 12,
+    gap: 8,
+    marginTop: 8,
   },
   actionButton: {
     flexDirection: 'row',
