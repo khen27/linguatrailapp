@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Svg, Path, Rect, Defs, Pattern, Use, Image } from 'react-native-svg';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -10,12 +10,12 @@ export default function AddScreen() {
   const [selectedLanguage, setSelectedLanguage] = useState('English');
 
   const languages = [
-    { id: 'English', name: 'English', selected: true },
-    { id: 'French', name: 'French', selected: false },
-    { id: 'German', name: 'German', selected: false },
-    { id: 'Italian', name: 'Italian', selected: false },
-    { id: 'Czech', name: 'Czech', selected: false },
-    { id: 'Spanish', name: 'Spanish', selected: false },
+    { id: 'English', name: 'English', flag: require('../assets/icons/english-flag.png') },
+    { id: 'French', name: 'French', flag: require('../assets/icons/french-flag.png') },
+    { id: 'German', name: 'German', flag: require('../assets/icons/german-flag.png') },
+    { id: 'Italian', name: 'Italian', flag: require('../assets/icons/italian-flag.png') },
+    { id: 'Czech', name: 'Czech', flag: require('../assets/icons/czech-flag.png') },
+    { id: 'Spanish', name: 'Spanish', flag: require('../assets/icons/spanish-flag.png') },
   ];
 
   return (
@@ -94,10 +94,12 @@ export default function AddScreen() {
                   onPress={() => setSelectedLanguage(language.id)}
                   activeOpacity={0.8}
                 >
-                  {/* Flag Placeholder */}
-                  <View style={styles.flagPlaceholder}>
-                    <Text style={styles.flagText}>{language.name[0]}</Text>
-                  </View>
+                  {/* Flag Image */}
+                  <Image 
+                    source={language.flag} 
+                    style={styles.flagImage}
+                    resizeMode="cover"
+                  />
 
                   {/* Language Name */}
                   <Text style={[
@@ -217,9 +219,7 @@ const styles = StyleSheet.create({
   },
   // Title Section
   titleSection: {
-    marginLeft: 24,
-    marginRight: 24, // EQUAL padding on both sides
-    width: 327, // 375 - 24 - 24 = 327px
+    paddingHorizontal: 24,
     gap: 8,
   },
   mainTitle: {
@@ -246,9 +246,7 @@ const styles = StyleSheet.create({
   // Language List
   languageList: {
     flex: 1,
-    marginLeft: 24,
-    marginRight: 24, // EQUAL padding on both sides
-    width: 327, // 375 - 24 - 24 = 327px
+    paddingHorizontal: 24,
   },
   languageListContent: {
     gap: 8,
@@ -275,21 +273,10 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 4,
   },
-  flagPlaceholder: {
+  flagImage: {
     width: 26,
     height: 26,
-    borderRadius: 99,
-    backgroundColor: '#E0E3EF',
-    borderWidth: 1,
-    borderColor: '#E0E3EF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  flagText: {
-    fontFamily: 'Urbanist',
-    fontWeight: '600',
-    fontSize: 12,
-    color: '#263574',
+    borderRadius: 13,
   },
   languageName: {
     flex: 1,
@@ -326,9 +313,7 @@ const styles = StyleSheet.create({
   },
   // Next Button
   nextButton: {
-    marginLeft: 24,
-    marginRight: 24, // EQUAL padding on both sides
-    width: 327, // 375 - 24 - 24 = 327px
+    marginHorizontal: 24,
     height: 52,
     backgroundColor: '#27EDB7',
     borderRadius: 1000,
