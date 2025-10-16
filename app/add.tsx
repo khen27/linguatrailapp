@@ -200,7 +200,7 @@ const styles = StyleSheet.create({
   // Progress Bar
   progressSection: {
     marginLeft: 24,
-    width: 351, // Full width from back button (24px) to X button (375px)
+    width: 351, // Full width from back button (24px) to far right edge of X button (375px total)
   },
   progressTrack: {
     width: 351,
