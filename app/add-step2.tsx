@@ -1,22 +1,13 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default function AddScreen() {
+export default function AddStep2Screen() {
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState('English');
-
-  const languages = [
-    { id: 'English', name: 'English', flag: require('../assets/icons/english-flag.png') },
-    { id: 'French', name: 'French', flag: require('../assets/icons/french-flag.png') },
-    { id: 'German', name: 'German', flag: require('../assets/icons/german-flag.png') },
-    { id: 'Italian', name: 'Italian', flag: require('../assets/icons/italian-flag.png') },
-    { id: 'Czech', name: 'Czech', flag: require('../assets/icons/czech-flag.png') },
-    { id: 'Spanish', name: 'Spanish', flag: require('../assets/icons/spanish-flag.png') },
-  ];
+  const [textInput, setTextInput] = useState('');
 
   return (
     <View style={styles.screen}>
@@ -61,8 +52,12 @@ export default function AddScreen() {
           pointerEvents="none"
         />
 
-        {/* Content Container */}
-        <View style={styles.contentContainer}>
+        {/* Content Container (keyboard-aware) */}
+        <KeyboardAvoidingView
+          style={styles.contentContainer}
+          behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+          keyboardVerticalOffset={0}
+        >
           {/* Progress Bar Section */}
           <View style={styles.progressSection}>
             <View style={styles.progressTrack}>
@@ -72,62 +67,32 @@ export default function AddScreen() {
 
           {/* Title and Subtitle */}
           <View style={styles.titleSection}>
-            <Text style={styles.mainTitle}>Choose Language</Text>
-            <Text style={styles.subtitle}>What language are you down to tackle?</Text>
+            <Text style={styles.mainTitle}>Give Insights</Text>
+            <Text style={styles.subtitle}>Upload the document, take photo or paste text of the language task you want to get help with.</Text>
           </View>
 
-          {/* Language List */}
-          <ScrollView 
-            style={styles.languageList}
-            showsVerticalScrollIndicator={false}
-            contentContainerStyle={styles.languageListContent}
-          >
-            {languages.map((language, index) => {
-              const isSelected = language.id === selectedLanguage;
-              return (
-                <TouchableOpacity
-                  key={language.id}
-                  style={[
-                    styles.languageItem,
-                    isSelected && styles.languageItemSelected,
-                  ]}
-                  onPress={() => setSelectedLanguage(language.id)}
-                  activeOpacity={0.8}
-                >
-                  {/* Flag Image */}
-                  <Image 
-                    source={language.flag} 
-                    style={styles.flagImage}
-                    resizeMode="cover"
-                  />
+          {/* Text Input Area */}
+          <View style={styles.inputSection}>
+            <Text style={styles.inputLabel}>Relevant Text</Text>
+            <TextInput
+              style={styles.textInput}
+              placeholder="Paste the text here..."
+              placeholderTextColor="#5C5C5C"
+              multiline={true}
+              value={textInput}
+              onChangeText={setTextInput}
+            />
+          </View>
 
-                  {/* Language Name */}
-                  <Text style={[
-                    styles.languageName,
-                    isSelected && styles.languageNameSelected,
-                  ]}>
-                    {language.name}
-                  </Text>
-
-                  {/* Radio Button */}
-                  <View style={[
-                    styles.radioButton,
-                    isSelected && styles.radioButtonSelected,
-                  ]} />
-                </TouchableOpacity>
-              );
-            })}
-          </ScrollView>
-
-          {/* Next Button */}
+          {/* Skip Button */}
           <TouchableOpacity 
-            style={styles.nextButton} 
+            style={styles.skipButton} 
             activeOpacity={0.8}
-            onPress={() => router.push('/add-step2')}
+            onPress={() => router.push('/add-step3')}
           >
-            <Text style={styles.nextButtonText}>Next</Text>
+            <Text style={styles.skipButtonText}>Skip</Text>
           </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
       </View>
     </View>
   );
@@ -209,7 +174,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressFill: {
-    width: 109,
+    width: 218,
     height: 10,
     backgroundColor: '#27EDB7',
     borderRadius: 1000,
@@ -240,68 +205,37 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     width: '100%',
   },
-  // Language List
-  languageList: {
+  // Text Input Section
+  inputSection: {
     flex: 1,
     paddingHorizontal: 24,
+    gap: 12,
   },
-  languageListContent: {
-    gap: 8,
-    paddingBottom: 20,
-  },
-  languageItem: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 16,
-    gap: 8,
-    width: '100%',
-    height: 58,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    borderWidth: 1.25,
-    borderColor: 'transparent',
-  },
-  languageItemSelected: {
-    backgroundColor: '#E9FDF8',
-    borderColor: '#1FBE92',
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.04,
-    shadowRadius: 16,
-    elevation: 4,
-  },
-  flagImage: {
-    width: 26,
-    height: 26,
-    borderRadius: 13,
-  },
-  languageName: {
-    flex: 1,
+  inputLabel: {
     fontFamily: 'Urbanist',
-    fontWeight: '500',
+    fontWeight: '600',
     fontSize: 16,
     lineHeight: 24,
     letterSpacing: -0.32,
     color: '#263574',
   },
-  languageNameSelected: {
-    fontWeight: '600',
-    color: '#1FBE92',
-  },
-  radioButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 1.25,
-    borderColor: '#E0E3EF',
+  textInput: {
+    flex: 1,
     backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#E0E3EF',
+    borderRadius: 16,
+    padding: 16,
+    fontFamily: 'Urbanist',
+    fontWeight: '400',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.32,
+    color: '#263574',
+    textAlignVertical: 'top',
   },
-  radioButtonSelected: {
-    borderWidth: 4,
-    borderColor: '#1FBE92',
-  },
-  // Next Button
-  nextButton: {
+  // Skip Button
+  skipButton: {
     marginHorizontal: 24,
     height: 52,
     backgroundColor: '#27EDB7',
@@ -311,7 +245,7 @@ const styles = StyleSheet.create({
     marginTop: 'auto',
     zIndex: 3,
   },
-  nextButtonText: {
+  skipButtonText: {
     fontFamily: 'Urbanist',
     fontWeight: '600',
     fontSize: 16,

@@ -19,6 +19,8 @@ export default function RootLayout() {
         <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
         <Stack.Screen name="edit-profile" options={{ headerShown: false }} />
         <Stack.Screen name="add" options={{ headerShown: false }} />
+        <Stack.Screen name="add-step2" options={{ headerShown: false }} />
+        <Stack.Screen name="add-step3" options={{ headerShown: false }} />
       </Stack>
       <StatusBar style="auto" />
     </ThemeProvider>
