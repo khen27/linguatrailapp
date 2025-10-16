@@ -1,4 +1,5 @@
-import { View, StyleSheet, Text, Image, SafeAreaView, ScrollView } from 'react-native';
+import { View, StyleSheet, Text, Image, ScrollView } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
 
 export default function InsightsScreen() {
