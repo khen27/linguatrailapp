@@ -125,11 +125,6 @@ export default function AddScreen() {
           </TouchableOpacity>
         </View>
       </View>
-
-      {/* Home Indicator */}
-      <View style={styles.homeIndicatorContainer}>
-        <View style={styles.homeIndicator} />
-      </View>
     </View>
   );
 }
@@ -320,21 +315,5 @@ const styles = StyleSheet.create({
     letterSpacing: -0.32,
     color: '#2F4291',
     textAlign: 'center',
-  },
-  // Home Indicator
-  homeIndicatorContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  homeIndicator: {
-    width: 134,
-    height: 5,
-    backgroundColor: '#263574',
-    borderRadius: 100,
   },
 });
