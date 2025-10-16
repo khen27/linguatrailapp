@@ -62,6 +62,22 @@ export default function AddStep3Screen() {
 
   const handleTakePhoto = async () => {
     try {
+      // Check if running on simulator/emulator (with fallback if expo-device isn't available)
+      let isSimulator = false;
+      try {
+        const Device = await import('expo-device');
+        isSimulator = !Device.default.isDevice;
+      } catch (deviceError) {
+        // If expo-device isn't available, assume it might be a simulator
+        // This is a safe fallback since simulators don't have cameras anyway
+        isSimulator = true;
+      }
+
+      if (isSimulator) {
+        Alert.alert('Simulator Detected', 'Camera is not available on simulators. Please use a physical device to take photos.');
+        return;
+      }
+
       const ImagePickerLib = await import('expo-image-picker');
       if (!ImagePickerLib || !ImagePickerLib.launchCameraAsync) {
         Alert.alert('Unavailable', 'Camera is not available in this build.');
