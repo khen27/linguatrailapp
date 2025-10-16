@@ -8,6 +8,14 @@ import { LinearGradient } from 'expo-linear-gradient';
 export default function AddStep3Screen() {
   const router = useRouter();
   const [selectedTextType, setSelectedTextType] = useState('');
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const textTypeOptions = [
+    'Text Document',
+    'PDF',
+    'Image',
+    'Voice Note'
+  ];
 
   return (
     <View style={styles.screen}>
@@ -77,6 +85,7 @@ export default function AddStep3Screen() {
             <TouchableOpacity 
               style={styles.dropdownButton}
               activeOpacity={0.8}
+              onPress={() => setIsDropdownOpen(!isDropdownOpen)}
             >
               <Text style={styles.dropdownText}>
                 {selectedTextType || 'Choose common textbook'}
@@ -85,6 +94,38 @@ export default function AddStep3Screen() {
                 <Path d="M5 7.5L10 12.5L15 7.5" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </TouchableOpacity>
+
+            {/* Dropdown Menu */}
+            {isDropdownOpen && (
+              <View style={styles.dropdownMenu}>
+                {textTypeOptions.map((option, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={[
+                      styles.dropdownOption,
+                      selectedTextType === option && styles.dropdownOptionSelected,
+                    ]}
+                    onPress={() => {
+                      setSelectedTextType(option);
+                      setIsDropdownOpen(false);
+                    }}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={[
+                      styles.dropdownOptionText,
+                      selectedTextType === option && styles.dropdownOptionTextSelected,
+                    ]}>
+                      {option}
+                    </Text>
+                    {selectedTextType === option && (
+                      <View style={styles.dropdownRadioButton}>
+                        <View style={styles.dropdownRadioButtonInner} />
+                      </View>
+                    )}
+                  </TouchableOpacity>
+                ))}
+              </View>
+            )}
           </View>
 
           {/* "or" Separator */}
@@ -263,6 +304,62 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: -0.32,
     color: '#5C5C5C',
+  },
+  dropdownMenu: {
+    position: 'absolute',
+    top: 58,
+    left: 0,
+    right: 0,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 16,
+    borderWidth: 1,
+    borderColor: '#E0E3EF',
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 8 },
+    shadowOpacity: 0.04,
+    shadowRadius: 16,
+    elevation: 4,
+    zIndex: 10,
+  },
+  dropdownOption: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: '#F6F7FA',
+  },
+  dropdownOptionSelected: {
+    backgroundColor: '#E9FDF8',
+  },
+  dropdownOptionText: {
+    flex: 1,
+    fontFamily: 'Urbanist',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.32,
+    color: '#263574',
+  },
+  dropdownOptionTextSelected: {
+    fontWeight: '600',
+    color: '#1FBE92',
+  },
+  dropdownRadioButton: {
+    width: 20,
+    height: 20,
+    borderRadius: 10,
+    borderWidth: 4,
+    borderColor: '#1FBE92',
+    backgroundColor: '#FFFFFF',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  dropdownRadioButtonInner: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    backgroundColor: '#1FBE92',
   },
   // Separator Section
   separatorSection: {
