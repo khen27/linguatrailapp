@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
-import { Svg, Path } from 'react-native-svg';
+import { Svg, Path, Rect, Defs, Pattern, Use, Image } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -173,10 +173,10 @@ const styles = StyleSheet.create({
   // Main Content Card
   contentCard: {
     position: 'absolute',
-    bottom: 0,
+    top: 122, // 52px (back button top) + 42px (back button height) + 28px gap (14px + 14px more)
     left: 0,
     right: 0,
-    height: 703,
+    bottom: 0,
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
