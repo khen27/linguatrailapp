@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, Alert, Image } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import * as DocumentPicker from 'expo-document-picker';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function AddStep3Screen() {
   const router = useRouter();
   const [selectedTextType, setSelectedTextType] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState([]);
 
   const textTypeOptions = [
     'Text Document',
@@ -16,6 +19,75 @@ export default function AddStep3Screen() {
     'Image',
     'Voice Note'
   ];
+
+  const handleUploadDocument = async () => {
+    try {
+      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (!permission.granted) {
+        Alert.alert('Permission Required', 'Photo library access is required to select images');
+        return;
+      }
+
+      const result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: false,
+        quality: 0.9,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const asset = result.assets[0];
+        const newFile = {
+          id: Date.now().toString(),
+          name: asset.fileName || `Image_${Date.now()}.jpg`,
+          uri: asset.uri,
+          type: 'image',
+          size: asset.fileSize,
+        };
+        setUploadedFiles(prev => [...prev, newFile]);
+        Alert.alert('Success', 'Image added successfully!');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to pick image');
+      console.error('Image pick error:', error);
+    }
+  };
+
+  const handleTakePhoto = async () => {
+    try {
+      const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
+      
+      if (permissionResult.granted === false) {
+        Alert.alert('Permission Required', 'Camera permission is required to take photos');
+        return;
+      }
+
+      const result = await ImagePicker.launchCameraAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 0.8,
+      });
+
+      if (!result.canceled && result.assets && result.assets.length > 0) {
+        const newFile = {
+          id: Date.now().toString(),
+          name: `Photo_${Date.now()}.jpg`,
+          uri: result.assets[0].uri,
+          type: 'image',
+          size: result.assets[0].fileSize,
+        };
+        setUploadedFiles(prev => [...prev, newFile]);
+        Alert.alert('Success', 'Photo taken successfully!');
+      }
+    } catch (error) {
+      Alert.alert('Error', 'Failed to take photo');
+      console.error('Camera error:', error);
+    }
+  };
+
+  const handleDeleteFile = (fileId) => {
+    setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
+  };
 
   return (
     <View style={styles.screen}>
@@ -137,7 +209,11 @@ export default function AddStep3Screen() {
 
           {/* Action Buttons */}
           <View style={styles.actionButtonsSection}>
-            <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
+            <TouchableOpacity 
+              style={styles.actionButton} 
+              activeOpacity={0.8}
+              onPress={handleUploadDocument}
+            >
               <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <Path d="M12 5V19" stroke="#1FBE92" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 <Path d="M5 12H19" stroke="#1FBE92" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -145,7 +221,11 @@ export default function AddStep3Screen() {
               <Text style={styles.actionButtonText}>Upload Textbook</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
+            <TouchableOpacity 
+              style={styles.actionButton} 
+              activeOpacity={0.8}
+              onPress={handleTakePhoto}
+            >
               <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                 <Path d="M23 19C23 19.5304 22.7893 20.0391 22.4142 20.4142C22.0391 20.7893 21.5304 21 21 21H3C2.46957 21 1.96086 20.7893 1.58579 20.4142C1.21071 20.0391 1 19.5304 1 19V8C1 7.46957 1.21071 6.96086 1.58579 6.58579C1.96086 6.21071 2.46957 6 3 6H7L9 4H15L17 6H21C21.5304 6 22.0391 6.21071 22.4142 6.58579C22.7893 6.96086 23 7.46957 23 8V19Z" stroke="#1FBE92" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 <Path d="M12 17C14.2091 17 16 15.2091 16 13C16 10.7909 14.2091 9 12 9C9.79086 9 8 10.7909 8 13C8 15.2091 9.79086 17 12 17Z" stroke="#1FBE92" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -153,6 +233,26 @@ export default function AddStep3Screen() {
               <Text style={styles.actionButtonText}>Take Photo</Text>
             </TouchableOpacity>
           </View>
+
+          {/* Thumbnails Grid */}
+          {uploadedFiles.filter(f => f.type === 'image').length > 0 && (
+            <View style={styles.thumbnailGrid}>
+              {uploadedFiles.filter(f => f.type === 'image').map(file => (
+                <View key={file.id} style={styles.thumbnailItem}>
+                  <Image source={{ uri: file.uri }} style={styles.thumbnailImage} />
+                  <TouchableOpacity
+                    style={styles.deleteBadge}
+                    onPress={() => handleDeleteFile(file.id)}
+                    activeOpacity={0.8}
+                  >
+                    <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <Path d="M6 7H14M8 7V5H12V7M7 7V15H13V7" stroke="#F84E5B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                    </Svg>
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+          )}
 
           {/* Skip Button */}
           <TouchableOpacity style={styles.skipButton} activeOpacity={0.8}>
@@ -408,6 +508,37 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     letterSpacing: -0.32,
     color: '#1FBE92',
+  },
+  thumbnailGrid: {
+    paddingHorizontal: 24,
+    marginTop: 8,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  thumbnailItem: {
+    width: 101,
+    height: 101,
+    borderRadius: 12,
+    overflow: 'hidden',
+    borderWidth: 1.25,
+    borderColor: '#F6F7FA',
+    position: 'relative',
+  },
+  thumbnailImage: {
+    width: '100%',
+    height: '100%',
+  },
+  deleteBadge: {
+    position: 'absolute',
+    top: 6,
+    right: 6,
+    width: 36,
+    height: 36,
+    borderRadius: 4,
+    backgroundColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   // Skip Button
   skipButton: {
