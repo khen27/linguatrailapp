@@ -5,7 +5,9 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as DocumentPicker from 'expo-document-picker';
-import * as ImagePicker from 'expo-image-picker';
+// NOTE: Avoid static import of expo-image-picker to prevent runtime crash
+// when the dev client doesn't include the native module. We'll dynamically
+// import it inside handlers.
 
 export default function AddStep3Screen() {
   const router = useRouter();
@@ -22,14 +24,20 @@ export default function AddStep3Screen() {
 
   const handleUploadDocument = async () => {
     try {
-      const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+      const ImagePickerLib = await import('expo-image-picker');
+      if (!ImagePickerLib || !ImagePickerLib.launchImageLibraryAsync) {
+        Alert.alert('Unavailable', 'Image Picker is not available in this build.');
+        return;
+      }
+
+      const permission = await ImagePickerLib.requestMediaLibraryPermissionsAsync();
       if (!permission.granted) {
         Alert.alert('Permission Required', 'Photo library access is required to select images');
         return;
       }
 
-      const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      const result = await ImagePickerLib.launchImageLibraryAsync({
+        mediaTypes: ImagePickerLib.MediaTypeOptions.Images,
         allowsEditing: false,
         quality: 0.9,
       });
@@ -54,15 +62,20 @@ export default function AddStep3Screen() {
 
   const handleTakePhoto = async () => {
     try {
-      const permissionResult = await ImagePicker.requestCameraPermissionsAsync();
-      
+      const ImagePickerLib = await import('expo-image-picker');
+      if (!ImagePickerLib || !ImagePickerLib.launchCameraAsync) {
+        Alert.alert('Unavailable', 'Camera is not available in this build.');
+        return;
+      }
+
+      const permissionResult = await ImagePickerLib.requestCameraPermissionsAsync();
       if (permissionResult.granted === false) {
         Alert.alert('Permission Required', 'Camera permission is required to take photos');
         return;
       }
 
-      const result = await ImagePicker.launchCameraAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      const result = await ImagePickerLib.launchCameraAsync({
+        mediaTypes: ImagePickerLib.MediaTypeOptions.Images,
         allowsEditing: true,
         aspect: [4, 3],
         quality: 0.8,
