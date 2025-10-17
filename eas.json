@@ -17,11 +17,19 @@
         "android": { "buildType": "app-bundle" }
       },
       "production": {
-        "channel": "production"
+        "channel": "production",
+        "autoIncrement": "buildNumber",
+        "ios": { "resourceClass": "m-medium" }
       }
     },
     "submit": {
-      "production": {}
+      "production": {
+        "ios":{
+          "ascAppId": "6754158208",       
+          "language": "en-US",
+          "companyName": "Henderson & Van Gogh"
+        }
+      }
     }
   }
   
