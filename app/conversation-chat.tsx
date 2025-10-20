@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
+import { ScreenHeader } from '@/components/ui/screen-header';
 
 export default function ConversationChatScreen() {
   const router = useRouter();
@@ -24,26 +25,39 @@ export default function ConversationChatScreen() {
       />
       <View style={styles.container}>
         <SafeAreaView style={styles.safeArea} edges={['top']}>
-          {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.headerTitle}>English Speaking Session</Text>
+          {/* Header Section */}
+          <View style={styles.headerSection}>
+            <ScreenHeader
+              title="English Speaking Session"
+              onBackPress={handleBackPress}
+              onMenuPress={handleMenuPress}
+            />
           </View>
 
-          {/* Progress Bar */}
+          {/* Progress Bar Section */}
           <View style={styles.progressSection}>
-            <View style={styles.progressBar}>
-              <View style={styles.progressFill} />
+            {/* Progress bar will be implemented in Phase 4 */}
+            <View style={styles.progressBarPlaceholder}>
+              <View style={styles.progressBar}>
+                <View style={styles.progressFill} />
+              </View>
             </View>
           </View>
 
-          {/* Messages Area */}
-          <View style={styles.messagesArea}>
-            <Text style={styles.placeholderText}>Chat interface coming soon...</Text>
+          {/* Messages Area Section */}
+          <View style={styles.messagesSection}>
+            {/* Messages will be implemented in Phase 5 */}
+            <View style={styles.messagesArea}>
+              <Text style={styles.placeholderText}>Messages area coming in Phase 5...</Text>
+            </View>
           </View>
 
-          {/* Footer */}
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>Input area coming soon...</Text>
+          {/* Footer Section */}
+          <View style={styles.footerSection}>
+            {/* Footer will be implemented in Phase 9 */}
+            <View style={styles.footerPlaceholder}>
+              <Text style={styles.footerText}>Input area coming in Phase 9...</Text>
+            </View>
           </View>
         </SafeAreaView>
       </View>
@@ -52,6 +66,7 @@ export default function ConversationChatScreen() {
 }
 
 const styles = StyleSheet.create({
+  // Root container with proper background
   container: {
     flex: 1,
     backgroundColor: '#F6F7FA',
@@ -59,22 +74,19 @@ const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
   },
-  header: {
-    paddingHorizontal: 24,
-    paddingVertical: 12,
-    alignItems: 'center',
+
+  // Header Section (Phase 3 - Completed)
+  headerSection: {
+    // ScreenHeader component handles its own padding
   },
-  headerTitle: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#263574',
-    letterSpacing: -0.32,
-    lineHeight: 24,
-    fontFamily: 'Urbanist',
-  },
+
+  // Progress Bar Section (Phase 4)
   progressSection: {
     paddingHorizontal: 24,
     marginBottom: 24,
+  },
+  progressBarPlaceholder: {
+    height: 10,
   },
   progressBar: {
     height: 10,
@@ -88,9 +100,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#27EDB7',
     borderRadius: 1000,
   },
-  messagesArea: {
+
+  // Messages Section (Phase 5)
+  messagesSection: {
     flex: 1,
     paddingHorizontal: 24,
+  },
+  messagesArea: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -98,15 +115,23 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#5C5C5C',
     fontFamily: 'Urbanist',
+    textAlign: 'center',
   },
-  footer: {
+
+  // Footer Section (Phase 9)
+  footerSection: {
     paddingHorizontal: 24,
     paddingBottom: 32,
+  },
+  footerPlaceholder: {
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 60,
   },
   footerText: {
     fontSize: 14,
     color: '#5C5C5C',
     fontFamily: 'Urbanist',
+    textAlign: 'center',
   },
 });
