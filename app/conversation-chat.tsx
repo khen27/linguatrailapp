@@ -57,6 +57,15 @@ export default function ConversationChatScreen() {
     []
   );
 
+  // Show actions only on the last assistant message
+  const lastAssistantId = useMemo(() => {
+    let lastId = '';
+    for (const m of messages) {
+      if (m.role === 'assistant') lastId = m.id;
+    }
+    return lastId;
+  }, [messages]);
+
   const handleBackPress = () => {
     router.back();
   };
@@ -106,6 +115,45 @@ export default function ConversationChatScreen() {
                 item.role === 'assistant' ? (
                   <View style={styles.assistantRow}>
                     <Text style={styles.assistantText}>{item.text}</Text>
+                    {item.id === lastAssistantId && (
+                      <View style={styles.actionsRow}>
+                        <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
+                          <Image
+                            source={require('@/assets/icons/vuesax/linear/copy.png')}
+                            style={styles.actionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
+                          <Image
+                            source={require('@/assets/icons/vuesax/linear/like.png')}
+                            style={styles.actionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
+                          <Image
+                            source={require('@/assets/icons/vuesax/linear/dislike.png')}
+                            style={styles.actionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
+                          <Image
+                            source={require('@/assets/icons/vuesax/linear/refresh-2.png')}
+                            style={styles.actionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
+                          <Image
+                            source={require('@/assets/icons/vuesax/linear/volume-high.png')}
+                            style={styles.actionIcon}
+                            resizeMode="contain"
+                          />
+                        </TouchableOpacity>
+                      </View>
+                    )}
                   </View>
                 ) : (
                   <View style={styles.userRow}>
@@ -118,42 +166,7 @@ export default function ConversationChatScreen() {
               showsVerticalScrollIndicator={false}
               />
             </View>
-
-            {/* Confirmations Row */}
-            <View style={styles.actionsRow}>
-              <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
-                <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                  <Path d="M10.6663 8.59998V11.4C10.6663 13.7333 9.73301 14.6666 7.39967 14.6666H4.59967C2.26634 14.6666 1.33301 13.7333 1.33301 11.4V8.59998C1.33301 6.26665 2.26634 5.33331 4.59967 5.33331H7.39967C9.73301 5.33331 10.6663 6.26665 10.6663 8.59998Z" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <Path d="M14.6663 4.59998V7.39998C14.6663 9.73331 13.733 10.6666 11.3997 10.6666H10.6663V8.59998C10.6663 6.26665 9.73301 5.33331 7.39967 5.33331H5.33301V4.59998C5.33301 2.26665 6.26634 1.33331 8.59967 1.33331H11.3997C13.733 1.33331 14.6663 2.26665 14.6663 4.59998Z" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                </Svg>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path d="M7 11V19C7 19.5523 7.44772 20 8 20H15C15.5523 20 16 19.5523 16 19V11" stroke="#5C5C5C" strokeWidth="1.5"/>
-                  <Path d="M7 11L10.5858 7.41421C11.3668 6.63317 12.6332 6.63317 13.4142 7.41421L17 11" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round"/>
-                </Svg>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path d="M17 13V19C17 19.5523 16.5523 20 16 20H9C8.44772 20 8 19.5523 8 19V13" stroke="#5C5C5C" strokeWidth="1.5"/>
-                  <Path d="M17 13L13.4142 9.41421C12.6332 8.63316 11.3668 8.63316 10.5858 9.41421L7 13" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round"/>
-                </Svg>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path d="M4 4V9H9" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <Path d="M20 20V15H15" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                  <Path d="M20 9C18.8044 6.13986 15.9559 4.25 12.8042 4.25C9.65263 4.25 6.80418 6.13986 5.60862 9" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round"/>
-                  <Path d="M4 15C5.19556 17.8601 8.04402 19.75 11.1957 19.75C14.3473 19.75 17.1958 17.8601 18.3914 15" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round"/>
-                </Svg>
-              </TouchableOpacity>
-              <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path d="M4 10V14H7L11 18V6L7 10H4Z" stroke="#5C5C5C" strokeWidth="1.5" strokeLinejoin="round"/>
-                  <Path d="M15 10C15.5304 10 16.0391 10.2107 16.4142 10.5858C16.7893 10.9609 17 11.4696 17 12C17 12.5304 16.7893 13.0391 16.4142 13.4142C16.0391 13.7893 15.5304 14 15 14" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round"/>
-                </Svg>
-              </TouchableOpacity>
-            </View>
+            
           </View>
 
           {/* Footer Section - Bottom Overlay */}
@@ -236,17 +249,28 @@ const styles = StyleSheet.create({
   actionsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
+    justifyContent: 'flex-start',
+    gap: 12,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   actionButton: {
-    width: 40,
-    height: 40,
+    width: 32,
+    height: 32,
     alignItems: 'center',
     justifyContent: 'center',
+    marginRight: 12,
+  },
+  actionIcon: {
+    width: 16,
+    height: 16,
   },
   assistantRow: {
     marginBottom: 16,
+    maxWidth: 270,
+    backgroundColor: '#F6F7FA',
+    borderRadius: 16,
+    padding: 0,
   },
   assistantText: {
     fontSize: 14,
@@ -255,6 +279,8 @@ const styles = StyleSheet.create({
     lineHeight: 21,
     letterSpacing: -0.28,
     fontFamily: 'Urbanist',
+    paddingTop: 0,
+    paddingBottom: 12,
   },
   userRow: {
     alignItems: 'flex-end',
