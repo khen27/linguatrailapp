@@ -9,11 +9,19 @@ import * as DocumentPicker from 'expo-document-picker';
 // when the dev client doesn't include the native module. We'll dynamically
 // import it inside handlers.
 
+interface UploadedFile {
+  id: string;
+  name: string;
+  uri: string;
+  type: string;
+  size?: number;
+}
+
 export default function AddStep3Screen() {
   const router = useRouter();
   const [selectedTextType, setSelectedTextType] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
   const textTypeOptions = [
     'Text Document',
@@ -114,7 +122,7 @@ export default function AddStep3Screen() {
     }
   };
 
-  const handleDeleteFile = (fileId) => {
+  const handleDeleteFile = (fileId: string) => {
     setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
   };
 

@@ -370,7 +370,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 8,
     flexDirection: 'row',
-    alignItems: 'center',
   },
   lastWeekBar: {
     backgroundColor: '#F5C63B',
