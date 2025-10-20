@@ -164,6 +164,7 @@ export default function ConversationChatScreen() {
               style={styles.footerSection}
             >
               <View style={styles.composerCard}>
+                <Text style={styles.composerSubtitle}>Ask anything...</Text>
                 <View style={styles.composerRow}>
                   <TouchableOpacity style={styles.attachButton} activeOpacity={0.8}>
                     <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
@@ -280,13 +281,15 @@ const styles = StyleSheet.create({
   // Footer Section (Phase 9)
   footerSection: {
     paddingHorizontal: 16,
-    paddingBottom: 24,
+    paddingBottom: 16,
+    flex: 1,
   },
   bottomOverlay: {
     position: 'absolute',
     left: 0,
     right: 0,
     bottom: 0,
+    height: 200,
     backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
@@ -302,7 +305,11 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#F6F7FA',
     borderRadius: 16,
-    padding: 16,
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 16,
+    height: 122,
+    justifyContent: 'space-between',
   },
   composerSubtitle: {
     fontSize: 16,
@@ -316,6 +323,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
+    height: 42,
+    marginBottom: 0,
   },
   attachButton: {
     width: 42,
@@ -325,18 +334,18 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
-    minHeight: 42,
-    maxHeight: 96,
+    height: 42,
     color: '#263574',
     fontSize: 16,
     fontWeight: '500',
     fontFamily: 'Urbanist',
     marginHorizontal: 16,
+    textAlignVertical: 'center',
   },
   sendButton: {
     width: 42,
     height: 42,
-    borderRadius: 48,
+    borderRadius: 21,
     backgroundColor: '#2F4291',
     alignItems: 'center',
     justifyContent: 'center',
