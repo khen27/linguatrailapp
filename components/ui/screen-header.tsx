@@ -75,8 +75,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#263574',
-    letterSpacing: -0.32,
-    lineHeight: 24,
+    letterSpacing: -0.32, // -2% of 16
+    lineHeight: 24, // 150% of 16
     fontFamily: 'Urbanist',
   },
 });
