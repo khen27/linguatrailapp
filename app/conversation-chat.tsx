@@ -175,7 +175,7 @@ export default function ConversationChatScreen() {
                   </TouchableOpacity>
                   <TextInput
                     style={styles.textInput}
-                    placeholder="Ask anything..."
+                    placeholder=""
                     placeholderTextColor="#5C5C5C"
                     multiline
                   />
@@ -305,26 +305,30 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#F6F7FA',
     borderRadius: 16,
-    paddingHorizontal: 16,
-    paddingTop: 16,
-    paddingBottom: 16,
     height: 122,
-    justifyContent: 'space-between',
+    position: 'relative',
   },
-  composerSubtitle: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#5C5C5C',
-    opacity: 0.9,
-    lineHeight: 24,
-    fontFamily: 'Urbanist',
-  },
+      composerSubtitle: {
+        position: 'absolute',
+        top: 16,
+        left: 16,
+        fontSize: 16,
+        fontWeight: '500',
+        color: '#5C5C5C',
+        opacity: 0.9,
+        lineHeight: 24,
+        fontFamily: 'Urbanist',
+        zIndex: 1,
+      },
   composerRow: {
+    position: 'absolute',
+    bottom: 16,
+    left: 16,
+    right: 16,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     height: 42,
-    marginBottom: 0,
   },
   attachButton: {
     width: 42,
