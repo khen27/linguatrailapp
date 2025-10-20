@@ -255,11 +255,10 @@ const styles = StyleSheet.create({
     paddingBottom: 0,
   },
   actionButton: {
-    width: 32,
-    height: 32,
+    width: 16,
+    height: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 12,
   },
   actionIcon: {
     width: 16,
