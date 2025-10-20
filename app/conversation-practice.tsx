@@ -128,11 +128,6 @@ export default function ConversationPracticeScreen() {
             {/* Bottom Gradient Overlay */}
             <View style={styles.bottomGradient} />
           </View>
-
-          {/* iOS Home Indicator */}
-          <View style={styles.homeIndicatorContainer}>
-            <View style={styles.homeIndicator} />
-          </View>
         </SafeAreaView>
       </View>
     </>
@@ -276,20 +271,5 @@ const styles = StyleSheet.create({
     height: 109,
     backgroundColor: 'rgba(255, 255, 255, 0)',
     // Note: Linear gradient would require react-native-linear-gradient or similar library
-  },
-  homeIndicatorContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    height: 36,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  homeIndicator: {
-    width: 134,
-    height: 5,
-    backgroundColor: '#263574',
-    borderRadius: 100,
   },
 });
