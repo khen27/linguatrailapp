@@ -27,7 +27,7 @@ export default function LessonsScreen() {
           <View style={styles.header}>
             <View style={styles.headerLeft}>
               <Text style={styles.headerTitle}>Lessons</Text>
-              <Text style={styles.headerSubtitle}>This is a placeholder to showcase the 3 different ways to learn within LinguaTrail. These screens will be rehomed and are just here for demo purposes</Text>
+                  <Text style={styles.headerSubtitle}>This is a placeholder screen for our learning modalities.</Text>
             </View>
             <View style={styles.demoBubble}>
               <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 8,
+    flexShrink: 0,
     gap: 6,
   },
   demoBubbleText: {
