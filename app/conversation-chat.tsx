@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
 import { ScreenHeader } from '@/components/ui/screen-header';
+import { ProgressBar } from '@/components/ui/progress-bar';
 
 export default function ConversationChatScreen() {
   const router = useRouter();
+  const [progress, setProgress] = useState(0.25); // 25% progress for demo
 
   const handleBackPress = () => {
     router.back();
@@ -36,12 +38,12 @@ export default function ConversationChatScreen() {
 
           {/* Progress Bar Section */}
           <View style={styles.progressSection}>
-            {/* Progress bar will be implemented in Phase 4 */}
-            <View style={styles.progressBarPlaceholder}>
-              <View style={styles.progressBar}>
-                <View style={styles.progressFill} />
-              </View>
-            </View>
+            <ProgressBar
+              progress={progress}
+              height={10}
+              backgroundColor="#FFFFFF"
+              fillColor="#27EDB7"
+            />
           </View>
 
           {/* Messages Area Section */}
@@ -80,25 +82,10 @@ const styles = StyleSheet.create({
     // ScreenHeader component handles its own padding
   },
 
-  // Progress Bar Section (Phase 4)
+  // Progress Bar Section (Phase 4 - Completed)
   progressSection: {
     paddingHorizontal: 24,
     marginBottom: 24,
-  },
-  progressBarPlaceholder: {
-    height: 10,
-  },
-  progressBar: {
-    height: 10,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 1000,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    width: '25%',
-    height: '100%',
-    backgroundColor: '#27EDB7',
-    borderRadius: 1000,
   },
 
   // Messages Section (Phase 5)
