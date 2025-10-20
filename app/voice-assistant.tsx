@@ -56,12 +56,13 @@ export default function VoiceAssistantScreen() {
             </Text>
           </View>
 
-          {/* User Response Text */}
-          <View style={styles.responseSection}>
-            <Text style={styles.responseText}>
-              I wake up at seven o'clock.
-            </Text>
-          </View>
+        </View>
+
+        {/* User Response Text - Absolutely Positioned */}
+        <View style={styles.responseSection}>
+          <Text style={styles.responseText}>
+            I wake up at seven o'clock.
+          </Text>
         </View>
 
         {/* AI Charm Image - Absolutely Positioned */}
@@ -90,21 +91,6 @@ export default function VoiceAssistantScreen() {
               d={`M 0 120 Q ${screenWidth / 2} 10 ${screenWidth} 120 L ${screenWidth} 300 L 0 300 Z`}
               fill="white"
             />
-          </Svg>
-          {/* Soft gradient to blend overlay top */}
-          <Svg
-            width={screenWidth}
-            height="60"
-            viewBox={`0 0 ${screenWidth} 60`}
-            style={{ position: 'absolute', top: 0 }}
-          >
-            <Defs>
-              <LinearGradient id="fadeDown" x1="0" y1="0" x2="0" y2="1">
-                <Stop offset="0" stopColor="#FFFFFF" stopOpacity="0.9" />
-                <Stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
-              </LinearGradient>
-            </Defs>
-            <Rect x="0" y="0" width={screenWidth} height="60" fill="url(#fadeDown)" />
           </Svg>
           
           {/* Action Buttons */}
@@ -196,9 +182,12 @@ const styles = StyleSheet.create({
     zIndex: 0,
   },
   responseSection: {
+    position: 'absolute',
+    bottom: 340, // 300px overlay height + 40px gap
+    left: 0,
+    right: 0,
     paddingHorizontal: 24,
-    marginBottom: 16,
-    marginTop: 272,
+    alignItems: 'center',
   },
   responseText: {
     fontSize: 22,
