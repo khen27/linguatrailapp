@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
-import { Svg, Rect, Path } from 'react-native-svg';
+import { Svg, Rect, Path, Defs, LinearGradient, Stop } from 'react-native-svg';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { SpeakingIcon } from '@/components/ui/speaking-icon';
@@ -62,7 +62,51 @@ export default function VoiceAssistantScreen() {
               I wake up at seven o'clock.
             </Text>
           </View>
+        </View>
 
+        {/* AI Charm Image - Absolutely Positioned */}
+        <View style={styles.aiCharmContainer}>
+          <Image 
+            source={require('@/assets/icons/ai-charm.png')}
+            style={styles.aiCharmImage}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* Speaking Icon - Absolutely Positioned */}
+        <View style={styles.speakingIconContainer}>
+          <SpeakingIcon size={248.91} isAnimating={false} />
+        </View>
+
+        {/* Bottom White Curved Overlay */}
+        <View style={styles.bottomOverlay}>
+          <Svg 
+            width={screenWidth} 
+            height="300" 
+            viewBox={`0 0 ${screenWidth} 300`}
+            style={styles.curvedTop}
+          >
+            <Path
+              d={`M 0 120 Q ${screenWidth / 2} 10 ${screenWidth} 120 L ${screenWidth} 300 L 0 300 Z`}
+              fill="white"
+            />
+          </Svg>
+          {/* Soft gradient to blend overlay top */}
+          <Svg
+            width={screenWidth}
+            height="60"
+            viewBox={`0 0 ${screenWidth} 60`}
+            style={{ position: 'absolute', top: 0 }}
+          >
+            <Defs>
+              <LinearGradient id="fadeDown" x1="0" y1="0" x2="0" y2="1">
+                <Stop offset="0" stopColor="#FFFFFF" stopOpacity="0.9" />
+                <Stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+              </LinearGradient>
+            </Defs>
+            <Rect x="0" y="0" width={screenWidth} height="60" fill="url(#fadeDown)" />
+          </Svg>
+          
           {/* Action Buttons */}
           <View style={styles.actionButtonsContainer}>
             {/* Left Button - Keyboard */}
@@ -92,20 +136,6 @@ export default function VoiceAssistantScreen() {
               />
             </TouchableOpacity>
           </View>
-        </View>
-
-        {/* AI Charm Image - Absolutely Positioned */}
-        <View style={styles.aiCharmContainer}>
-          <Image 
-            source={require('@/assets/icons/ai-charm.png')}
-            style={styles.aiCharmImage}
-            resizeMode="contain"
-          />
-        </View>
-
-        {/* Speaking Icon - Absolutely Positioned */}
-        <View style={styles.speakingIconContainer}>
-          <SpeakingIcon size={248.91} isAnimating={false} />
         </View>
       </SafeAreaView>
     </View>
@@ -167,8 +197,8 @@ const styles = StyleSheet.create({
   },
   responseSection: {
     paddingHorizontal: 24,
-    marginBottom: 32,
-    marginTop: 300,
+    marginBottom: 16,
+    marginTop: 272,
   },
   responseText: {
     fontSize: 22,
@@ -180,13 +210,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Manrope',
   },
   actionButtonsContainer: {
+    position: 'absolute',
+    bottom: 64,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingHorizontal: 24,
-    paddingBottom: 20,
-    gap: 24,
-    marginTop: 16,
+    paddingHorizontal: 56,
+    gap: 28,
   },
   actionButton: {
     width: 51,
@@ -209,5 +241,17 @@ const styles = StyleSheet.create({
   mainActionButtonImage: {
     width: 102,
     height: 102,
+  },
+  bottomOverlay: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    height: 300,
+    zIndex: 1,
+  },
+  curvedTop: {
+    position: 'absolute',
+    bottom: 0,
   },
 });
