@@ -197,8 +197,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   actionButtonImage: {
-    width: 40,
-    height: 40,
+    width: 51,
+    height: 51,
   },
   mainActionButton: {
     width: 102,
