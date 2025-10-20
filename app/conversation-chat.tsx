@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
 import { ScreenHeader } from '@/components/ui/screen-header';
@@ -167,11 +167,11 @@ export default function ConversationChatScreen() {
                 <Text style={styles.composerSubtitle}>Ask anything...</Text>
                 <View style={styles.composerRow}>
                   <TouchableOpacity style={styles.attachButton} activeOpacity={0.8}>
-                    <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-                      <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" fill="white"/>
-                      <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" stroke="#E0E3EF"/>
-                      <Path d="M20.9749 21V23.9167C20.9749 25.525 22.2833 26.8333 23.8916 26.8333C25.4999 26.8333 26.8083 25.525 26.8083 23.9167V19.3333C26.8083 16.1083 24.1999 13.5 20.9749 13.5C17.7499 13.5 15.1416 16.1083 15.1416 19.3333V24.3333C15.1416 27.0917 17.3833 29.3333 20.1416 29.3333" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </Svg>
+                    <Image
+                      source={require('@/assets/icons/upload-chat-button.png')}
+                      style={styles.buttonImage}
+                      resizeMode="contain"
+                    />
                   </TouchableOpacity>
                   <TextInput
                     style={styles.textInput}
@@ -180,10 +180,11 @@ export default function ConversationChatScreen() {
                     multiline
                   />
                   <TouchableOpacity style={styles.sendButton} activeOpacity={0.8}>
-                    <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                      <Path d="M12 19L12 5" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      <Path d="M5 12L12 5L19 12" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </Svg>
+                    <Image
+                      source={require('@/assets/icons/submit-chat-button.png')}
+                      style={styles.buttonImage}
+                      resizeMode="contain"
+                    />
                   </TouchableOpacity>
                 </View>
               </View>
@@ -349,16 +350,12 @@ const styles = StyleSheet.create({
   sendButton: {
     width: 42,
     height: 42,
-    borderRadius: 21,
-    backgroundColor: '#2F4291',
     alignItems: 'center',
     justifyContent: 'center',
-    paddingHorizontal: 8,
-    shadowColor: '#0E091A',
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.2,
-    shadowRadius: 28,
-    elevation: 12,
+  },
+  buttonImage: {
+    width: 42,
+    height: 42,
   },
   helperText: {
     marginTop: 12,
