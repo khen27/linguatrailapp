@@ -65,7 +65,10 @@ export default function ProfileScreen() {
         </TouchableOpacity>
         
         {/* Subscription & Plans Menu Item */}
-        <TouchableOpacity style={styles.menuItem}>
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => router.push('/subscription')}
+        >
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>
               <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
