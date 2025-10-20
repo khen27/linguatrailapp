@@ -63,21 +63,12 @@ export default function ConversationPracticeScreen() {
           <View style={styles.whiteOverlay}>
             {/* Question Card */}
             <View style={styles.questionCard}>
-              {/* Background decorative shapes */}
-              <View style={styles.backgroundShapes}>
-                <View style={styles.yellowBase} />
-                <View style={styles.greenOverlay1} />
-                <View style={styles.greenOverlay2} />
-              </View>
-
-              {/* Decorative image */}
-              <View style={styles.decorativeImageContainer}>
-                {/* Placeholder for decorative image */}
-                <View style={styles.decorativeImagePlaceholder} />
-              </View>
-
-              {/* Question text */}
-              <Text style={styles.questionText}>
+              <Image 
+                source={require('@/assets/icons/game-background.png')}
+                style={styles.questionBackgroundImage}
+                resizeMode="cover"
+              />
+              <Text style={styles.questionTextOverlay}>
                 What Does "Hola" Mean?
               </Text>
             </View>
@@ -122,15 +113,17 @@ export default function ConversationPracticeScreen() {
             </View>
 
             {/* Next Button */}
-            <TouchableOpacity 
-              style={[styles.nextButton, selectedOption === null && styles.nextButtonDisabled]}
-              onPress={handleNextPress}
-              disabled={selectedOption === null}
-            >
-              <Text style={[styles.nextButtonText, selectedOption === null && styles.nextButtonTextDisabled]}>
-                Next
-              </Text>
-            </TouchableOpacity>
+            <View style={styles.nextButtonContainer}>
+              <TouchableOpacity 
+                style={[styles.nextButton, selectedOption === null && styles.nextButtonDisabled]}
+                onPress={handleNextPress}
+                disabled={selectedOption === null}
+              >
+                <Text style={[styles.nextButtonText, selectedOption === null && styles.nextButtonTextDisabled]}>
+                  Next
+                </Text>
+              </TouchableOpacity>
+            </View>
 
             {/* Bottom Gradient Overlay */}
             <View style={styles.bottomGradient} />
@@ -169,63 +162,28 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 16,
     paddingBottom: 32,
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   questionCard: {
     height: 271,
-    backgroundColor: '#DFFCF4',
     borderRadius: 12,
     marginBottom: 24,
     position: 'relative',
     overflow: 'hidden',
+    justifyContent: 'flex-start',
+    alignItems: 'flex-start',
   },
-  backgroundShapes: {
+  questionBackgroundImage: {
     position: 'absolute',
     width: '100%',
     height: '100%',
+    borderRadius: 12,
   },
-  yellowBase: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#FFE49C',
-  },
-  greenOverlay1: {
-    position: 'absolute',
-    width: '100%',
-    height: '100%',
-    backgroundColor: '#27EDB7',
-    opacity: 0.3,
-  },
-  greenOverlay2: {
-    position: 'absolute',
-    width: '76%',
-    height: '45%',
-    left: 0,
-    bottom: 0,
-    backgroundColor: '#27EDB7',
-    opacity: 0.3,
-  },
-  decorativeImageContainer: {
-    position: 'absolute',
-    width: 252,
-    height: 298,
-    right: -75,
-    top: 12,
-    zIndex: 1,
-  },
-  decorativeImagePlaceholder: {
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(0,0,0,0.1)',
-    borderRadius: 8,
-  },
-  questionText: {
+  questionTextOverlay: {
     position: 'absolute',
     left: 22,
     top: 21,
     width: 283,
-    height: 58,
     fontSize: 22,
     fontWeight: '600',
     color: '#263574',
@@ -238,17 +196,18 @@ const styles = StyleSheet.create({
   optionsGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    gap: 10,
+    justifyContent: 'space-between',
     marginBottom: 24,
   },
   optionButton: {
-    width: 158.5,
+    width: '48%',
     height: 120,
     backgroundColor: 'rgba(246, 247, 250, 0.5)',
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
     padding: 16,
+    marginBottom: 10,
   },
   selectedOption: {
     backgroundColor: '#E9FDF8',
@@ -275,6 +234,13 @@ const styles = StyleSheet.create({
   selectedOptionText: {
     fontWeight: '600',
     color: '#1FBE92',
+  },
+  nextButtonContainer: {
+    position: 'absolute',
+    bottom: 32,
+    left: 24,
+    right: 24,
+    zIndex: 3,
   },
   nextButton: {
     width: '100%',
