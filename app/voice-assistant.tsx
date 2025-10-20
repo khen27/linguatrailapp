@@ -56,20 +56,6 @@ export default function VoiceAssistantScreen() {
             </Text>
           </View>
 
-          {/* AI Charm Image */}
-          <View style={styles.aiCharmContainer}>
-            <Image 
-              source={require('@/assets/icons/ai-charm.png')}
-              style={styles.aiCharmImage}
-              resizeMode="contain"
-            />
-          </View>
-
-          {/* Speaking Icon */}
-          <View style={styles.speakingIconContainer}>
-            <SpeakingIcon size={248.91} isAnimating={false} />
-          </View>
-
           {/* User Response Text */}
           <View style={styles.responseSection}>
             <Text style={styles.responseText}>
@@ -106,6 +92,20 @@ export default function VoiceAssistantScreen() {
               />
             </TouchableOpacity>
           </View>
+        </View>
+
+        {/* AI Charm Image - Absolutely Positioned */}
+        <View style={styles.aiCharmContainer}>
+          <Image 
+            source={require('@/assets/icons/ai-charm.png')}
+            style={styles.aiCharmImage}
+            resizeMode="contain"
+          />
+        </View>
+
+        {/* Speaking Icon - Absolutely Positioned */}
+        <View style={styles.speakingIconContainer}>
+          <SpeakingIcon size={248.91} isAnimating={false} />
         </View>
       </SafeAreaView>
     </View>
@@ -144,25 +144,31 @@ const styles = StyleSheet.create({
     fontFamily: 'Manrope',
   },
   aiCharmContainer: {
+    position: 'absolute',
+    top: '35%',
+    left: 0,
+    right: 0,
     alignItems: 'center',
     justifyContent: 'center',
-    width: '100%',
-    flex: 1,
-    marginVertical: 0,
-    marginTop: 180,
+    zIndex: -1,
   },
   aiCharmImage: {
     width: 300,
     height: 300,
   },
   speakingIconContainer: {
+    position: 'absolute',
+    top: '35%',
+    left: 0,
+    right: 0,
     alignItems: 'center',
-    marginVertical: 16,
+    justifyContent: 'center',
+    zIndex: 0,
   },
   responseSection: {
     paddingHorizontal: 24,
     marginBottom: 32,
-    marginTop: 0,
+    marginTop: 300,
   },
   responseText: {
     fontSize: 22,
@@ -180,7 +186,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingBottom: 20,
     gap: 24,
-    marginTop: -20,
+    marginTop: 16,
   },
   actionButton: {
     width: 51,
