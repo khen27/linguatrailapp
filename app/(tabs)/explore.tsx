@@ -25,8 +25,25 @@ export default function LessonsScreen() {
         <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
           {/* Header */}
           <View style={styles.header}>
-            <Text style={styles.headerTitle}>Lessons</Text>
-            <Text style={styles.headerSubtitle}>Choose your learning method</Text>
+            <View style={styles.headerLeft}>
+              <Text style={styles.headerTitle}>Lessons</Text>
+              <Text style={styles.headerSubtitle}>This is a placeholder to showcase the 3 different ways to learn within LinguaTrail. These screens will be rehomed and are just here for demo purposes</Text>
+            </View>
+            <View style={styles.demoBubble}>
+              <Svg width="16" height="16" viewBox="0 0 24 24" fill="none">
+                <G clipPath="url(#clip0_4418_9868)">
+                  <Path d="M12.92 2.25984L19.43 5.76984C20.19 6.17984 20.19 7.34984 19.43 7.75984L12.92 11.2698C12.34 11.5798 11.66 11.5798 11.08 11.2698L4.57 7.75984C3.81 7.34984 3.81 6.17984 4.57 5.76984L11.08 2.25984C11.66 1.94984 12.34 1.94984 12.92 2.25984Z" stroke="#27EDB7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <Path d="M3.61 10.1297L9.66 13.1597C10.41 13.5397 10.89 14.3097 10.89 15.1497V20.8697C10.89 21.6997 10.02 22.2297 9.28 21.8597L3.23 18.8297C2.48 18.4497 2 17.6797 2 16.8397V11.1197C2 10.2897 2.87 9.75968 3.61 10.1297Z" stroke="#27EDB7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                  <Path d="M20.39 10.1297L14.34 13.1597C13.59 13.5397 13.11 14.3097 13.11 15.1497V20.8697C13.11 21.6997 13.98 22.2297 14.72 21.8597L20.77 18.8297C21.52 18.4497 22 17.6797 22 16.8397V11.1197C22 10.2897 21.13 9.75968 20.39 10.1297Z" stroke="#27EDB7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                </G>
+                <Defs>
+                  <ClipPath id="clip0_4418_9868">
+                    <Rect width="24" height="24" fill="white"/>
+                  </ClipPath>
+                </Defs>
+              </Svg>
+              <Text style={styles.demoBubbleText}>Demo</Text>
+            </View>
           </View>
 
           {/* Lesson Cards */}
@@ -157,9 +174,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   header: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between',
     paddingHorizontal: 24,
     paddingTop: 20,
     paddingBottom: 24,
+  },
+  headerLeft: {
+    flex: 1,
   },
   headerTitle: {
     fontSize: 28,
@@ -171,11 +194,30 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   headerSubtitle: {
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '500',
     color: '#5C5C5C',
     letterSpacing: -0.32,
     lineHeight: 24,
+    fontFamily: 'Urbanist',
+  },
+  demoBubble: {
+    backgroundColor: '#2F4291',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 1000,
+    height: 36,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginLeft: 16,
+    gap: 6,
+  },
+  demoBubbleText: {
+    color: '#27EDB7',
+    fontSize: 14,
+    fontWeight: '700',
+    letterSpacing: -0.28,
     fontFamily: 'Urbanist',
   },
   lessonsContainer: {
