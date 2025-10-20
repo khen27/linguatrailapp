@@ -38,9 +38,9 @@
           "image": "./assets/app-icons-android/Icon-512.png",
           "imageWidth": 200,
           "resizeMode": "contain",
-          "backgroundColor": "#0E1E49",
+          "backgroundColor": "#091729",
           "dark": {
-            "backgroundColor": "#0E1E49"
+            "backgroundColor": "#091729"
           }
         }
       ]
