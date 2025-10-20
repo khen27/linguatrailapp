@@ -81,7 +81,7 @@ export default function LessonsScreen() {
               <View style={styles.cardFooter}>
                 <Text style={styles.cardStatus}>Available</Text>
                 <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <Path d="M7.5 15L12.5 10L7.5 5" stroke="#27EDB7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M7.5 15L12.5 10L7.5 5" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </View>
             </TouchableOpacity>
@@ -115,7 +115,7 @@ export default function LessonsScreen() {
               <View style={styles.cardFooter}>
                 <Text style={styles.cardStatus}>Available</Text>
                 <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <Path d="M7.5 15L12.5 10L7.5 5" stroke="#27EDB7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M7.5 15L12.5 10L7.5 5" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </View>
             </TouchableOpacity>
@@ -151,7 +151,7 @@ export default function LessonsScreen() {
               <View style={styles.cardFooter}>
                 <Text style={styles.cardStatus}>Available</Text>
                 <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                  <Path d="M7.5 15L12.5 10L7.5 5" stroke="#27EDB7" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M7.5 15L12.5 10L7.5 5" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </View>
             </TouchableOpacity>
@@ -210,7 +210,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    marginLeft: 16,
+    marginLeft: 8,
     gap: 6,
   },
   demoBubbleText: {
@@ -273,7 +273,7 @@ const styles = StyleSheet.create({
   cardStatus: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#27EDB7',
+    color: '#2F4291',
     letterSpacing: -0.28,
     lineHeight: 21,
     fontFamily: 'Urbanist',
