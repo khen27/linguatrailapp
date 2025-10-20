@@ -56,6 +56,10 @@ const styles = StyleSheet.create({
     padding: 6,
     borderWidth: 1,
     borderColor: '#2F4291',
+    width: 327,
+    height: 52,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   toggleButton: {
     flex: 1,
@@ -64,6 +68,8 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     alignItems: 'center',
     justifyContent: 'center',
+    height: 40,
+    width: 157.5,
   },
   toggleButtonActive: {
     backgroundColor: '#FFFFFF',
@@ -82,6 +88,10 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     textAlign: 'center',
     letterSpacing: -0.28,
+    lineHeight: 21,
+    fontFamily: 'Urbanist',
+    width: 125.5,
+    height: 21,
   },
   toggleButtonTextActive: {
     color: '#2F4291',

@@ -1,12 +1,17 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, TouchableOpacity, Animated } from 'react-native';
 import { useRouter } from 'expo-router';
 import { StatusBar } from 'expo-status-bar';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import * as Haptics from 'expo-haptics';
+import Svg, { Path, Rect } from 'react-native-svg';
 import { PlanToggle, PlanCard, BackgroundDecorations } from '@/components/subscription';
 
 export default function SubscriptionScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
   const [selectedPeriod, setSelectedPeriod] = useState<'monthly' | 'yearly'>('monthly');
+  const fadeAnim = new Animated.Value(1);
 
   // Plan data structure
   const plans = {
@@ -67,13 +72,35 @@ export default function SubscriptionScreen() {
   };
 
   const handleBasicPlanPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     // TODO: Implement subscription logic
     console.log('Basic plan selected:', selectedPeriod);
   };
 
   const handleProPlanPress = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     // TODO: Implement subscription logic
     console.log('Pro plan selected:', selectedPeriod);
+  };
+
+  const handlePeriodChange = (period: 'monthly' | 'yearly') => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    
+    // Subtle fade animation when switching periods
+    Animated.sequence([
+      Animated.timing(fadeAnim, {
+        toValue: 0.7,
+        duration: 100,
+        useNativeDriver: true,
+      }),
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }),
+    ]).start();
+    
+    setSelectedPeriod(period);
   };
 
   return (
@@ -84,21 +111,46 @@ export default function SubscriptionScreen() {
       <BackgroundDecorations />
       
       {/* Header with back button */}
-      <View style={styles.header}>
+      <View style={[styles.header, { paddingTop: insets.top + 20 }]}>
         <TouchableOpacity 
           style={styles.backButton}
-          onPress={() => router.back()}
+          onPress={() => {
+            Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+            router.back();
+          }}
         >
-          <Text style={styles.backButtonText}>←</Text>
+          <Svg width={42} height={42} viewBox="0 0 42 42" fill="none">
+            <Rect 
+              x={42} 
+              y={42} 
+              width={42} 
+              height={42} 
+              rx={21} 
+              transform="rotate(180 42 42)" 
+              fill="white"
+            />
+            <Path 
+              d="M18.9753 15.9417L13.917 21L18.9753 26.0583" 
+              stroke="#263574" 
+              strokeWidth="1.5" 
+              strokeMiterlimit="10" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+            <Path 
+              d="M28.0836 21L14.0586 21" 
+              stroke="#263574" 
+              strokeWidth="1.5" 
+              strokeMiterlimit="10" 
+              strokeLinecap="round" 
+              strokeLinejoin="round"
+            />
+          </Svg>
         </TouchableOpacity>
       </View>
 
-      {/* Main Content */}
-      <ScrollView 
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={false}
-      >
+      {/* Static Header Content */}
+      <View style={styles.staticContent}>
         {/* Title Section */}
         <View style={styles.titleSection}>
           <Text style={styles.title}>Choose Your Plan</Text>
@@ -108,11 +160,17 @@ export default function SubscriptionScreen() {
         {/* Monthly/Yearly Toggle */}
         <PlanToggle 
           selectedPeriod={selectedPeriod}
-          onPeriodChange={setSelectedPeriod}
+          onPeriodChange={handlePeriodChange}
         />
+      </View>
 
-        {/* Plan Cards */}
-        <View style={styles.plansSection}>
+      {/* Scrollable Plan Cards */}
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+      >
+        <Animated.View style={[styles.plansSection, { opacity: fadeAnim }]}>
           {/* Basic Plan */}
           <PlanCard
             title={plans[selectedPeriod].basic.title}
@@ -136,7 +194,7 @@ export default function SubscriptionScreen() {
             isPro={true}
             onButtonPress={handleProPlanPress}
           />
-        </View>
+        </Animated.View>
       </ScrollView>
     </View>
   );
@@ -148,22 +206,18 @@ const styles = StyleSheet.create({
     backgroundColor: '#263574', // Primary blue background
   },
   header: {
-    paddingTop: 60,
     paddingHorizontal: 24,
     paddingBottom: 20,
   },
   backButton: {
-    width: 40,
-    height: 40,
-    borderRadius: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    width: 42,
+    height: 42,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  backButtonText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-    fontWeight: '600',
+  staticContent: {
+    paddingHorizontal: 24,
+    paddingBottom: 24,
   },
   scrollView: {
     flex: 1,
@@ -174,7 +228,7 @@ const styles = StyleSheet.create({
   },
   titleSection: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: 24,
   },
   title: {
     fontSize: 22,
@@ -183,6 +237,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 8,
     letterSpacing: -0.44,
+    lineHeight: 26,
+    fontFamily: 'Manrope',
   },
   subtitle: {
     fontSize: 16,
@@ -191,6 +247,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     opacity: 0.7,
     letterSpacing: -0.32,
+    lineHeight: 24,
+    fontFamily: 'Urbanist',
   },
   plansSection: {
     paddingBottom: 20,

@@ -84,7 +84,9 @@ export function PlanCard({
 const styles = StyleSheet.create({
   card: {
     borderRadius: 24,
-    padding: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 16,
+    paddingBottom: 12,
     marginBottom: 16,
     shadowColor: '#000000',
     shadowOffset: {
@@ -128,6 +130,7 @@ const styles = StyleSheet.create({
     color: '#2F4291',
     letterSpacing: -0.44,
     textTransform: 'capitalize',
+    fontFamily: 'Urbanist',
   },
   proTitle: {
     fontSize: 22,
@@ -135,6 +138,7 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     letterSpacing: -0.44,
     textTransform: 'capitalize',
+    fontFamily: 'Urbanist',
   },
   priceSection: {
     flexDirection: 'row',
@@ -171,8 +175,9 @@ const styles = StyleSheet.create({
   },
   featureItem: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     marginBottom: 8,
+    paddingRight: 4,
   },
   basicFeatureText: {
     fontSize: 14,
@@ -202,6 +207,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
+    minHeight: 52,
   },
   proButton: {
     backgroundColor: '#FFFFFF',
@@ -212,18 +218,21 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: 8,
+    minHeight: 52,
   },
   basicButtonText: {
     fontSize: 16,
     fontWeight: '600',
     color: '#2F4291',
     letterSpacing: -0.32,
+    fontFamily: 'Urbanist',
   },
   proButtonText: {
     fontSize: 16,
     fontWeight: '600',
     color: '#2F4291',
     letterSpacing: -0.32,
+    fontFamily: 'Urbanist',
   },
   basicButtonSubtext: {
     fontSize: 14,
