@@ -122,9 +122,9 @@ export default function ConversationChatScreen() {
             {/* Confirmations Row */}
             <View style={styles.actionsRow}>
               <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
-                <Svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                  <Path d="M9 8H17C18.1046 8 19 8.89543 19 10V18C19 19.1046 18.1046 20 17 20H9C7.89543 20 7 19.1046 7 18V10C7 8.89543 7.89543 8 9 8Z" stroke="#5C5C5C" strokeWidth="1.5"/>
-                  <Path d="M7 12H6C4.89543 12 4 11.1046 4 10V6C4 4.89543 4.89543 4 6 4H14C15.1046 4 16 4.89543 16 6V7" stroke="#5C5C5C" strokeWidth="1.5"/>
+                <Svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+                  <Path d="M10.6663 8.59998V11.4C10.6663 13.7333 9.73301 14.6666 7.39967 14.6666H4.59967C2.26634 14.6666 1.33301 13.7333 1.33301 11.4V8.59998C1.33301 6.26665 2.26634 5.33331 4.59967 5.33331H7.39967C9.73301 5.33331 10.6663 6.26665 10.6663 8.59998Z" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  <Path d="M14.6663 4.59998V7.39998C14.6663 9.73331 13.733 10.6666 11.3997 10.6666H10.6663V8.59998C10.6663 6.26665 9.73301 5.33331 7.39967 5.33331H5.33301V4.59998C5.33301 2.26665 6.26634 1.33331 8.59967 1.33331H11.3997C13.733 1.33331 14.6663 2.26665 14.6663 4.59998Z" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </TouchableOpacity>
               <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
