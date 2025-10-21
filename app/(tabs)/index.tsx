@@ -23,16 +23,14 @@ export default function HomeScreen() {
           {/* Top Header Section */}
           <View style={styles.header}>
         <View style={styles.headerLeft}>
-        <View style={styles.profileAvatarContainer}>
+        <View style={[
+          styles.profileAvatarContainer,
+          shouldShowNotification && styles.profileAvatarWithNotification
+        ]}>
           <Image
             source={require('@/assets/images/zander-van-gogh.png')}
             style={styles.profileAvatar}
           />
-          {shouldShowNotification && (
-            <View style={styles.notificationBadge}>
-              <Text style={styles.notificationBadgeText}>!</Text>
-            </View>
-          )}
         </View>
           <View style={styles.greetingContainer}>
             <Text style={styles.greetingSubtitle}>Welcome back!</Text>
@@ -334,11 +332,13 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     backgroundColor: '#FFFFFF',
-    borderWidth: 1.5,
-    borderColor: '#F84E5B',
     borderRadius: 21,
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  profileAvatarWithNotification: {
+    borderWidth: 1.5,
+    borderColor: '#F84E5B',
   },
   profileAvatar: {
     width: 36,
