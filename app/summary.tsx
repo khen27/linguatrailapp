@@ -2,7 +2,8 @@ import React, { useMemo, useRef, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
-import { Svg, Path } from 'react-native-svg';
+import { Svg, Path, Line } from 'react-native-svg';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useRouter } from 'expo-router';
 import { DesignTokens as T } from '../constants/design-tokens';
 import SummaryRow from '../components/SummaryRow';
@@ -12,6 +13,7 @@ export default function SummaryScreen() {
   const router = useRouter();
 
   // Mock data for learning modules - matches the design spec
+  const listRef = useRef<FlatList<any>>(null);
   const [modules, setModules] = useState([
     {
       id: '1',
@@ -122,6 +124,7 @@ export default function SummaryScreen() {
   );
 
   return (
+    <GestureHandlerRootView style={{ flex: 1 }}>
     <View style={styles.screen}>
       {/* Glass Header */}
       <BlurView intensity={45} tint="light" style={styles.glassHeader}>
@@ -171,9 +174,12 @@ export default function SummaryScreen() {
 
         {/* Learning Modules List */}
         <View style={styles.modulesList}>
-          {/* Vertical dashed timeline guide */}
-          <View style={styles.timeline} pointerEvents="none" />
+          {/* Vertical dashed timeline guide via SVG (no RN dashed warning) */}
+          <Svg pointerEvents="none" style={styles.timelineSvg} width={2} height="100%">
+            <Line x1={1} y1={0} x2={1} y2="100%" stroke="#E0E3EF" strokeWidth={2} strokeDasharray="4,6" />
+          </Svg>
           <FlatList
+            ref={listRef}
             data={modules}
             keyExtractor={(item) => item.id}
             renderItem={renderItem}
@@ -183,8 +189,26 @@ export default function SummaryScreen() {
           />
         </View>
 
-        {/* Confirm Create Button */}
+        {/* Bottom Sheet Footer */}
         <View style={styles.footer}>
+          {/* Customize Flow pill */}
+          <View style={styles.customizePill}>
+            <View style={styles.customizeRow}>
+              <Text style={styles.customizeText}>Customise flow...</Text>
+              <TouchableOpacity 
+                style={styles.pocketButton}
+                activeOpacity={0.85}
+                onPress={() => listRef.current?.scrollToOffset({ offset: 0, animated: true })}
+              >
+                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                  <Path d="M12 6L12 18" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round"/>
+                  <Path d="M8 10L12 6L16 10" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
+                </Svg>
+              </TouchableOpacity>
+            </View>
+          </View>
+
+          {/* Confirm Create Button */}
           <TouchableOpacity 
             style={styles.confirmButton} 
             activeOpacity={0.8}
@@ -195,6 +219,7 @@ export default function SummaryScreen() {
         </View>
       </View>
     </View>
+    </GestureHandlerRootView>
   );
 }
 
@@ -300,30 +325,82 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     position: 'relative',
   },
-  timeline: {
+  timelineSvg: {
     position: 'absolute',
-    left: 24 + 22, // padding + half of 44px chip
+    left: 24 + 22,
     top: 0,
     bottom: 0,
-    width: 0,
-    borderLeftWidth: 2,
-    borderLeftColor: '#E0E3EF',
-    borderStyle: 'dashed',
-    opacity: 1,
   },
   // Footer with Confirm Button
   footer: {
-    paddingHorizontal: 24,
-    paddingTop: 16,
-    paddingBottom: 32,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    width: '100%',
+    height: 170,
     backgroundColor: T.colors.white,
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingTop: 16,
+    paddingHorizontal: 24,
+    paddingBottom: 32,
+    gap: 12,
+    alignItems: 'center',
+  },
+  customizePill: {
+    width: '100%',
+    height: 58,
+    backgroundColor: T.colors.background,
+    borderColor: T.colors.background,
+    borderWidth: 1,
+    borderRadius: 99,
+    justifyContent: 'center',
+    paddingLeft: 16,
+    paddingRight: 8,
+    paddingVertical: 8,
+    gap: 24,
+  },
+  customizeRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    flex: 1,
+    height: 42,
+  },
+  customizeText: {
+    fontFamily: 'Urbanist',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.32,
+    color: '#5C5C5C',
+    opacity: 0.9,
+    flex: 1,
+  },
+  pocketButton: {
+    width: 42,
+    height: 42,
+    borderRadius: 48,
+    backgroundColor: T.colors.blueNormal,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 8,
+    shadowColor: 'rgba(14,9,26,1)',
+    shadowOffset: { width: 0, height: 12 },
+    shadowOpacity: 0.2,
+    shadowRadius: 28,
   },
   confirmButton: {
+    width: 327,
     height: 52,
     backgroundColor: '#27EDB7',
     borderRadius: 1000,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 14,
+    alignSelf: 'center',
   },
   confirmButtonText: {
     fontFamily: 'Urbanist',
@@ -333,6 +410,7 @@ const styles = StyleSheet.create({
     letterSpacing: -0.32,
     color: '#2F4291',
     textAlign: 'center',
+    width: 303,
   },
 });
 
