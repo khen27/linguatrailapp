@@ -1,8 +1,16 @@
 import { View, StyleSheet, Text, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
+import { useFeatureFlags } from '@/contexts/FeatureFlagContext';
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
+  const { isOn } = useFeatureFlags();
+  const router = useRouter();
+  
+  // Check if we should show the notification
+  const shouldShowNotification = isOn('extendedFirstRun') && !isOn('hasSeenExtendedFirstRun');
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -15,10 +23,15 @@ export default function HomeScreen() {
           {/* Top Header Section */}
           <View style={styles.header}>
         <View style={styles.headerLeft}>
-        <Image
+        <View style={[
+          styles.profileAvatarContainer,
+          shouldShowNotification && styles.profileAvatarWithNotification
+        ]}>
+          <Image
             source={require('@/assets/images/zander-van-gogh.png')}
             style={styles.profileAvatar}
           />
+        </View>
           <View style={styles.greetingContainer}>
             <Text style={styles.greetingSubtitle}>Welcome back!</Text>
             <Text style={styles.greetingTitle}>Good Morning, Zander 👋</Text>
@@ -30,6 +43,27 @@ export default function HomeScreen() {
           <Text style={styles.streakText}>Day</Text>
         </View>
       </View>
+
+      {/* Extended First Run Notification */}
+      {shouldShowNotification && (
+        <TouchableOpacity 
+          style={styles.extendedFirstRunNotification}
+          onPress={() => router.push('/(tabs)/profile')}
+        >
+          <View style={styles.extendedFirstRunContent}>
+            <View style={styles.extendedFirstRunIconContainer}>
+              <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+                <Rect x="42" y="42" width="42" height="42" rx="8" transform="rotate(180 42 42)" fill="#FDC8CC"/>
+                <Path d="M29.1331 24.2667L23.7997 14.6667C23.0831 13.375 22.0914 12.6667 20.9997 12.6667C19.9081 12.6667 18.9164 13.375 18.1997 14.6667L12.8664 24.2667C12.1914 25.4917 12.1164 26.6667 12.6581 27.5917C13.1997 28.5167 14.2664 29.025 15.6664 29.025H26.3331C27.7331 29.025 28.7997 28.5167 29.3414 27.5917C29.8831 26.6667 29.8081 25.4833 29.1331 24.2667ZM20.3747 18.5C20.3747 18.1583 20.6581 17.875 20.9997 17.875C21.3414 17.875 21.6247 18.1583 21.6247 18.5V22.6667C21.6247 23.0083 21.3414 23.2917 20.9997 23.2917C20.6581 23.2917 20.3747 23.0083 20.3747 22.6667V18.5ZM21.5914 25.7583C21.5497 25.7917 21.5081 25.825 21.4664 25.8583C21.4164 25.8917 21.3664 25.9167 21.3164 25.9333C21.2664 25.9583 21.2164 25.975 21.1581 25.9833C21.1081 25.9917 21.0497 26 20.9997 26C20.9497 26 20.8914 25.9917 20.8331 25.9833C20.7831 25.975 20.7331 25.9583 20.6831 25.9333C20.6331 25.9167 20.5831 25.8917 20.5331 25.8583C20.4914 25.825 20.4497 25.7917 20.4081 25.7583C20.2581 25.6 20.1664 25.3833 20.1664 25.1667C20.1664 24.95 20.2581 24.7333 20.4081 24.575C20.4497 24.5417 20.4914 24.5083 20.5331 24.475C20.5831 24.4417 20.6331 24.4167 20.6831 24.4C20.7331 24.375 20.7831 24.3583 20.8331 24.35C20.9414 24.325 21.0581 24.325 21.1581 24.35C21.2164 24.3583 21.2664 24.375 21.3164 24.4C21.3664 24.4167 21.4164 24.4417 21.4664 24.475C21.5081 24.5083 21.5497 24.5417 21.5914 24.575C21.7414 24.7333 21.8331 24.95 21.8331 25.1667C21.8331 25.3833 21.7414 25.6 21.5914 25.7583Z" fill="#C63E49"/>
+              </Svg>
+            </View>
+            <View style={styles.extendedFirstRunText}>
+              <Text style={styles.extendedFirstRunTitle}>Tell us how you learn</Text>
+              <Text style={styles.extendedFirstRunSubtitle}>Go to your Profile to personalize your lessons.</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      )}
 
       {/* Learned Today Section */}
       <View style={styles.learnedTodaySection}>
@@ -293,10 +327,44 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 12,
   },
-  profileAvatar: {
+  profileAvatarContainer: {
+    position: 'relative',
     width: 42,
     height: 42,
+    backgroundColor: '#FFFFFF',
     borderRadius: 21,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  profileAvatarWithNotification: {
+    borderWidth: 1.5,
+    borderColor: '#F84E5B',
+  },
+  profileAvatar: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+  },
+  notificationBadge: {
+    position: 'absolute',
+    top: -2,
+    right: -2,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: '#F84E5B',
+    borderWidth: 2,
+    borderColor: '#FFFFFF',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  notificationBadgeText: {
+    color: '#FFFFFF',
+    fontSize: 10,
+    fontWeight: '900',
+    lineHeight: 12,
+    textAlign: 'center',
+    fontFamily: 'Urbanist',
   },
   greetingContainer: {
     flexDirection: 'column',
@@ -351,6 +419,55 @@ const styles = StyleSheet.create({
     color: '#263574',
     lineHeight: 18,
     fontFamily: 'Urbanist',
+  },
+  // Extended First Run Notification
+  extendedFirstRunNotification: {
+    marginHorizontal: 20,
+    marginBottom: 20,
+    backgroundColor: '#FEEDEF',
+    borderWidth: 1,
+    borderColor: '#FEE4E6',
+    borderRadius: 16,
+  },
+  extendedFirstRunContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+    height: 58,
+  },
+  extendedFirstRunIconContainer: {
+    width: 42,
+    height: 42,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  extendedFirstRunText: {
+    flexDirection: 'column',
+    alignItems: 'flex-start',
+    padding: 0,
+    flex: 1,
+    height: 42,
+  },
+  extendedFirstRunTitle: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#263574',
+    letterSpacing: -0.02,
+    lineHeight: 21,
+    fontFamily: 'Urbanist',
+    height: 21,
+  },
+  extendedFirstRunSubtitle: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: '#263574',
+    letterSpacing: -0.02,
+    lineHeight: 21,
+    fontFamily: 'Urbanist',
+    height: 21,
   },
   // Learned Today Section
   learnedTodaySection: {
