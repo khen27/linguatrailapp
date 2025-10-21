@@ -11,6 +11,7 @@ export default function ProfileScreen() {
   const router = useRouter();
   const [darkTheme, setDarkTheme] = useState(false);
   const [pushNotifications, setPushNotifications] = useState(false);
+  const [extendedFirstRun, setExtendedFirstRun] = useState(true);
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -192,6 +193,34 @@ export default function ProfileScreen() {
         
         </View>
 
+        {/* Feature Testing Flags Section */}
+        <View style={styles.featureFlagsSection}>
+        <Text style={styles.sectionHeader}>Feature Testing Flags</Text>
+        
+        {/* Extended First Run Feature Flag */}
+        <View style={styles.preferenceItem}>
+          <View style={styles.preferenceItemLeft}>
+            <View style={styles.preferenceIconContainer}>
+              <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#E9FDF8"/>
+                <Path d="M16 18L14 20L16 22" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M24 18L26 20L24 22" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M20 30C25.5228 30 30 25.5228 30 20C30 14.4771 25.5228 10 20 10C14.4771 10 10 14.4771 10 20C10 25.5228 14.4771 30 20 30Z" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M21 17.6699L19 22.33" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              </Svg>
+            </View>
+            <Text style={styles.preferenceItemText}>Extended First Run</Text>
+          </View>
+          <TouchableOpacity onPress={() => setExtendedFirstRun(!extendedFirstRun)}>
+            <Svg width={40} height={24} viewBox="0 0 40 24" fill="none">
+              <Path d="M0 12C0 5.37258 5.37258 0 12 0H28C34.6274 0 40 5.37258 40 12C40 18.6274 34.6274 24 28 24H12C5.37258 24 0 18.6274 0 12Z" fill={extendedFirstRun ? "#27EDB7" : "#F6F7FA"}/>
+              <Path d={extendedFirstRun ? "M18 12C18 6.47715 22.4772 2 28 2C33.5228 2 38 6.47715 38 12C38 17.5228 33.5228 22 28 22C22.4772 22 18 17.5228 18 12Z" : "M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"} fill={extendedFirstRun ? "#263574" : "#5C5C5C"}/>
+            </Svg>
+          </TouchableOpacity>
+        </View>
+        
+        </View>
+
         {/* Log Out Section */}
         <View style={styles.logoutSection}>
           <TouchableOpacity style={styles.logoutItem}>
@@ -326,6 +355,9 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   preferencesSection: {
+    marginBottom: 40,
+  },
+  featureFlagsSection: {
     marginBottom: 40,
   },
   preferenceItem: {
