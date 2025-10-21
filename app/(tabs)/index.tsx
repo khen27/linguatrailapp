@@ -5,7 +5,7 @@ import { useFeatureFlags } from '@/contexts/FeatureFlagContext';
 import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
-  const { isOn } = useFeatureFlags();
+  const { isOn, setFlag } = useFeatureFlags();
   const router = useRouter();
   
   // Check if we should show the notification
@@ -48,7 +48,7 @@ export default function HomeScreen() {
       {shouldShowNotification && (
         <TouchableOpacity 
           style={styles.extendedFirstRunNotification}
-          onPress={() => router.push('/(tabs)/profile')}
+          onPress={() => { setFlag('hasSeenExtendedFirstRun', true); router.push('/(tabs)/profile'); }}
         >
           <View style={styles.extendedFirstRunContent}>
             <View style={styles.extendedFirstRunIconContainer}>
