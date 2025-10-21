@@ -86,7 +86,7 @@ export default function SummaryScreen() {
     });
   };
   const onPanMove = (translationY: number) => {
-    // Slight deadzone smoothing and divide by actual row height for stability
+    // Restore earlier deadzone for more stable dragging
     const smoothed = Math.abs(translationY) < 6 ? 0 : translationY;
     translationYRef.current = smoothed;
     const start = initialIndexRef.current;
