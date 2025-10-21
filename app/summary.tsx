@@ -183,7 +183,16 @@ export default function SummaryScreen() {
           />
         </View>
 
-        {/* Phase 7 will add the sticky footer */}
+        {/* Confirm Create Button */}
+        <View style={styles.footer}>
+          <TouchableOpacity 
+            style={styles.confirmButton} 
+            activeOpacity={0.8}
+            onPress={() => router.push('/(tabs)')}
+          >
+            <Text style={styles.confirmButtonText}>Confirm Create</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
@@ -301,6 +310,29 @@ const styles = StyleSheet.create({
     borderLeftColor: '#E0E3EF',
     borderStyle: 'dashed',
     opacity: 1,
+  },
+  // Footer with Confirm Button
+  footer: {
+    paddingHorizontal: 24,
+    paddingTop: 16,
+    paddingBottom: 32,
+    backgroundColor: T.colors.white,
+  },
+  confirmButton: {
+    height: 52,
+    backgroundColor: '#27EDB7',
+    borderRadius: 1000,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  confirmButtonText: {
+    fontFamily: 'Urbanist',
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.32,
+    color: '#2F4291',
+    textAlign: 'center',
   },
 });
 

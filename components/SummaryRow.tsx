@@ -74,13 +74,10 @@ export default function SummaryRow({
 
       {/* Content Container */}
       <View style={styles.contentContainer}>
-        {/* Title and Duration Row */}
-        <View style={styles.titleRow}>
-          <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-            {title}
-          </Text>
-          <Text style={styles.duration}>{duration}</Text>
-        </View>
+        {/* Title */}
+        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+          {title}
+        </Text>
 
         {/* Subtitle */}
         <Text style={styles.subtitle} numberOfLines={1} ellipsizeMode="tail">
@@ -186,28 +183,13 @@ const styles = StyleSheet.create({
     flex: 1,
     gap: 4,
   },
-  titleRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   title: {
-    flex: 1,
     fontFamily: 'Urbanist',
     fontWeight: '600',
     fontSize: 14,
     lineHeight: 21,
     letterSpacing: -0.28,
     color: T.colors.blueNormal,
-  },
-  duration: {
-    fontFamily: 'Urbanist',
-    fontWeight: '600',
-    fontSize: 12,
-    lineHeight: 18,
-    letterSpacing: -0.24,
-    color: T.colors.greyNormal,
-    textAlign: 'right',
   },
   subtitle: {
     fontFamily: 'Urbanist',
