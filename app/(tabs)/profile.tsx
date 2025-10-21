@@ -1,6 +1,6 @@
 import { StyleSheet, ScrollView, View, Image, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import Svg, { Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 
@@ -14,10 +14,7 @@ export default function ProfileScreen() {
   const [pushNotifications, setPushNotifications] = useState(false);
   const { setFlag, isOn } = useFeatureFlags();
 
-  // Mark notification as seen when user visits profile settings
-  useEffect(() => {
-    setFlag('hasSeenExtendedFirstRun', true);
-  }, [setFlag]);
+  // Note: do not auto-mark seen on mount; handled by explicit actions
 
   return (
     <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
@@ -217,7 +214,14 @@ export default function ProfileScreen() {
             </View>
             <Text style={styles.preferenceItemText}>Extended First Run</Text>
           </View>
-          <TouchableOpacity onPress={() => setFlag('extendedFirstRun', !isOn('extendedFirstRun'))}>
+          <TouchableOpacity onPress={() => {
+            const next = !isOn('extendedFirstRun');
+            setFlag('extendedFirstRun', next);
+            if (next) {
+              // Reset seen state whenever flag is enabled
+              setFlag('hasSeenExtendedFirstRun', false);
+            }
+          }}>
             <Svg width={40} height={24} viewBox="0 0 40 24" fill="none">
               <Path d="M0 12C0 5.37258 5.37258 0 12 0H28C34.6274 0 40 5.37258 40 12C40 18.6274 34.6274 24 28 24H12C5.37258 24 0 18.6274 0 12Z" fill={isOn('extendedFirstRun') ? "#27EDB7" : "#F6F7FA"}/>
               <Path d={isOn('extendedFirstRun') ? "M18 12C18 6.47715 22.4772 2 28 2C33.5228 2 38 6.47715 38 12C38 17.5228 33.5228 22 28 22C22.4772 22 18 17.5228 18 12Z" : "M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"} fill={isOn('extendedFirstRun') ? "#263574" : "#5C5C5C"}/>
