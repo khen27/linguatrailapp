@@ -62,40 +62,30 @@ export default function SummaryRow({
         </View>
       </View>
 
-      {/* Sort Controls */}
-      <View style={styles.sortContainer}>
-        <TouchableOpacity 
-          style={styles.sortButton}
-          onPress={onMoveUp}
-          activeOpacity={0.7}
-        >
-          <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <Path 
-              d="M6.67 13.33L10 10L13.33 13.33" 
-              stroke="#202020" 
-              strokeWidth="1.5" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            />
-          </Svg>
-        </TouchableOpacity>
-        
-        <TouchableOpacity 
-          style={styles.sortButton}
-          onPress={onMoveDown}
-          activeOpacity={0.7}
-        >
-          <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <Path 
-              d="M6.67 6.67L10 10L13.33 6.67" 
-              stroke="#202020" 
-              strokeWidth="1.5" 
-              strokeLinecap="round" 
-              strokeLinejoin="round"
-            />
-          </Svg>
-        </TouchableOpacity>
-      </View>
+      {/* Sort Control - Single Hamburger */}
+      <TouchableOpacity 
+        style={styles.sortContainer}
+        onPress={() => {
+          // Handle drag/reorder action
+          console.log('Reorder tapped');
+        }}
+        activeOpacity={0.7}
+      >
+        <Svg width="24" height="24" viewBox="0 0 24 24">
+          <Path 
+            d="M21 7.75H3C2.59 7.75 2.25 7.41 2.25 7C2.25 6.59 2.59 6.25 3 6.25H21C21.41 6.25 21.75 6.59 21.75 7C21.75 7.41 21.41 7.75 21 7.75Z" 
+            fill="#202020"
+          />
+          <Path 
+            d="M21 12.75H3C2.59 12.75 2.25 12.41 2.25 12C2.25 11.59 2.59 11.25 3 11.25H21C21.41 11.25 21.75 11.59 21.75 12C21.75 12.41 21.41 12.75 21 12.75Z" 
+            fill="#202020"
+          />
+          <Path 
+            d="M21 17.75H3C2.59 17.75 2.25 17.41 2.25 17C2.25 16.59 2.59 16.25 3 16.25H21C21.41 16.25 21.75 16.59 21.75 17C21.75 17.41 21.41 17.75 21 17.75Z" 
+            fill="#202020"
+          />
+        </Svg>
+      </TouchableOpacity>
     </View>
   );
 }
@@ -173,8 +163,7 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
   },
   sortContainer: {
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 6,
     paddingHorizontal: 4,
@@ -182,11 +171,5 @@ const styles = StyleSheet.create({
     height: 51,
     backgroundColor: T.colors.white,
     borderRadius: 16,
-  },
-  sortButton: {
-    width: 20,
-    height: 20,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });
