@@ -17,7 +17,7 @@ export default function SummaryScreen() {
       title: 'Alphabet Mastery',
       subtitle: 'Learn all English letters & their sounds.',
       duration: '18 Minutes',
-      emoji: 'abc',
+      emoji: '🔤',
       backgroundColor: T.colors.red,
     },
     {
@@ -112,6 +112,8 @@ export default function SummaryScreen() {
 
         {/* Learning Modules List */}
         <View style={styles.modulesList}>
+          {/* Vertical dashed timeline guide */}
+          <View style={styles.timeline} pointerEvents="none" />
           {learningModules.map((module, index) => (
             <SummaryRow
               key={module.id}
@@ -233,6 +235,18 @@ const styles = StyleSheet.create({
   modulesList: {
     flex: 1,
     paddingTop: 24,
+    position: 'relative',
+  },
+  timeline: {
+    position: 'absolute',
+    left: 24 + 22, // padding + half of 44px chip
+    top: 0,
+    bottom: 0,
+    width: 0,
+    borderLeftWidth: 2,
+    borderLeftColor: '#E0E3EF',
+    borderStyle: 'dashed',
+    opacity: 1,
   },
 });
 

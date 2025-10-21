@@ -104,10 +104,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 24,
+    paddingHorizontal: '7.2%', // 24px out of 375px screen width
     gap: 10,
     height: 51,
-    marginBottom: 10,
+    marginBottom: '6.4%', // 24px out of 375px screen width
   },
   iconContainer: {
     width: 44,
