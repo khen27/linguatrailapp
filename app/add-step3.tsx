@@ -291,8 +291,12 @@ export default function AddStep3Screen() {
             </View>
           )}
 
-          {/* Skip Button */}
-          <TouchableOpacity style={styles.skipButton} activeOpacity={0.8}>
+          {/* Skip Button -> Summary */}
+          <TouchableOpacity 
+            style={styles.skipButton} 
+            activeOpacity={0.8}
+            onPress={() => router.push('/summary')}
+          >
             <Text style={styles.skipButtonText}>Skip</Text>
           </TouchableOpacity>
         </KeyboardAvoidingView>
