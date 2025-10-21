@@ -1,17 +1,18 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useMemo, useRef, useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { DesignTokens as T } from '../constants/design-tokens';
 import SummaryRow from '../components/SummaryRow';
+import * as Haptics from 'expo-haptics';
 
 export default function SummaryScreen() {
   const router = useRouter();
 
   // Mock data for learning modules - matches the design spec
-  const learningModules = [
+  const [modules, setModules] = useState([
     {
       id: '1',
       title: 'Alphabet Mastery',
@@ -60,7 +61,65 @@ export default function SummaryScreen() {
       emoji: '🎧',
       backgroundColor: T.colors.green3,
     },
-  ];
+  ]);
+
+  const ROW_HEIGHT = 75; // approx: 51 row + 24 spacing
+  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
+  const initialIndexRef = useRef<number>(0);
+  const draggingIndexRef = useRef<number | null>(null);
+  const translationYRef = useRef(0);
+  const setDragging = (idx: number | null) => { draggingIndexRef.current = idx; setDraggingIndex(idx); };
+
+  const onStartDrag = (index: number) => {
+    initialIndexRef.current = index;
+    setDragging(index);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+  };
+
+  const swapItems = (from: number, to: number) => {
+    if (from === to) return;
+    setModules(prev => {
+      const next = [...prev];
+      const [moved] = next.splice(from, 1);
+      next.splice(to, 0, moved);
+      return next;
+    });
+  };
+  const onPanMove = (translationY: number) => {
+    // Slight deadzone smoothing and divide by actual row height for stability
+    const smoothed = Math.abs(translationY) < 6 ? 0 : translationY;
+    translationYRef.current = smoothed;
+    const start = initialIndexRef.current;
+    const offset = Math.round(smoothed / ROW_HEIGHT);
+    const target = Math.max(0, Math.min(modules.length - 1, start + offset));
+    if (draggingIndexRef.current !== target) {
+      swapItems(draggingIndexRef.current ?? start, target);
+      setDragging(target);
+      Haptics.selectionAsync();
+    }
+  };
+
+  const onPanRelease = () => {
+    setDragging(null);
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+  };
+
+  const renderItem = ({ item, index }: { item: any; index: number }) => (
+    <SummaryRow
+      title={item.title}
+      subtitle={item.subtitle}
+      duration={item.duration}
+      emoji={item.emoji}
+      backgroundColor={item.backgroundColor}
+      progressPercentage={0}
+      onStartDrag={() => onStartDrag(index)}
+      onPanMove={onPanMove}
+      onPanRelease={onPanRelease}
+      index={index}
+      isDragging={draggingIndex === index}
+      isAnyDragging={draggingIndex !== null}
+    />
+  );
 
   return (
     <View style={styles.screen}>
@@ -114,19 +173,14 @@ export default function SummaryScreen() {
         <View style={styles.modulesList}>
           {/* Vertical dashed timeline guide */}
           <View style={styles.timeline} pointerEvents="none" />
-          {learningModules.map((module, index) => (
-            <SummaryRow
-              key={module.id}
-              title={module.title}
-              subtitle={module.subtitle}
-              duration={module.duration}
-              emoji={module.emoji}
-              backgroundColor={module.backgroundColor}
-              progressPercentage={Math.random() * 100} // Mock progress for now
-              onMoveUp={() => console.log(`Move ${module.title} up`)}
-              onMoveDown={() => console.log(`Move ${module.title} down`)}
-            />
-          ))}
+          <FlatList
+            data={modules}
+            keyExtractor={(item) => item.id}
+            renderItem={renderItem}
+            contentContainerStyle={{ paddingBottom: 32 }}
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={draggingIndex === null}
+          />
         </View>
 
         {/* Phase 7 will add the sticky footer */}

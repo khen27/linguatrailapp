@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { DesignTokens as T } from '../constants/design-tokens';
+import { LongPressGestureHandler, PanGestureHandler, State } from 'react-native-gesture-handler';
 
 interface SummaryRowProps {
   title: string;
@@ -12,6 +13,12 @@ interface SummaryRowProps {
   progressPercentage?: number;
   onMoveUp?: () => void;
   onMoveDown?: () => void;
+  onStartDrag?: () => void;
+  onPanMove?: (translationY: number) => void;
+  onPanRelease?: () => void;
+  index?: number;
+  isDragging?: boolean;
+  isAnyDragging?: boolean;
 }
 
 export default function SummaryRow({
@@ -23,9 +30,43 @@ export default function SummaryRow({
   progressPercentage = 0,
   onMoveUp,
   onMoveDown,
+  onStartDrag,
+  onPanMove,
+  onPanRelease,
+  index,
+  isDragging = false,
+  isAnyDragging = false,
 }: SummaryRowProps) {
+  const scale = useRef(new Animated.Value(1)).current;
+
+  const longRef = useRef<any>(null);
+  const panRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (isDragging) {
+      Animated.spring(scale, {
+        toValue: 1.02,
+        useNativeDriver: true,
+        stiffness: 220,
+        damping: 24,
+        mass: 0.6,
+      }).start();
+    } else {
+      Animated.timing(scale, {
+        toValue: 1,
+        duration: 120,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [isDragging]);
   return (
-    <View style={styles.container}>
+    <Animated.View
+      style={[
+        styles.container,
+        { transform: [{ scale }], opacity: isAnyDragging && !isDragging ? 0.98 : 1 },
+        isDragging && styles.dragShadow,
+      ]}
+    >
       {/* Colored Icon Container */}
       <View style={[styles.iconContainer, { backgroundColor }]}>
         <Text style={styles.emoji}>{emoji}</Text>
@@ -63,30 +104,51 @@ export default function SummaryRow({
       </View>
 
       {/* Sort Control - Single Hamburger */}
-      <TouchableOpacity 
-        style={styles.sortContainer}
-        onPress={() => {
-          // Handle drag/reorder action
-          console.log('Reorder tapped');
+      <LongPressGestureHandler
+        ref={longRef}
+        minDurationMs={200}
+        onHandlerStateChange={({ nativeEvent }) => {
+          if (nativeEvent.state === State.ACTIVE) {
+            onStartDrag && onStartDrag();
+          }
         }}
-        activeOpacity={0.7}
       >
-        <Svg width="20" height="20" viewBox="0 0 24 24">
-          <Path 
-            d="M21 7.75H3C2.59 7.75 2.25 7.41 2.25 7C2.25 6.59 2.59 6.25 3 6.25H21C21.41 6.25 21.75 6.59 21.75 7C21.75 7.41 21.41 7.75 21 7.75Z" 
-            fill="#5C5C5C"
-          />
-          <Path 
-            d="M21 12.75H3C2.59 12.75 2.25 12.41 2.25 12C2.25 11.59 2.59 11.25 3 11.25H21C21.41 11.25 21.75 11.59 21.75 12C21.75 12.41 21.41 12.75 21 12.75Z" 
-            fill="#5C5C5C"
-          />
-          <Path 
-            d="M21 17.75H3C2.59 17.75 2.25 17.41 2.25 17C2.25 16.59 2.59 16.25 3 16.25H21C21.41 16.25 21.75 16.59 21.75 17C21.75 17.41 21.41 17.75 21 17.75Z" 
-            fill="#5C5C5C"
-          />
-        </Svg>
-      </TouchableOpacity>
-    </View>
+        <PanGestureHandler
+          ref={panRef}
+          simultaneousHandlers={longRef}
+          activeOffsetY={[-2, 2]}
+          onGestureEvent={({ nativeEvent }) => {
+            if (onPanMove) onPanMove(nativeEvent.translationY);
+          }}
+          onHandlerStateChange={({ nativeEvent }) => {
+            if (
+              nativeEvent.state === State.END ||
+              nativeEvent.state === State.CANCELLED ||
+              nativeEvent.state === State.FAILED
+            ) {
+              onPanRelease && onPanRelease();
+            }
+          }}
+        >
+          <View style={styles.sortContainer} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+            <Svg width="20" height="20" viewBox="0 0 24 24">
+              <Path 
+                d="M21 7.75H3C2.59 7.75 2.25 7.41 2.25 7C2.25 6.59 2.59 6.25 3 6.25H21C21.41 6.25 21.75 6.59 21.75 7C21.75 7.41 21.41 7.75 21 7.75Z" 
+                fill="#5C5C5C"
+              />
+              <Path 
+                d="M21 12.75H3C2.59 12.75 2.25 12.41 2.25 12C2.25 11.59 2.59 11.25 3 11.25H21C21.41 11.25 21.75 11.59 21.75 12C21.75 12.41 21.41 12.75 21 12.75Z" 
+                fill="#5C5C5C"
+              />
+              <Path 
+                d="M21 17.75H3C2.59 17.75 2.25 17.41 2.25 17C2.25 16.59 2.59 16.25 3 16.25H21C21.41 16.25 21.75 16.59 21.75 17C21.75 17.41 21.41 17.75 21 17.75Z" 
+                fill="#5C5C5C"
+              />
+            </Svg>
+          </View>
+        </PanGestureHandler>
+      </LongPressGestureHandler>
+    </Animated.View>
   );
 }
 
@@ -98,6 +160,13 @@ const styles = StyleSheet.create({
     gap: 10,
     height: 51,
     marginBottom: '6.4%', // 24px out of 375px screen width
+  },
+  dragShadow: {
+    shadowColor: '#000',
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 6,
   },
   iconContainer: {
     width: 44,
