@@ -5,9 +5,62 @@ import { BlurView } from 'expo-blur';
 import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { DesignTokens as T } from '../constants/design-tokens';
+import SummaryRow from '../components/SummaryRow';
 
 export default function SummaryScreen() {
   const router = useRouter();
+
+  // Mock data for learning modules - matches the design spec
+  const learningModules = [
+    {
+      id: '1',
+      title: 'Alphabet Mastery',
+      subtitle: 'Learn all English letters & their sounds.',
+      duration: '18 Minutes',
+      emoji: 'abc',
+      backgroundColor: T.colors.red,
+    },
+    {
+      id: '2',
+      title: 'Basic Words',
+      subtitle: 'Start with simple vocabulary words.',
+      duration: '15 Minutes',
+      emoji: '🍎',
+      backgroundColor: T.colors.green2,
+    },
+    {
+      id: '3',
+      title: 'Sight Reading',
+      subtitle: 'Practice reading common words.',
+      duration: '12 Minutes',
+      emoji: '📖',
+      backgroundColor: T.colors.bluePrimary,
+    },
+    {
+      id: '4',
+      title: 'Core Vocabulary',
+      subtitle: 'Build essential word knowledge.',
+      duration: '20 Minutes',
+      emoji: '📚',
+      backgroundColor: T.colors.yellow,
+    },
+    {
+      id: '5',
+      title: 'Simple Sentences',
+      subtitle: 'Form basic sentence structures.',
+      duration: '16 Minutes',
+      emoji: '📝',
+      backgroundColor: T.colors.green1,
+    },
+    {
+      id: '6',
+      title: 'Listening Practice',
+      subtitle: 'Improve comprehension skills.',
+      duration: '22 Minutes',
+      emoji: '🎧',
+      backgroundColor: T.colors.green3,
+    },
+  ];
 
   return (
     <View style={styles.screen}>
@@ -56,7 +109,25 @@ export default function SummaryScreen() {
           <Text style={styles.sessionTitle}>English Speaking Session</Text>
           <Text style={styles.sessionSubtitle}>Overall periods: 1 Hour : 13 Minutes</Text>
         </View>
-        {/* Phase 4-7 will render the list, drag & drop, and footer */}
+
+        {/* Learning Modules List */}
+        <View style={styles.modulesList}>
+          {learningModules.map((module, index) => (
+            <SummaryRow
+              key={module.id}
+              title={module.title}
+              subtitle={module.subtitle}
+              duration={module.duration}
+              emoji={module.emoji}
+              backgroundColor={module.backgroundColor}
+              progressPercentage={Math.random() * 100} // Mock progress for now
+              onMoveUp={() => console.log(`Move ${module.title} up`)}
+              onMoveDown={() => console.log(`Move ${module.title} down`)}
+            />
+          ))}
+        </View>
+
+        {/* Phase 7 will add the sticky footer */}
       </View>
     </View>
   );
@@ -157,6 +228,11 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     color: T.colors.blueNormal,
     opacity: 0.7,
+  },
+  // Modules List
+  modulesList: {
+    flex: 1,
+    paddingTop: 24,
   },
 });
 
