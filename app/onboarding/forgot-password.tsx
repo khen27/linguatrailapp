@@ -86,7 +86,7 @@ export default function ForgotPasswordScreen() {
             <View style={styles.inputField}>
               <TextInput
                 style={styles.textInput}
-                placeholder="muddassarhaseeb34@gmail.com"
+                placeholder="+0 000 000 0000"
                 placeholderTextColor={Colors.text.secondary}
                 value={emailOrPhone}
                 onChangeText={setEmailOrPhone}
@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     fontSize: Typography.sizes.body,
     lineHeight: Typography.lineHeight.body,
     letterSpacing: Typography.letterSpacing,
-    color: Colors.text.secondary,
+    color: '#000000',
   },
   errorText: {
     fontFamily: Typography.fontFamily.body,

@@ -280,7 +280,7 @@ const styles = StyleSheet.create({
     fontWeight: Typography.weights.regular as '500',
     fontSize: Typography.sizes.body,
     lineHeight: Typography.lineHeight.body,
-    color: Colors.text.secondary,
+    color: '#000000',
   },
   otpCellFilled: {
     color: Colors.text.primary,
