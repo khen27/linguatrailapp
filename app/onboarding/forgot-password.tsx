@@ -5,11 +5,12 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
+  Image,
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Rect } from 'react-native-svg';
 
 // Validation utilities
 const validateEmailOrPhone = (input: string): { isValid: boolean; type: 'email' | 'phone' | null } => {
@@ -76,24 +77,27 @@ export default function ForgotPasswordScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#263574" />
+      <StatusBar barStyle="light-content" backgroundColor="#091729" />
       
       {/* Background with decorative elements */}
       <View style={styles.background}>
-        <View style={styles.decorativeShape1} />
-        <View style={styles.decorativeShape2} />
-        <View style={styles.decorativeShape3} />
       </View>
+
+      {/* Back Button */}
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <Svg width={42} height={42} viewBox="0 0 42 42" fill="none">
+          <Rect x={42} y={42} width={42} height={42} rx={21} transform="rotate(180 42 42)" fill="white"/>
+          <Path d="M18.9753 15.9416L13.917 21L18.9753 26.0583" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+          <Path d="M28.0836 21L14.0586 21" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        </Svg>
+      </TouchableOpacity>
 
       {/* Logo and Branding */}
       <View style={styles.logoContainer}>
-        <View style={styles.logo}>
-          <Svg width={55} height={34} viewBox="0 0 55 34" fill="none">
-            <Path d="M1.31 15.2C1.31 15.2 1.31 15.2 1.31 15.2" fill="#2B958B"/>
-            <Path d="M7.02 10.7C7.02 10.7 7.02 10.7 7.02 10.7" fill="#27EDB7"/>
-            <Path d="M13.7 6.6C13.7 6.6 13.7 6.6 13.7 6.6" fill="#FFFFFF"/>
-          </Svg>
-        </View>
+        <Image
+          source={require('../../assets/app-icons-ios/Icon-1024.png')}
+          style={styles.logoImage}
+        />
         <Text style={styles.appTitle}>LinguaTrail</Text>
       </View>
 
@@ -156,7 +160,7 @@ export default function ForgotPasswordScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#263574',
+    backgroundColor: '#091729',
   },
   background: {
     position: 'absolute',
@@ -165,38 +169,11 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  decorativeShape1: {
+  backButton: {
     position: 'absolute',
-    width: 236,
-    height: 382,
-    left: -73,
-    top: -26,
-    backgroundColor: '#EBF8F7',
-    borderRadius: 191,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape2: {
-    position: 'absolute',
-    width: 130,
-    height: 211,
-    left: -40,
-    top: -65,
-    backgroundColor: '#BFC4DD',
-    borderRadius: 105,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape3: {
-    position: 'absolute',
-    width: 116,
-    height: 188,
-    left: -36,
-    top: -71,
-    backgroundColor: '#E0E3EF',
-    borderRadius: 94,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
+    top: 70,
+    left: 20,
+    zIndex: 10,
   },
   logoContainer: {
     position: 'absolute',
@@ -206,11 +183,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 2,
   },
-  logo: {
+  logoImage: {
     width: 55,
     height: 55,
-    alignItems: 'center',
-    justifyContent: 'center',
+    borderRadius: 27.5,
   },
   appTitle: {
     fontFamily: 'Manrope',
