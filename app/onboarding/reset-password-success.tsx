@@ -4,10 +4,10 @@ import {
   View,
   Text,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
+import { OnboardingScreen } from '@/components/onboarding';
+import { Colors, Typography, Spacing, BorderRadius } from '@/constants/design-tokens';
 import Svg, { Path } from 'react-native-svg';
 
 export default function ResetPasswordSuccessScreen() {
@@ -18,184 +18,93 @@ export default function ResetPasswordSuccessScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#263574" />
-
-      {/* Background with decorative elements */}
-      <View style={styles.background}>
-        <View style={styles.decorativeShape1} />
-        <View style={styles.decorativeShape2} />
-        <View style={styles.decorativeShape3} />
-      </View>
-
-      {/* Logo and Branding */}
-      <View style={styles.logoContainer}>
-        <View style={styles.logo}>
-          <Svg width={55} height={34} viewBox="0 0 55 34" fill="none">
-            <Path d="M1.31 15.2C1.31 15.2 1.31 15.2 1.31 15.2" fill="#2B958B"/>
-            <Path d="M7.02 10.7C7.02 10.7 7.02 10.7 7.02 10.7" fill="#27EDB7"/>
-            <Path d="M13.7 6.6C13.7 6.6 13.7 6.6 13.7 6.6" fill="#FFFFFF"/>
+    <OnboardingScreen>
+      <View style={styles.contentContainer}>
+        {/* Center Content Section */}
+        <View style={styles.centerContent}>
+          {/* Success Badge with Checkmark */}
+          <Svg width={85} height={85} viewBox="0 0 85 85" fill="none">
+            <Path 
+              opacity="0.4" 
+              d="M38.8165 7.29589L19.3373 14.5917C15.6186 16.0084 12.5728 20.4001 12.5728 24.4021V53.0896C12.5728 55.9584 14.4498 59.748 16.7519 61.448L36.2311 76.0042C39.6665 78.5896 45.2978 78.5896 48.7332 76.0042L68.2123 61.448C70.5144 59.7126 72.3915 55.9584 72.3915 53.0896V24.4021C72.3915 20.4355 69.3457 16.0084 65.6269 14.6271L46.1478 7.33131C44.1644 6.55214 40.8353 6.55214 38.8165 7.29589Z" 
+              fill={Colors.brand.primary}
+            />
+            <Path 
+              d="M37.7543 50.3978C37.0813 50.3978 36.4084 50.1499 35.8772 49.6186L30.1751 43.9166C29.148 42.8895 29.148 41.1895 30.1751 40.1624C31.2022 39.1353 32.9022 39.1353 33.9293 40.1624L37.7543 43.9874L51.1063 30.6353C52.1334 29.6082 53.8334 29.6082 54.8605 30.6353C55.8876 31.6624 55.8876 33.3624 54.8605 34.3895L39.6313 49.6186C39.1001 50.1499 38.4272 50.3978 37.7543 50.3978Z" 
+              fill={Colors.text.primary}
+            />
           </Svg>
-        </View>
-        <Text style={styles.appTitle}>LinguaTrail</Text>
-      </View>
 
-      {/* Success Form Container */}
-      <View style={styles.formContainer}>
-        {/* Success Badge with Checkmark */}
-        <Svg width={85} height={85} viewBox="0 0 85 85" fill="none">
-          {/* Outer circle background */}
-          <Path
-            d="M 42.5 0 C 66.07 0 85 18.93 85 42.5 C 85 66.07 66.07 85 42.5 85 C 18.93 85 0 66.07 0 42.5 C 0 18.93 18.93 0 42.5 0"
-            fill="#27EDB7"
-          />
-          {/* Checkmark */}
-          <Path
-            d="M 25 42.5 L 37.5 55 L 60 32.5"
-            stroke="#263574"
-            strokeWidth="4"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            fill="none"
-          />
-        </Svg>
-
-        {/* Title and Subtitle */}
-        <View style={styles.textContainer}>
-          <Text style={styles.title}>Password Reset Successful!</Text>
-          <Text style={styles.subtitle}>
-            All done! Your password has been updated securely.
-          </Text>
+          {/* Title and Subtitle */}
+          <View style={styles.textContainer}>
+            <Text style={styles.title}>Password Reset Successful!</Text>
+            <Text style={styles.subtitle}>
+              All done! Your password has been updated securely.
+            </Text>
+          </View>
         </View>
 
-        {/* Back to Login Button */}
+        {/* Button Section at Bottom */}
         <TouchableOpacity style={styles.button} onPress={handleBackToLogin}>
           <Text style={styles.buttonText}>Back to Login</Text>
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </OnboardingScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  contentContainer: {
     flex: 1,
-    backgroundColor: '#263574',
+    gap: Spacing.md,
+    paddingHorizontal: Spacing.lg,
   },
-  background: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  decorativeShape1: {
-    position: 'absolute',
-    width: 236,
-    height: 382,
-    left: -73,
-    top: -26,
-    backgroundColor: '#EBF8F7',
-    borderRadius: 191,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape2: {
-    position: 'absolute',
-    width: 130,
-    height: 211,
-    left: -40,
-    top: -65,
-    backgroundColor: '#BFC4DD',
-    borderRadius: 105,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape3: {
-    position: 'absolute',
-    width: 116,
-    height: 188,
-    left: -36,
-    top: -71,
-    backgroundColor: '#E0E3EF',
-    borderRadius: 94,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  logoContainer: {
-    position: 'absolute',
-    top: 92,
-    left: '50%',
-    transform: [{ translateX: -55 }],
-    alignItems: 'center',
-    gap: 2,
-  },
-  logo: {
-    width: 55,
-    height: 55,
+  centerContent: {
+    flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    gap: Spacing.lg,
   },
-  appTitle: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
+  textContainer: {
+    gap: 8,
+    alignItems: 'center',
+  },
+  title: {
+    fontFamily: Typography.fontFamily.title,
+    fontWeight: Typography.weights.semibold as '600',
     fontSize: 22,
     lineHeight: 26,
     textAlign: 'center',
     letterSpacing: -0.02,
-    color: '#FFFFFF',
-  },
-  formContainer: {
-    position: 'absolute',
-    bottom: 25,
-    left: 8,
-    right: 8,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 32,
-    paddingTop: 24,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    gap: 24,
-    alignItems: 'center',
-  },
-  textContainer: {
-    alignItems: 'center',
-    marginTop: 20,
-    width: '100%',
-  },
-  title: {
-    fontFamily: 'Manrope',
-    fontWeight: '700',
-    fontSize: 24,
-    lineHeight: 28,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#263574',
+    color: Colors.text.primary,
   },
   subtitle: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#666666',
-    marginTop: 4,
-  },
-  button: {
-    width: '100%',
-    backgroundColor: '#27EDB7',
-    borderRadius: 1000,
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  buttonText: {
-    fontFamily: 'Urbanist',
-    fontWeight: '600',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
     fontSize: 16,
     lineHeight: 24,
-    color: '#263574',
+    textAlign: 'center',
+    letterSpacing: -0.02,
+    color: Colors.text.secondary,
+    opacity: 0.7,
+  },
+  button: {
+    backgroundColor: Colors.brand.primary,
+    borderRadius: BorderRadius.round,
+    height: 52,
+    paddingVertical: 14,
+    paddingHorizontal: Spacing.lg,
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    marginTop: 'auto',
+  },
+  buttonText: {
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.semibold as '600',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.accent,
   },
 });

@@ -5,11 +5,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  StatusBar,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import Svg, { Path } from 'react-native-svg';
+import { OnboardingScreen } from '@/components/onboarding';
+import { Colors, Typography, Spacing, BorderRadius } from '@/constants/design-tokens';
 
 // Validation utilities
 const validateEmailOrPhone = (input: string): { isValid: boolean; type: 'email' | 'phone' | null } => {
@@ -75,48 +74,20 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#263574" />
-      
-      {/* Background with decorative elements */}
-      <View style={styles.background}>
-        <View style={styles.decorativeShape1} />
-        <View style={styles.decorativeShape2} />
-        <View style={styles.decorativeShape3} />
-      </View>
-
-      {/* Logo and Branding */}
-      <View style={styles.logoContainer}>
-        <View style={styles.logo}>
-          <Svg width={55} height={34} viewBox="0 0 55 34" fill="none">
-            <Path d="M1.31 15.2C1.31 15.2 1.31 15.2 1.31 15.2" fill="#2B958B"/>
-            <Path d="M7.02 10.7C7.02 10.7 7.02 10.7 7.02 10.7" fill="#27EDB7"/>
-            <Path d="M13.7 6.6C13.7 6.6 13.7 6.6 13.7 6.6" fill="#FFFFFF"/>
-          </Svg>
-        </View>
-        <Text style={styles.appTitle}>LinguaTrail</Text>
-      </View>
-
-      {/* Forgot Password Form Container */}
-      <View style={styles.formContainer}>
-        {/* Header Section */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Forgot Password?</Text>
-          <Text style={styles.subtitle}>
-            Don't worry! Enter your email or phone number to reset your password.
-          </Text>
-        </View>
-
-        {/* Form Content */}
-        <View style={styles.formContent}>
-          {/* Email/Phone Input Container */}
+    <OnboardingScreen
+      title="Forgot Password?"
+      subtitle="Don't worry! Enter your email or phone number to reset your password."
+    >
+      <View style={styles.formContent}>
+        {/* Input Section */}
+        <View style={styles.inputSection}>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Email / Phone</Text>
             <View style={styles.inputField}>
               <TextInput
                 style={styles.textInput}
-                placeholder="muddassarhaseeb34@gmail.com"
-                placeholderTextColor="#5C5C5C"
+                placeholder="+0 000 000 0000"
+                placeholderTextColor={Colors.text.secondary}
                 value={emailOrPhone}
                 onChangeText={setEmailOrPhone}
                 keyboardType="email-address"
@@ -126,8 +97,10 @@ export default function ForgotPasswordScreen() {
 
           {/* Error Message */}
           {error && <Text style={styles.errorText}>{error}</Text>}
+        </View>
 
-          {/* Send Verification Code Button */}
+        {/* Button Section - At Bottom */}
+        <View style={styles.buttonSection}>
           <TouchableOpacity 
             style={[styles.sendButton, loading && styles.sendButtonDisabled]}
             onPress={handleSendVerificationCode}
@@ -149,190 +122,99 @@ export default function ForgotPasswordScreen() {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </OnboardingScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#263574',
-  },
-  background: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  decorativeShape1: {
-    position: 'absolute',
-    width: 236,
-    height: 382,
-    left: -73,
-    top: -26,
-    backgroundColor: '#EBF8F7',
-    borderRadius: 191,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape2: {
-    position: 'absolute',
-    width: 130,
-    height: 211,
-    left: -40,
-    top: -65,
-    backgroundColor: '#BFC4DD',
-    borderRadius: 105,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape3: {
-    position: 'absolute',
-    width: 116,
-    height: 188,
-    left: -36,
-    top: -71,
-    backgroundColor: '#E0E3EF',
-    borderRadius: 94,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  logoContainer: {
-    position: 'absolute',
-    top: 92,
-    left: '50%',
-    transform: [{ translateX: -55 }],
-    alignItems: 'center',
-    gap: 2,
-  },
-  logo: {
-    width: 55,
-    height: 55,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  appTitle: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
-    fontSize: 22,
-    lineHeight: 26,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#FFFFFF',
-  },
-  formContainer: {
-    position: 'absolute',
-    bottom: 25,
-    left: 8,
-    right: 8,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 32,
-    paddingTop: 24,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    gap: 24,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  title: {
-    fontFamily: 'Manrope',
-    fontWeight: '700',
-    fontSize: 28,
-    lineHeight: 34,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#263574',
-  },
-  subtitle: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#5C5C5C',
-    marginTop: 8,
-  },
   formContent: {
-    gap: 20,
+    gap: Spacing.xl,
+    flex: 1,
+  },
+  inputSection: {
+    gap: Spacing.md,
   },
   inputContainer: {
-    gap: 8,
+    gap: Spacing.sm,
   },
   inputLabel: {
-    fontFamily: 'Manrope',
-    fontWeight: '500',
-    fontSize: 16,
-    lineHeight: 20,
-    letterSpacing: -0.02,
-    color: '#263574',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.primary,
   },
   inputField: {
-    backgroundColor: '#F0F0F0',
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    borderWidth: 1,
-    borderColor: '#E0E0E0',
+    backgroundColor: Colors.input.background,
+    borderRadius: BorderRadius.round,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
+    borderWidth: 1.25,
+    borderColor: Colors.input.background,
+    height: 48,
   },
   textInput: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
-    letterSpacing: -0.02,
-    color: '#263574',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: '#000000',
   },
   errorText: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-    color: '#FF0000',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.small,
+    lineHeight: Typography.lineHeight.small,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.state.error,
     textAlign: 'center',
   },
+  buttonSection: {
+    gap: Spacing.md,
+    marginTop: 'auto',
+  },
   sendButton: {
-    backgroundColor: '#2B958B',
-    borderRadius: 12,
-    paddingVertical: 16,
+    backgroundColor: Colors.brand.primary,
+    borderRadius: BorderRadius.round,
+    height: 52,
+    paddingVertical: 14,
+    paddingHorizontal: Spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
   sendButtonDisabled: {
-    backgroundColor: '#A0A0A0', // Gray out the button when disabled
+    backgroundColor: '#CCCCCC',
     opacity: 0.7,
   },
   sendButtonText: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
-    fontSize: 18,
-    lineHeight: 22,
-    letterSpacing: -0.02,
-    color: '#FFFFFF',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.semibold as '600',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.accent,
   },
   backContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    alignItems: 'center',
   },
   backText: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
-    letterSpacing: -0.02,
-    color: '#5C5C5C',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.secondary,
   },
   backLink: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 20,
-    letterSpacing: -0.02,
-    color: '#2B958B',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.brand.primary,
   },
 });

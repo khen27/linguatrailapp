@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import Svg, { Path } from 'react-native-svg';
+import Svg, { Path, Rect } from 'react-native-svg';
 
 export default function LoginScreen() {
   const router = useRouter();
@@ -21,25 +21,27 @@ export default function LoginScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#263574" />
+      <StatusBar barStyle="light-content" backgroundColor="#091729" />
       
-      {/* Background with decorative elements */}
+      {/* Background */}
       <View style={styles.background}>
-        {/* Decorative blurred shapes */}
-        <View style={styles.decorativeShape1} />
-        <View style={styles.decorativeShape2} />
-        <View style={styles.decorativeShape3} />
       </View>
+
+      {/* Back Button */}
+      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
+        <Svg width={42} height={42} viewBox="0 0 42 42" fill="none">
+          <Rect x={42} y={42} width={42} height={42} rx={21} transform="rotate(180 42 42)" fill="white"/>
+          <Path d="M18.9753 15.9416L13.917 21L18.9753 26.0583" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+          <Path d="M28.0836 21L14.0586 21" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+        </Svg>
+      </TouchableOpacity>
 
       {/* Logo and Branding */}
       <View style={styles.logoContainer}>
-        <View style={styles.logo}>
-          <Svg width={55} height={34} viewBox="0 0 55 34" fill="none">
-            <Path d="M1.31 15.2C1.31 15.2 1.31 15.2 1.31 15.2" fill="#2B958B"/>
-            <Path d="M7.02 10.7C7.02 10.7 7.02 10.7 7.02 10.7" fill="#27EDB7"/>
-            <Path d="M13.7 6.6C13.7 6.6 13.7 6.6 13.7 6.6" fill="#FFFFFF"/>
-          </Svg>
-        </View>
+        <Image
+          source={require('../../assets/app-icons-ios/Icon-1024.png')}
+          style={styles.logoImage}
+        />
         <Text style={styles.appTitle}>LinguaTrail</Text>
       </View>
 
@@ -54,16 +56,18 @@ export default function LoginScreen() {
         {/* Social Login Buttons */}
         <View style={styles.socialButtonsContainer}>
           <TouchableOpacity style={styles.socialButton}>
-            <View style={styles.googleIcon}>
-              <Text style={styles.googleText}>G</Text>
-            </View>
+            <Image
+              source={require('../../assets/icons/sign-in-google.png')}
+              style={styles.providerIcon}
+            />
             <Text style={styles.socialButtonText}>Google</Text>
           </TouchableOpacity>
           
           <TouchableOpacity style={styles.socialButton}>
-            <View style={styles.appleIcon}>
-              <Text style={styles.appleText}>🍎</Text>
-            </View>
+            <Image
+              source={require('../../assets/icons/sign-in-apple.png')}
+              style={styles.providerIcon}
+            />
             <Text style={styles.socialButtonText}>Apple</Text>
           </TouchableOpacity>
         </View>
@@ -103,13 +107,8 @@ export default function LoginScreen() {
             />
             <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
               <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                <Path
-                  d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"
-                  stroke="#263574"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
+                <Path opacity="0.4" d="M15.5799 12C15.5799 13.98 13.9799 15.58 11.9999 15.58C10.0199 15.58 8.41992 13.98 8.41992 12C8.41992 10.02 10.0199 8.42001 11.9999 8.42001C13.9799 8.42001 15.5799 10.02 15.5799 12Z" stroke="#263574" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M11.9998 20.27C15.5298 20.27 18.8198 18.19 21.1098 14.59C22.0098 13.18 22.0098 10.81 21.1098 9.4C18.8198 5.8 15.5298 3.72 11.9998 3.72C8.46984 3.72 5.17984 5.8 2.88984 9.4C1.98984 10.81 1.98984 13.18 2.88984 14.59C5.17984 18.19 8.46984 20.27 11.9998 20.27Z" stroke="#263574" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </TouchableOpacity>
           </View>
@@ -123,14 +122,10 @@ export default function LoginScreen() {
           >
             <View style={[styles.checkbox, keepLoggedIn && styles.checkboxChecked]}>
               {keepLoggedIn && (
-                <Svg width={9} height={6} viewBox="0 0 9 6" fill="none">
-                  <Path
-                    d="M1 3L3.5 5.5L8 1"
-                    stroke="#1FBE92"
-                    strokeWidth="1.25"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                <Svg width={20} height={21} viewBox="0 0 20 21" fill="none">
+                  <Path d="M8 1.125H12C16.0731 1.125 19.375 4.4269 19.375 8.5V12.5C19.375 16.5731 16.0731 19.875 12 19.875H8C3.9269 19.875 0.625 16.5731 0.625 12.5V8.5C0.625 4.4269 3.9269 1.125 8 1.125Z" fill="#F6F7FA"/>
+                  <Path d="M8 1.125H12C16.0731 1.125 19.375 4.4269 19.375 8.5V12.5C19.375 16.5731 16.0731 19.875 12 19.875H8C3.9269 19.875 0.625 16.5731 0.625 12.5V8.5C0.625 4.4269 3.9269 1.125 8 1.125Z" stroke="#1FBE92" strokeWidth="1.25"/>
+                  <Path d="M5.75 10.5L8.58 13.33L14.25 7.67001" stroke="#1FBE92" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               )}
             </View>
@@ -162,7 +157,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#263574',
+    backgroundColor: '#091729',
   },
   background: {
     position: 'absolute',
@@ -171,52 +166,24 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
   },
-  decorativeShape1: {
+  backButton: {
     position: 'absolute',
-    width: 236,
-    height: 382,
-    left: -73,
-    top: -26,
-    backgroundColor: '#EBF8F7',
-    borderRadius: 191,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape2: {
-    position: 'absolute',
-    width: 130,
-    height: 211,
-    left: -40,
-    top: -65,
-    backgroundColor: '#BFC4DD',
-    borderRadius: 105,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
-  },
-  decorativeShape3: {
-    position: 'absolute',
-    width: 116,
-    height: 188,
-    left: -36,
-    top: -71,
-    backgroundColor: '#E0E3EF',
-    borderRadius: 94,
-    opacity: 0.3,
-    transform: [{ rotate: '90deg' }],
+    top: 70,
+    left: 20,
+    zIndex: 10,
   },
   logoContainer: {
     position: 'absolute',
-    top: 92,
-    left: '50%',
-    transform: [{ translateX: -55 }],
+    top: 150,
+    alignSelf: 'center',
+    width: '100%',
     alignItems: 'center',
     gap: 2,
   },
-  logo: {
-    width: 55,
-    height: 55,
-    alignItems: 'center',
-    justifyContent: 'center',
+  logoImage: {
+    width: 70,
+    height: 70,
+    borderRadius: 35,
   },
   appTitle: {
     fontFamily: 'Manrope',
@@ -280,27 +247,9 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingVertical: 12,
   },
-  googleIcon: {
+  providerIcon: {
     width: 26,
     height: 26,
-    backgroundColor: '#4285F4',
-    borderRadius: 13,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  googleText: {
-    color: '#FFFFFF',
-    fontWeight: 'bold',
-    fontSize: 14,
-  },
-  appleIcon: {
-    width: 26,
-    height: 26,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  appleText: {
-    fontSize: 16,
   },
   socialButtonText: {
     fontFamily: 'Urbanist',
@@ -382,7 +331,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkboxChecked: {
-    backgroundColor: '#1FBE92',
+    backgroundColor: '#F6F7FA',
   },
   checkboxText: {
     fontFamily: 'Urbanist',
