@@ -36,14 +36,6 @@ const validatePassword = (password: string): { isValid: boolean; errors: string[
   };
 };
 
-const getPasswordStrength = (password: string): 'weak' | 'fair' | 'good' | 'strong' => {
-  if (!password) return 'weak';
-  if (password.length < 8) return 'weak';
-  if (password.length < 12) return 'fair';
-  if (!/[!@#$%^&*]/.test(password)) return 'good';
-  return 'strong';
-};
-
 export default function ResetPasswordScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -57,11 +49,9 @@ export default function ResetPasswordScreen() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [passwordStrength, setPasswordStrength] = useState<'weak' | 'fair' | 'good' | 'strong'>('weak');
 
   const handlePasswordChange = (password: string) => {
     setNewPassword(password);
-    setPasswordStrength(getPasswordStrength(password));
   };
 
   const handleResetPassword = async () => {
@@ -110,21 +100,6 @@ export default function ResetPasswordScreen() {
 
   const handleBackToVerify = () => {
     router.back();
-  };
-
-  const getStrengthColor = () => {
-    switch (passwordStrength) {
-      case 'weak':
-        return '#FF6B6B';
-      case 'fair':
-        return '#FFC107';
-      case 'good':
-        return '#2196F3';
-      case 'strong':
-        return '#2B958B';
-      default:
-        return '#CCCCCC';
-    }
   };
 
   return (
@@ -178,19 +153,11 @@ export default function ResetPasswordScreen() {
                   editable={!loading}
                 />
                 <TouchableOpacity onPress={() => setShowPassword(!showPassword)}>
-                  <Text style={styles.toggleText}>{showPassword ? '🙈' : '👁️'}</Text>
+                  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                    <Path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#CCCCCC"/>
+                  </Svg>
                 </TouchableOpacity>
               </View>
-
-              {/* Password Strength Indicator */}
-              {newPassword && (
-                <View style={styles.strengthContainer}>
-                  <View style={[styles.strengthBar, { backgroundColor: getStrengthColor() }]} />
-                  <Text style={[styles.strengthText, { color: getStrengthColor() }]}>
-                    {passwordStrength.charAt(0).toUpperCase() + passwordStrength.slice(1)} strength
-                  </Text>
-                </View>
-              )}
             </View>
 
             {/* Confirm Password Input */}
@@ -207,23 +174,12 @@ export default function ResetPasswordScreen() {
                   editable={!loading}
                 />
                 <TouchableOpacity onPress={() => setShowConfirmPassword(!showConfirmPassword)}>
-                  <Text style={styles.toggleText}>{showConfirmPassword ? '🙈' : '👁️'}</Text>
+                  <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
+                    <Path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zm0 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z" fill="#CCCCCC"/>
+                  </Svg>
                 </TouchableOpacity>
               </View>
             </View>
-
-            {/* Password Requirements */}
-            {newPassword && (
-              <View style={styles.requirementsContainer}>
-                <Text style={styles.requirementsLabel}>Password must include:</Text>
-                <View style={styles.requirementsList}>
-                  <Text style={styles.requirement}>• At least 8 characters</Text>
-                  <Text style={styles.requirement}>• One uppercase letter (A-Z)</Text>
-                  <Text style={styles.requirement}>• One lowercase letter (a-z)</Text>
-                  <Text style={styles.requirement}>• One number (0-9)</Text>
-                </View>
-              </View>
-            )}
 
             {/* Error Message */}
             {error && <Text style={styles.errorText}>{error}</Text>}
@@ -235,7 +191,7 @@ export default function ResetPasswordScreen() {
               disabled={loading}
             >
               <Text style={styles.resetButtonText}>
-                {loading ? 'Resetting...' : 'Reset Password'}
+                {loading ? 'Saving...' : 'Save New Password'}
               </Text>
             </TouchableOpacity>
 
@@ -243,7 +199,7 @@ export default function ResetPasswordScreen() {
             <View style={styles.backContainer}>
               <Text style={styles.backText}>Back to </Text>
               <TouchableOpacity onPress={handleBackToVerify}>
-                <Text style={styles.backLink}>Verify Code</Text>
+                <Text style={styles.backLink}>Login?</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -374,12 +330,13 @@ const styles = StyleSheet.create({
   passwordInputWrapper: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#F5F5F5',
+    justifyContent: 'space-between',
+    height: 48,
+    backgroundColor: '#F6F7FA',
     borderRadius: 12,
     paddingHorizontal: 16,
-    paddingVertical: 12,
     borderWidth: 1,
-    borderColor: '#E0E0E0',
+    borderColor: '#E0E3EF',
   },
   passwordInput: {
     flex: 1,
@@ -389,51 +346,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     letterSpacing: -0.02,
     color: '#263574',
-  },
-  toggleText: {
-    fontSize: 24,
-    color: '#CCCCCC',
-  },
-  strengthContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginTop: 8,
-  },
-  strengthBar: {
-    width: 100,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 8,
-  },
-  strengthText: {
-    fontFamily: 'Manrope',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-  },
-  requirementsContainer: {
-    marginTop: 15,
-  },
-  requirementsLabel: {
-    fontFamily: 'Manrope',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-    color: '#666666',
-    marginBottom: 8,
-  },
-  requirementsList: {
-    gap: 6,
-  },
-  requirement: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-    color: '#666666',
   },
   errorText: {
     fontFamily: 'Manrope',
