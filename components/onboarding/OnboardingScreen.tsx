@@ -4,10 +4,13 @@ import {
   View, 
   Text, 
   Image, 
-  StyleSheet 
+  StyleSheet,
+  Dimensions,
 } from 'react-native';
 import { Colors, Typography, Spacing } from '@/constants/design-tokens';
 import { BackButton } from './BackButton';
+
+const { height: screenHeight } = Dimensions.get('window');
 
 interface OnboardingScreenProps {
   logo?: number;  // Image source
@@ -33,15 +36,15 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
         />
         <Text style={styles.appTitle}>LinguaTrail</Text>
       </View>
-      
-      {(title || subtitle) && (
-        <View style={styles.headerContainer}>
-          {title && <Text style={styles.title}>{title}</Text>}
-          {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
-        </View>
-      )}
 
-      <View style={styles.contentContainer}>
+      <View style={styles.formContainer}>
+        {(title || subtitle) && (
+          <View style={styles.header}>
+            {title && <Text style={styles.title}>{title}</Text>}
+            {subtitle && <Text style={styles.subtitle}>{subtitle}</Text>}
+          </View>
+        )}
+
         {children}
       </View>
     </SafeAreaView>
@@ -75,30 +78,40 @@ const styles = StyleSheet.create({
     letterSpacing: Typography.letterSpacing,
     color: Colors.text.white,
   },
-  headerContainer: {
+  formContainer: {
+    position: 'absolute',
+    bottom: 25,
+    left: 8,
+    right: 8,
+    height: screenHeight * 0.6,
+    backgroundColor: Colors.background.white,
+    borderRadius: 32,
+    paddingTop: 24,
+    paddingHorizontal: 16,
+    paddingBottom: 16,
+    gap: 24,
+  },
+  header: {
     alignItems: 'center',
-    marginTop: 250,
-    paddingHorizontal: Spacing.lg,
+    gap: 8,
   },
   title: {
     fontFamily: Typography.fontFamily.title,
-    fontWeight: Typography.weights.bold as '700',
-    fontSize: Typography.sizes.h1,
+    fontWeight: Typography.weights.semibold as '600',
+    fontSize: Typography.sizes.h2,
+    lineHeight: 26,
     color: Colors.text.primary,
     textAlign: 'center',
-    marginBottom: Spacing.sm,
+    letterSpacing: Typography.letterSpacing,
   },
   subtitle: {
     fontFamily: Typography.fontFamily.body,
     fontWeight: Typography.weights.regular as '500',
     fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
     color: Colors.text.secondary,
     textAlign: 'center',
+    opacity: 0.7,
+    letterSpacing: Typography.letterSpacing,
   },
-  contentContainer: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    paddingBottom: Spacing.lg,
-    paddingHorizontal: Spacing.md,
-  }
 });

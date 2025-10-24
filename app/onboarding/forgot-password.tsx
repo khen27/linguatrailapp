@@ -5,12 +5,10 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Image,
-  StatusBar,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
-import Svg, { Path, Rect } from 'react-native-svg';
+import { OnboardingScreen } from '@/components/onboarding';
+import { Colors, Typography, Spacing, BorderRadius } from '@/constants/design-tokens';
 
 // Validation utilities
 const validateEmailOrPhone = (input: string): { isValid: boolean; type: 'email' | 'phone' | null } => {
@@ -76,51 +74,20 @@ export default function ForgotPasswordScreen() {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#091729" />
-      
-      {/* Background with decorative elements */}
-      <View style={styles.background}>
-      </View>
-
-      {/* Back Button */}
-      <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
-        <Svg width={42} height={42} viewBox="0 0 42 42" fill="none">
-          <Rect x={42} y={42} width={42} height={42} rx={21} transform="rotate(180 42 42)" fill="white"/>
-          <Path d="M18.9753 15.9416L13.917 21L18.9753 26.0583" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-          <Path d="M28.0836 21L14.0586 21" stroke="#263574" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
-        </Svg>
-      </TouchableOpacity>
-
-      {/* Logo and Branding */}
-      <View style={styles.logoContainer}>
-        <Image
-          source={require('../../assets/app-icons-ios/Icon-1024.png')}
-          style={styles.logoImage}
-        />
-        <Text style={styles.appTitle}>LinguaTrail</Text>
-      </View>
-
-      {/* Forgot Password Form Container */}
-      <View style={styles.formContainer}>
-        {/* Header Section */}
-        <View style={styles.header}>
-          <Text style={styles.title}>Forgot Password?</Text>
-          <Text style={styles.subtitle}>
-            Don't worry! Enter your email or phone number to reset your password.
-          </Text>
-        </View>
-
-        {/* Form Content */}
-        <View style={styles.formContent}>
-          {/* Email/Phone Input Container */}
+    <OnboardingScreen
+      title="Forgot Password?"
+      subtitle="Don't worry! Enter your email or phone number to reset your password."
+    >
+      <View style={styles.formContent}>
+        {/* Input Section */}
+        <View style={styles.inputSection}>
           <View style={styles.inputContainer}>
             <Text style={styles.inputLabel}>Email / Phone</Text>
             <View style={styles.inputField}>
               <TextInput
                 style={styles.textInput}
                 placeholder="muddassarhaseeb34@gmail.com"
-                placeholderTextColor="#5C5C5C"
+                placeholderTextColor={Colors.text.secondary}
                 value={emailOrPhone}
                 onChangeText={setEmailOrPhone}
                 keyboardType="email-address"
@@ -130,8 +97,10 @@ export default function ForgotPasswordScreen() {
 
           {/* Error Message */}
           {error && <Text style={styles.errorText}>{error}</Text>}
+        </View>
 
-          {/* Send Verification Code Button */}
+        {/* Button Section - At Bottom */}
+        <View style={styles.buttonSection}>
           <TouchableOpacity 
             style={[styles.sendButton, loading && styles.sendButtonDisabled]}
             onPress={handleSendVerificationCode}
@@ -153,129 +122,64 @@ export default function ForgotPasswordScreen() {
           </View>
         </View>
       </View>
-    </SafeAreaView>
+    </OnboardingScreen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#091729',
-  },
-  background: {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  backButton: {
-    position: 'absolute',
-    top: 70,
-    left: 20,
-    zIndex: 10,
-  },
-  logoContainer: {
-    position: 'absolute',
-    top: 150,
-    alignSelf: 'center',
-    width: '100%',
-    alignItems: 'center',
-    gap: 2,
-  },
-  logoImage: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
-  },
-  appTitle: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
-    fontSize: 22,
-    lineHeight: 26,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#FFFFFF',
-  },
-  formContainer: {
-    position: 'absolute',
-    bottom: 25,
-    left: 8,
-    right: 8,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 32,
-    paddingTop: 24,
-    paddingHorizontal: 16,
-    paddingBottom: 16,
-    gap: 24,
-  },
-  header: {
-    alignItems: 'center',
-    marginBottom: 20,
-  },
-  title: {
-    fontFamily: 'Manrope',
-    fontWeight: '700',
-    fontSize: 28,
-    lineHeight: 34,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#263574',
-  },
-  subtitle: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#5C5C5C',
-    marginTop: 8,
-  },
   formContent: {
-    gap: 20,
+    gap: Spacing.xl,
+  },
+  inputSection: {
+    gap: Spacing.md,
   },
   inputContainer: {
-    gap: 8,
+    gap: Spacing.sm,
   },
   inputLabel: {
-    fontFamily: 'Urbanist',
-    fontWeight: '500',
-    fontSize: 16,
-    lineHeight: 24,
-    letterSpacing: -0.02,
-    color: '#263574',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.primary,
   },
   inputField: {
-    backgroundColor: '#F6F7FA',
-    borderRadius: 1000,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
+    backgroundColor: Colors.input.background,
+    borderRadius: BorderRadius.round,
+    paddingHorizontal: Spacing.lg,
+    paddingVertical: Spacing.md,
     borderWidth: 1.25,
-    borderColor: '#F6F7FA',
+    borderColor: Colors.input.background,
+    height: 48,
   },
   textInput: {
-    fontFamily: 'Urbanist',
-    fontWeight: '500',
-    fontSize: 16,
-    lineHeight: 24,
-    letterSpacing: -0.02,
-    color: '#5C5C5C',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.secondary,
   },
   errorText: {
-    fontFamily: 'Urbanist',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 21,
-    letterSpacing: -0.02,
-    color: '#FF0000',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.small,
+    lineHeight: Typography.lineHeight.small,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.state.error,
     textAlign: 'center',
   },
+  buttonSection: {
+    gap: Spacing.md,
+    marginTop: 'auto',
+  },
   sendButton: {
-    backgroundColor: '#27EDB7',
-    borderRadius: 1000,
+    backgroundColor: Colors.brand.primary,
+    borderRadius: BorderRadius.round,
+    height: 52,
     paddingVertical: 14,
-    paddingHorizontal: 12,
+    paddingHorizontal: Spacing.md,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -284,32 +188,32 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   sendButtonText: {
-    fontFamily: 'Urbanist',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 24,
-    letterSpacing: -0.02,
-    color: '#2F4291',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.semibold as '600',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.accent,
   },
   backContainer: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginTop: 10,
+    alignItems: 'center',
   },
   backText: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
-    letterSpacing: -0.02,
-    color: '#5C5C5C',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.text.secondary,
   },
   backLink: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 20,
-    letterSpacing: -0.02,
-    color: '#2B958B',
+    fontFamily: Typography.fontFamily.body,
+    fontWeight: Typography.weights.regular as '500',
+    fontSize: Typography.sizes.body,
+    lineHeight: Typography.lineHeight.body,
+    letterSpacing: Typography.letterSpacing,
+    color: Colors.brand.primary,
   },
 });
