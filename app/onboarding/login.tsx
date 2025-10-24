@@ -122,14 +122,10 @@ export default function LoginScreen() {
           >
             <View style={[styles.checkbox, keepLoggedIn && styles.checkboxChecked]}>
               {keepLoggedIn && (
-                <Svg width={9} height={6} viewBox="0 0 9 6" fill="none">
-                  <Path
-                    d="M1 3L3.5 5.5L8 1"
-                    stroke="#1FBE92"
-                    strokeWidth="1.25"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
+                <Svg width={20} height={21} viewBox="0 0 20 21" fill="none">
+                  <Path d="M8 1.125H12C16.0731 1.125 19.375 4.4269 19.375 8.5V12.5C19.375 16.5731 16.0731 19.875 12 19.875H8C3.9269 19.875 0.625 16.5731 0.625 12.5V8.5C0.625 4.4269 3.9269 1.125 8 1.125Z" fill="#F6F7FA"/>
+                  <Path d="M8 1.125H12C16.0731 1.125 19.375 4.4269 19.375 8.5V12.5C19.375 16.5731 16.0731 19.875 12 19.875H8C3.9269 19.875 0.625 16.5731 0.625 12.5V8.5C0.625 4.4269 3.9269 1.125 8 1.125Z" stroke="#1FBE92" strokeWidth="1.25"/>
+                  <Path d="M5.75 10.5L8.58 13.33L14.25 7.67001" stroke="#1FBE92" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               )}
             </View>
@@ -178,16 +174,16 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     position: 'absolute',
-    top: 92,
+    top: 150,
     left: '50%',
-    transform: [{ translateX: -55 }],
+    transform: [{ translateX: -35 }],
     alignItems: 'center',
     gap: 2,
   },
   logoImage: {
-    width: 55,
-    height: 55,
-    borderRadius: 27.5,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
   },
   appTitle: {
     fontFamily: 'Manrope',
@@ -335,7 +331,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   checkboxChecked: {
-    backgroundColor: '#1FBE92',
+    backgroundColor: '#F6F7FA',
   },
   checkboxText: {
     fontFamily: 'Urbanist',

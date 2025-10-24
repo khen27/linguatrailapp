@@ -101,16 +101,16 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     position: 'absolute',
-    top: 92,
+    top: 150,
     left: '50%',
-    transform: [{ translateX: -55 }],
+    transform: [{ translateX: -35 }],
     alignItems: 'center',
     gap: 2,
   },
   logoImage: {
-    width: 55,
-    height: 55,
-    borderRadius: 27.5,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
   },
   appTitle: {
     fontFamily: 'Manrope',
@@ -172,6 +172,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     fontSize: 16,
     lineHeight: 24,
-    color: '#263574',
+    color: '#2F4291',
   },
 });
