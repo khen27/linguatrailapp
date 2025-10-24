@@ -11,13 +11,19 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import Svg, { Path, Rect } from 'react-native-svg';
+import { useToast } from '@/hooks/useToast';
 
 export default function LoginScreen() {
   const router = useRouter();
+  const toast = useToast();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [keepLoggedIn, setKeepLoggedIn] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+
+  const handleComingSoon = () => {
+    toast.show({ message: 'Coming Soon!', preset: 'comingSoon' });
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -55,7 +61,7 @@ export default function LoginScreen() {
 
         {/* Social Login Buttons */}
         <View style={styles.socialButtonsContainer}>
-          <TouchableOpacity style={styles.socialButton}>
+          <TouchableOpacity style={styles.socialButton} onPress={handleComingSoon}>
             <Image
               source={require('../../assets/icons/sign-in-google.png')}
               style={styles.providerIcon}
@@ -63,7 +69,7 @@ export default function LoginScreen() {
             <Text style={styles.socialButtonText}>Google</Text>
           </TouchableOpacity>
           
-          <TouchableOpacity style={styles.socialButton}>
+          <TouchableOpacity style={styles.socialButton} onPress={handleComingSoon}>
             <Image
               source={require('../../assets/icons/sign-in-apple.png')}
               style={styles.providerIcon}
