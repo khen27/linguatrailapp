@@ -232,7 +232,7 @@ export default function ProfileScreen() {
         {/* Onboarding Screens Feature Flag */}
         <TouchableOpacity 
           style={styles.menuItem}
-          onPress={() => router.push('/onboarding/login')}
+          onPress={() => router.push('/onboarding')}
         >
           <View style={styles.menuItemLeft}>
             <View style={styles.menuIconContainer}>

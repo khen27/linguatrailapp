@@ -3,7 +3,7 @@ import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { WarningBadge } from './icons/WarningBadge';
 import { Colors, Typography } from '@/constants/design-tokens';
 
-export type ToastPreset = 'comingSoon';
+export type ToastPreset = 'comingSoon' | 'success' | 'error';
 
 export interface ToastBannerProps {
   message: string;
@@ -43,21 +43,45 @@ export const ToastBanner: React.FC<ToastBannerProps> = ({
     ? { top: topOffset }
     : { bottom: bottomOffset ?? 110 };
 
+  const presetStyles = useMemo(() => {
+    switch (preset) {
+      case 'success':
+        return {
+          borderColor: '#27EDB7',
+          backgroundColor: 'rgba(39, 237, 183, 0.07)',
+          textColor: '#000000',
+        };
+      case 'error':
+        return {
+          borderColor: '#FF6B6B',
+          backgroundColor: 'rgba(255, 107, 107, 0.07)',
+          textColor: '#000000',
+        };
+      case 'comingSoon':
+      default:
+        return {
+          borderColor: '#F5C63B',
+          backgroundColor: 'rgba(245, 198, 59, 0.07)',
+          textColor: '#000000',
+        };
+    }
+  }, [preset]);
+
   const content = useMemo(() => (
     <View style={styles.row}>
       <WarningBadge />
-      <Text numberOfLines={1} ellipsizeMode="tail" style={styles.text}>{message}</Text>
+      <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.text, { color: presetStyles.textColor }]}>{message}</Text>
     </View>
-  ), [message]);
+  ), [message, presetStyles.textColor]);
 
   return (
     <Animated.View style={[styles.container, stylePosition, { transform: [{ translateY }], opacity }]}
       pointerEvents="none"
     >
       {/* base */}
-      <View style={styles.overlay} />
-      {/* subtle yellow tint */}
-      <View style={styles.tint} />
+      <View style={[styles.overlay, { borderColor: presetStyles.borderColor }]} />
+      {/* subtle tint */}
+      <View style={[styles.tint, { backgroundColor: presetStyles.backgroundColor }]} />
       {content}
     </Animated.View>
   );
@@ -82,7 +106,6 @@ const styles = StyleSheet.create({
     bottom: 0,
     borderRadius: 50,
     borderWidth: 1,
-    borderColor: '#F5C63B',
     backgroundColor: '#FFFFFF',
     shadowColor: '#4694FD',
     shadowOffset: { width: 4, height: 4 },
@@ -97,7 +120,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     borderRadius: 50,
-    backgroundColor: 'rgba(245, 198, 59, 0.07)',
   },
   row: {
     flexDirection: 'row',

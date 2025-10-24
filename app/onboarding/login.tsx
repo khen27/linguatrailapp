@@ -151,7 +151,7 @@ export default function LoginScreen() {
         {/* Sign Up Link */}
         <View style={styles.signUpContainer}>
           <Text style={styles.signUpText}>Don't have account? </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.push('/onboarding/signup')}>
             <Text style={styles.signUpLink}>Sign up</Text>
           </TouchableOpacity>
         </View>

@@ -190,7 +190,7 @@ export default function VerifyCodeScreen() {
             {otpDigits.map((digit, index) => (
               <TextInput
                 key={index}
-                ref={(el) => (inputsRef.current[index] = el)}
+                ref={(el) => { inputsRef.current[index] = el; }}
                 style={[
                   styles.otpCell,
                   digit ? styles.otpCellFilled : undefined,
