@@ -137,7 +137,7 @@ export default function VerifyCodeScreen() {
 
       // Navigate to reset password screen
       router.push({
-        pathname: '/onboarding/reset-password',
+        pathname: '/onboarding/verification-success',
         params: { emailOrPhone, code: otpCode },
       });
     } catch (err) {
@@ -190,7 +190,7 @@ export default function VerifyCodeScreen() {
             {otpDigits.map((digit, index) => (
               <TextInput
                 key={index}
-                ref={(el) => (inputsRef.current[index] = el)}
+                ref={(el) => { inputsRef.current[index] = el; }}
                 style={[
                   styles.otpCell,
                   digit ? styles.otpCellFilled : undefined,

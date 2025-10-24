@@ -6,6 +6,7 @@ import {
   Image, 
   StyleSheet,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 import { Colors, Typography, Spacing } from '@/constants/design-tokens';
 import { BackButton } from './BackButton';
@@ -45,7 +46,9 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
           </View>
         )}
 
-        {children}
+        <ScrollView>
+          {children}
+        </ScrollView>
       </View>
     </SafeAreaView>
   );
@@ -58,7 +61,7 @@ const styles = StyleSheet.create({
   },
   logoContainer: {
     position: 'absolute',
-    top: 150,
+    top: 100,
     alignSelf: 'center',
     width: '100%',
     alignItems: 'center',
@@ -83,15 +86,15 @@ const styles = StyleSheet.create({
     bottom: 25,
     left: 8,
     right: 8,
-    height: screenHeight * 0.6,
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: Colors.background.white,
     borderRadius: 32,
     paddingTop: 24,
     paddingHorizontal: 16,
-    paddingBottom: 16,
+    paddingBottom: 32,
     gap: 24,
+    height: screenHeight * 0.67, // ~541px on 812px height devices for consistency
   },
   header: {
     alignItems: 'center',
