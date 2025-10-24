@@ -89,8 +89,8 @@ export default function ResetPasswordScreen() {
       //   }),
       // });
 
-      // Navigate to success screen or login
-      router.push('/onboarding/login');
+      // Navigate to success screen
+      router.push('/onboarding/reset-password-success');
     } catch (err) {
       setError('Failed to reset password. Please try again.');
     } finally {
