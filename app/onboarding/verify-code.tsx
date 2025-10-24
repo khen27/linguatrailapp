@@ -137,7 +137,7 @@ export default function VerifyCodeScreen() {
 
       // Navigate to reset password screen
       router.push({
-        pathname: '/onboarding/reset-password',
+        pathname: '/onboarding/verification-success',
         params: { emailOrPhone, code: otpCode },
       });
     } catch (err) {

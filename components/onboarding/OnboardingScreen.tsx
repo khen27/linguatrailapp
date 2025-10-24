@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     position: 'absolute',
-    bottom: 50,
+    bottom: 25,
     left: 8,
     right: 8,
     display: 'flex',
@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 32,
     gap: 24,
-    maxHeight: screenHeight * 0.75, // Increased maxHeight
+    height: screenHeight * 0.67, // ~541px on 812px height devices for consistency
   },
   header: {
     alignItems: 'center',
