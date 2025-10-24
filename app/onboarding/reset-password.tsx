@@ -236,8 +236,8 @@ const styles = StyleSheet.create({
   logoContainer: {
     position: 'absolute',
     top: 150,
-    left: '50%',
-    transform: [{ translateX: -35 }],
+    alignSelf: 'center',
+    width: '100%',
     alignItems: 'center',
     gap: 2,
   },
