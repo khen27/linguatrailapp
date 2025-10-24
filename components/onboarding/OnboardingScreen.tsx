@@ -23,7 +23,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
   logo = require('@/assets/app-icons-ios/Icon-1024.png'),
   title,
   subtitle,
-  children
+  children,
 }) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -84,6 +84,8 @@ const styles = StyleSheet.create({
     left: 8,
     right: 8,
     height: screenHeight * 0.6,
+    display: 'flex',
+    flexDirection: 'column',
     backgroundColor: Colors.background.white,
     borderRadius: 32,
     paddingTop: 24,
