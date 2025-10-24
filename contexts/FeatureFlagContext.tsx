@@ -16,6 +16,7 @@ const KEY = 'feature_flags_v1';
 export const FeatureFlagProvider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [flags, setFlags] = useState<Flags>({
     extendedFirstRun: true, // Default to true as specified
+    onboardingScreens: true, // Default to true as specified
   });
 
   useEffect(() => {

@@ -229,6 +229,29 @@ export default function ProfileScreen() {
           </TouchableOpacity>
         </View>
         
+        {/* Onboarding Screens Feature Flag */}
+        <TouchableOpacity 
+          style={styles.menuItem}
+          onPress={() => router.push('/onboarding/login')}
+        >
+          <View style={styles.menuItemLeft}>
+            <View style={styles.menuIconContainer}>
+              <Svg width={40} height={40} viewBox="0 0 40 40" fill="none">
+                <Path d="M0 20C0 8.95431 8.95431 0 20 0C31.0457 0 40 8.95431 40 20C40 31.0457 31.0457 40 20 40C8.95431 40 0 31.0457 0 20Z" fill="#E9FDF8"/>
+                <Path d="M16 18L14 20L16 22" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M24 18L26 20L24 22" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M20 30C25.5228 30 30 25.5228 30 20C30 14.4771 25.5228 10 20 10C14.4771 10 10 14.4771 10 20C10 25.5228 14.4771 30 20 30Z" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M21 17.6699L19 22.33" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+              </Svg>
+            </View>
+            <Text style={styles.menuItemText}>Onboarding Screens</Text>
+          </View>
+          <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
+            <Path d="M12.0247 15.0584L17.083 10L12.0247 4.94168" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+            <Path d="M2.91641 10L16.9414 10" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
+          </Svg>
+        </TouchableOpacity>
+        
         </View>
 
         {/* Log Out Section */}
