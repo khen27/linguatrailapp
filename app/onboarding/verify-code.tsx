@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import {
   StyleSheet,
   View,
@@ -18,11 +18,6 @@ const validateOTP = (otp: string): boolean => {
   return /^\d{6}$/.test(otp.trim());
 };
 
-// Format OTP input - only allow numbers and max 6 chars
-const formatOTPInput = (value: string): string => {
-  return value.replace(/[^0-9]/g, '').slice(0, 6);
-};
-
 export default function VerifyCodeScreen() {
   const router = useRouter();
   const params = useLocalSearchParams();
@@ -30,11 +25,15 @@ export default function VerifyCodeScreen() {
   const verificationType = params?.type as 'email' | 'phone';
 
   // State management
-  const [otp, setOtp] = useState('');
+  const [otpDigits, setOtpDigits] = useState<string[]>(['', '', '', '', '', '']);
+  const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes
   const [canResend, setCanResend] = useState(false);
+
+  // Refs for digit inputs
+  const inputsRef = useRef<Array<TextInput | null>>([]);
 
   // Timer effect - countdown from 300 seconds
   useEffect(() => {
@@ -56,11 +55,67 @@ export default function VerifyCodeScreen() {
     return () => clearInterval(timer);
   }, [timeLeft]);
 
-  const handleVerifyCode = async () => {
+  // Helpers
+  const joinOtp = (digits: string[]) => digits.join('');
+  const isComplete = otpDigits.every((d) => d.length === 1);
+
+  const focusInput = (index: number) => {
+    setFocusedIndex(index);
+    const ref = inputsRef.current[index];
+    ref?.focus();
+  };
+
+  const handleChangeDigit = (index: number, value: string) => {
     setError('');
 
-    if (!otp.trim()) {
-      setError('Please enter the verification code');
+    // Handle paste of multiple characters
+    const sanitized = value.replace(/[^0-9]/g, '');
+    if (sanitized.length > 1) {
+      const newDigits = [...otpDigits];
+      for (let i = 0; i < sanitized.length && index + i < 6; i++) {
+        newDigits[index + i] = sanitized[i];
+      }
+      setOtpDigits(newDigits);
+      const nextIndex = Math.min(index + sanitized.length, 5);
+      focusInput(nextIndex);
+      return;
+    }
+
+    // Single char
+    const newDigits = [...otpDigits];
+    newDigits[index] = sanitized.slice(0, 1);
+    setOtpDigits(newDigits);
+
+    if (sanitized.length === 1 && index < 5) {
+      focusInput(index + 1);
+    }
+  };
+
+  const handleKeyPress = (index: number, key: string) => {
+    if (key === 'Backspace') {
+      if (otpDigits[index]) {
+        // Clear current digit
+        const newDigits = [...otpDigits];
+        newDigits[index] = '';
+        setOtpDigits(newDigits);
+        return;
+      }
+      // Move to previous digit if empty
+      if (index > 0) {
+        focusInput(index - 1);
+        const newDigits = [...otpDigits];
+        newDigits[index - 1] = '';
+        setOtpDigits(newDigits);
+      }
+    }
+  };
+
+  const handleVerifyCode = async () => {
+    setError('');
+    const otp = joinOtp(otpDigits);
+
+    if (!isComplete) {
+      setError('Please enter the 6-digit code');
       return;
     }
 
@@ -91,9 +146,10 @@ export default function VerifyCodeScreen() {
 
   const handleResendCode = async () => {
     setError('');
-    setOtp('');
+    setOtpDigits(['', '', '', '', '', '']);
     setTimeLeft(300);
     setCanResend(false);
+    focusInput(0);
 
     try {
       // TODO: Call API to resend verification code
@@ -148,37 +204,47 @@ export default function VerifyCodeScreen() {
         <View style={styles.formContainer}>
           {/* Header Section */}
           <View style={styles.header}>
-            <Text style={styles.title}>Verify Code</Text>
+            <Text style={styles.title}>Enter Verification Code</Text>
             <Text style={styles.subtitle}>
-              We've sent a verification code to your {verificationType === 'email' ? 'email' : 'phone'}
+              We've sent a 6-digit code to your {verificationType === 'email' ? 'email' : 'phone'}.\nEnter it below to continue.
             </Text>
-            <Text style={styles.emailDisplay}>{emailOrPhone}</Text>
           </View>
 
           {/* Form Content */}
           <View style={styles.formContent}>
-            {/* OTP Input Container */}
-            <View style={styles.inputContainer}>
-              <Text style={styles.inputLabel}>Verification Code</Text>
-              <TextInput
-                style={styles.otpInput}
-                placeholder="000000"
-                placeholderTextColor="#CCCCCC"
-                value={otp}
-                onChangeText={(value) => setOtp(formatOTPInput(value))}
-                keyboardType="numeric"
-                maxLength={6}
-                editable={!loading}
-              />
-              <Text style={styles.otpHint}>6-digit code</Text>
+            {/* OTP Input Row */}
+            <View style={styles.otpRow}>
+              {otpDigits.map((digit, index) => (
+                <TextInput
+                  key={index}
+                  ref={(el) => (inputsRef.current[index] = el)}
+                  style={[
+                    styles.otpCell,
+                    digit ? styles.otpCellFilled : undefined,
+                    focusedIndex === index ? styles.otpCellFocused : undefined,
+                  ]}
+                  value={digit}
+                  onChangeText={(value) => handleChangeDigit(index, value)}
+                  onFocus={() => setFocusedIndex(index)}
+                  onKeyPress={({ nativeEvent }) => handleKeyPress(index, nativeEvent.key)}
+                  keyboardType="number-pad"
+                  maxLength={6} // will be trimmed to 1 in change handler
+                  editable={!loading}
+                  textContentType="oneTimeCode"
+                  contextMenuHidden
+                />
+              ))}
             </View>
 
-            {/* Timer Display */}
-            <View style={styles.timerContainer}>
-              <Text style={styles.timerLabel}>Code expires in:</Text>
-              <Text style={[styles.timerValue, timeLeft < 60 && styles.timerWarning]}>
-                {formatTime(timeLeft)}
-              </Text>
+            {/* Resend Code Line */}
+            <View style={styles.resendLineContainer}>
+              {canResend ? (
+                <TouchableOpacity onPress={handleResendCode} disabled={loading}>
+                  <Text style={styles.resendAction}>Resend Code</Text>
+                </TouchableOpacity>
+              ) : (
+                <Text style={styles.resendDimmed}>Resend Code ({formatTime(timeLeft)})</Text>
+              )}
             </View>
 
             {/* Error Message */}
@@ -186,30 +252,20 @@ export default function VerifyCodeScreen() {
 
             {/* Verify Button */}
             <TouchableOpacity
-              style={[styles.verifyButton, loading && styles.verifyButtonDisabled]}
+              style={[styles.verifyButton, (!isComplete || loading) && styles.verifyButtonDisabled]}
               onPress={handleVerifyCode}
-              disabled={loading}
+              disabled={!isComplete || loading}
             >
               <Text style={styles.verifyButtonText}>
-                {loading ? 'Verifying...' : 'Verify Code'}
+                {loading ? 'Verifying...' : 'Verify & Continue'}
               </Text>
             </TouchableOpacity>
-
-            {/* Resend Code Section */}
-            <View style={styles.resendContainer}>
-              <Text style={styles.resendText}>Didn't receive a code? </Text>
-              <TouchableOpacity onPress={handleResendCode} disabled={!canResend || loading}>
-                <Text style={[styles.resendLink, (!canResend || loading) && styles.resendLinkDisabled]}>
-                  Resend
-                </Text>
-              </TouchableOpacity>
-            </View>
 
             {/* Back Link */}
             <View style={styles.backContainer}>
               <Text style={styles.backText}>Back to </Text>
               <TouchableOpacity onPress={handleBackToForgotPassword}>
-                <Text style={styles.backLink}>Forgot Password</Text>
+                <Text style={styles.backLink}>Login?</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -316,80 +372,58 @@ const styles = StyleSheet.create({
     fontFamily: 'Manrope',
     fontWeight: '400',
     fontSize: 16,
-    lineHeight: 20,
+    lineHeight: 22,
     textAlign: 'center',
     letterSpacing: -0.02,
     color: '#666666',
-    marginTop: 4,
-  },
-  emailDisplay: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 16,
-    lineHeight: 20,
-    textAlign: 'center',
-    letterSpacing: -0.02,
-    color: '#666666',
-    marginTop: 4,
+    marginTop: 8,
   },
   formContent: {
     gap: 20,
   },
-  inputContainer: {
-    gap: 8,
-  },
-  inputLabel: {
-    fontFamily: 'Manrope',
-    fontWeight: '500',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-    color: '#263574',
-  },
-  otpInput: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
-    fontSize: 24,
-    lineHeight: 29,
-    letterSpacing: -0.02,
-    color: '#263574',
-    textAlign: 'center',
-    borderBottomWidth: 1,
-    borderBottomColor: '#CCCCCC',
-    paddingBottom: 4,
-  },
-  otpHint: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 12,
-    lineHeight: 15,
-    letterSpacing: -0.02,
-    color: '#666666',
-  },
-  timerContainer: {
+  otpRow: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    gap: 6,
+  },
+  otpCell: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    backgroundColor: '#F6F7FA',
+    borderWidth: 1.25,
+    borderColor: '#E0E3EF',
+    textAlign: 'center',
+    fontFamily: 'Urbanist',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#5C5C5C',
+  },
+  otpCellFilled: {
+    color: '#263574',
+  },
+  otpCellFocused: {
+    borderColor: '#2F4291',
+  },
+  resendLineContainer: {
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 4,
   },
-  timerLabel: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-    color: '#666666',
+  resendDimmed: {
+    fontFamily: 'Urbanist',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#BFBFBF',
   },
-  timerValue: {
-    fontFamily: 'Manrope',
+  resendAction: {
+    fontFamily: 'Urbanist',
     fontWeight: '600',
-    fontSize: 18,
-    lineHeight: 22,
-    letterSpacing: -0.02,
-    color: '#263574',
-  },
-  timerWarning: {
-    color: '#FF6B6B',
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#2B958B',
   },
   errorText: {
     fontFamily: 'Manrope',
@@ -402,9 +436,9 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   verifyButton: {
-    backgroundColor: '#2B958B',
-    borderRadius: 12,
-    paddingVertical: 16,
+    backgroundColor: '#27EDB7',
+    borderRadius: 1000,
+    paddingVertical: 14,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -413,36 +447,11 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   verifyButtonText: {
-    fontFamily: 'Manrope',
+    fontFamily: 'Urbanist',
     fontWeight: '600',
-    fontSize: 18,
-    lineHeight: 22,
-    letterSpacing: -0.02,
-    color: '#FFFFFF',
-  },
-  resendContainer: {
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  resendText: {
-    fontFamily: 'Manrope',
-    fontWeight: '400',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-    color: '#666666',
-  },
-  resendLink: {
-    fontFamily: 'Manrope',
-    fontWeight: '600',
-    fontSize: 14,
-    lineHeight: 18,
-    letterSpacing: -0.02,
-    color: '#2B958B',
-  },
-  resendLinkDisabled: {
-    color: '#CCCCCC',
+    fontSize: 16,
+    lineHeight: 24,
+    color: '#2F4291',
   },
   backContainer: {
     flexDirection: 'row',
