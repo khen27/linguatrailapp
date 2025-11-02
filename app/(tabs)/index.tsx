@@ -434,24 +434,25 @@ const styles = StyleSheet.create({
   extendedFirstRunContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     gap: 8,
     paddingHorizontal: 8,
     paddingVertical: 8,
-    height: 58,
+    minHeight: 58,
   },
   extendedFirstRunIconContainer: {
     width: 42,
     height: 42,
     alignItems: 'center',
     justifyContent: 'center',
+    flexShrink: 0,
   },
   extendedFirstRunText: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     padding: 0,
     flex: 1,
-    height: 42,
+    flexShrink: 1,
   },
   extendedFirstRunTitle: {
     fontSize: 14,
@@ -460,7 +461,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
-    height: 21,
   },
   extendedFirstRunSubtitle: {
     fontSize: 14,
@@ -469,7 +469,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
-    height: 21,
   },
   // Learned Today Section
   learnedTodaySection: {
