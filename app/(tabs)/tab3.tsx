@@ -211,7 +211,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     backgroundColor: '#FEF9EB',
-    borderRadius: 1000,
+    borderRadius: 1036.36,
     width: 80,
     height: 40,
     gap: 6,
@@ -225,7 +225,8 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 18,
+    lineHeight: 24,
+    letterSpacing: -0.32,
     fontFamily: 'Urbanist',
   },
   streakText: {
@@ -233,6 +234,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#263574',
     lineHeight: 18,
+    letterSpacing: -0.24,
     fontFamily: 'Urbanist',
   },
   // Main Content Container
