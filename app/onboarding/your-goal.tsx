@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image, Modal } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Typography, Spacing, BorderRadius } from '@/constants/design-tokens';
+import { BackgroundDecorations } from '@/components/subscription/BackgroundDecorations';
 
 export default function YourGoalScreen() {
   const router = useRouter();
   const [selectedGoal, setSelectedGoal] = useState<string | null>('school-studies');
+  const [showGameModal, setShowGameModal] = useState(false);
 
   const goals = [
     { 
@@ -50,8 +52,14 @@ export default function YourGoalScreen() {
   const handleContinue = () => {
     if (selectedGoal) {
       // TODO: Save selected goal to user preferences/state
-      router.replace('/(tabs)'); // Temporary navigation to main app
+      setShowGameModal(true);
     }
+  };
+
+  const handleTryGame = () => {
+    setShowGameModal(false);
+    // TODO: Navigate to the actual game screen
+    router.replace('/(tabs)');
   };
 
 
@@ -152,6 +160,47 @@ export default function YourGoalScreen() {
           </TouchableOpacity>
         </View>
       </View>
+
+      {/* Game Modal */}
+      <Modal
+        visible={showGameModal}
+        transparent={true}
+        animationType="fade"
+      >
+        <View style={styles.modalContainer}>
+          {/* Semi-transparent overlay */}
+          <View style={styles.modalOverlay} />
+          
+          {/* Modal/Popup Card */}
+          <View style={styles.modalCard}>
+            <View style={styles.modalContent}>
+              {/* Game Controller Icon */}
+              <Image 
+                source={require('../../assets/icons/game-controller.png')} 
+                style={styles.gameIcon}
+                resizeMode="contain"
+              />
+
+              {/* Title */}
+              <Text style={styles.modalTitle}>You are all set!</Text>
+
+              {/* Subtitle */}
+              <Text style={styles.modalSubtitle}>
+                Try out games to understand how easy is to learn languages!
+              </Text>
+
+              {/* Try the Game Button */}
+              <TouchableOpacity 
+                style={styles.tryButton}
+                onPress={handleTryGame}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.tryButtonText}>Try the Game</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   );
 }
@@ -307,6 +356,84 @@ const styles = StyleSheet.create({
     lineHeight: Typography.lineHeight.body,
     letterSpacing: Typography.letterSpacing,
     color: Colors.text.accent,
+    textAlign: 'center',
+  },
+  // Modal Styles
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+  },
+  modalOverlay: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.2)',
+  },
+  modalCard: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    bottom: 0,
+    height: 541,
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 32,
+    borderTopRightRadius: 32,
+    paddingTop: 24,
+    paddingBottom: 16,
+    paddingHorizontal: 16,
+    justifyContent: 'flex-end',
+    alignItems: 'center',
+  },
+  modalContent: {
+    width: 327,
+    height: 425,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 24,
+    paddingHorizontal: 24,
+  },
+  gameIcon: {
+    width: 85,
+    height: 85,
+  },
+  modalTitle: {
+    fontFamily: 'Manrope',
+    fontWeight: '600',
+    fontSize: 22,
+    lineHeight: 26,
+    letterSpacing: -0.02,
+    color: '#263574',
+    textAlign: 'center',
+    width: 279,
+  },
+  modalSubtitle: {
+    fontFamily: 'Urbanist',
+    fontWeight: '500',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.02,
+    color: '#5C5C5C',
+    opacity: 0.7,
+    textAlign: 'center',
+    width: 279,
+  },
+  tryButton: {
+    width: '100%',
+    height: 52,
+    backgroundColor: '#27EDB7',
+    borderRadius: 1000,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+  },
+  tryButtonText: {
+    fontFamily: 'Urbanist',
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.02,
+    color: '#2F4291',
     textAlign: 'center',
   },
 });
