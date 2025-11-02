@@ -58,8 +58,8 @@ export default function YourGoalScreen() {
 
   const handleTryGame = () => {
     setShowGameModal(false);
-    // TODO: Navigate to the actual game screen
-    router.replace('/(tabs)');
+    // Navigate to the onboarding gameplay screen
+    router.push('/onboarding/gameplay');
   };
 
 
