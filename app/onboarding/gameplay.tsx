@@ -122,6 +122,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingHorizontal: 16,
     paddingBottom: 24,
+    zIndex: 10,
   },
   contentContainer: {
     width: 327,

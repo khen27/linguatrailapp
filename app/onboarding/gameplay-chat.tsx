@@ -8,7 +8,9 @@ import {
   TextInput,
   KeyboardAvoidingView,
   Platform,
+  Image,
 } from 'react-native';
+import { useRouter } from 'expo-router';
 import { Svg, Path, Rect } from 'react-native-svg';
 import { BackgroundDecorations } from '@/components/subscription/BackgroundDecorations';
 
@@ -37,6 +39,7 @@ const STATIC_MESSAGES: Message[] = [
 ];
 
 export default function OnboardingGameplayChatScreen() {
+  const router = useRouter();
   const [messages] = React.useState(STATIC_MESSAGES);
 
   return (
@@ -123,7 +126,14 @@ export default function OnboardingGameplayChatScreen() {
                   multiline
                   editable={false}
                 />
-                <TouchableOpacity style={styles.sendButton} activeOpacity={0.8}>
+                <TouchableOpacity
+                  style={styles.sendButton}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    console.log('Blue arrow button pressed - navigating to gameplay-repeat');
+                    router.replace('/onboarding/gameplay-repeat');
+                  }}
+                >
                   <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <Path
                       d="M12 19L12 5"
@@ -175,6 +185,7 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingHorizontal: 16,
     paddingBottom: 24,
+    zIndex: 10,
   },
   cardInner: {
     flex: 1,
