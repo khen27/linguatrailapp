@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 import { Colors, Typography, Spacing } from '@/constants/design-tokens';
 import { BackButton } from './BackButton';
+import { BackgroundDecorations } from '@/components/subscription/BackgroundDecorations';
 
 const { height: screenHeight } = Dimensions.get('window');
 
@@ -17,6 +18,7 @@ interface OnboardingScreenProps {
   logo?: number;  // Image source
   title?: string;
   subtitle?: string;
+  showBackgroundDecorations?: boolean; // Optional background decorative elements
   children: React.ReactNode;
 }
 
@@ -24,10 +26,12 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
   logo = require('@/assets/app-icons-ios/Icon-1024.png'),
   title,
   subtitle,
+  showBackgroundDecorations = false,
   children,
 }) => {
   return (
     <SafeAreaView style={styles.container}>
+      {showBackgroundDecorations && <BackgroundDecorations />}
       <BackButton />
 
       <View style={styles.logoContainer}>

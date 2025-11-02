@@ -15,8 +15,8 @@ export default function VerificationSuccessScreen() {
   const router = useRouter();
 
   const handleContinue = () => {
-    // Navigate to main app (home/dashboard)
-    router.replace('/(tabs)');
+    // Navigate to onboarding: choose language
+    router.push('/onboarding/choose-language');
   };
 
   return (
