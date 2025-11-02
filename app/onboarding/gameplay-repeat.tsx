@@ -49,9 +49,9 @@ export default function OnboardingGameplayRepeatScreen() {
           <TouchableOpacity
             style={styles.primaryButton}
             activeOpacity={0.85}
-            onPress={() => router.replace('/(tabs)')}
+            onPress={() => router.replace('/(tabs)/')}
           >
-            <Text style={styles.primaryButtonText}>Skip &amp; Get Start</Text>
+            <Text style={styles.primaryButtonText}>Skip & Get Start</Text>
           </TouchableOpacity>
         </View>
       </View>
