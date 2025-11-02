@@ -1,29 +1,59 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image, StatusBar } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, Image } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors, Typography, Spacing, BorderRadius } from '@/constants/design-tokens';
 
-export default function ChooseLanguageScreen() {
+export default function YourGoalScreen() {
   const router = useRouter();
-  const [selectedLanguage, setSelectedLanguage] = useState<string | null>(null);
+  const [selectedGoal, setSelectedGoal] = useState<string | null>('school-studies');
 
-  const languages = [
-    { id: 'English', name: 'English', flag: require('../../assets/icons/english-flag.png') },
-    { id: 'French', name: 'French', flag: require('../../assets/icons/french-flag.png') },
-    { id: 'German', name: 'German', flag: require('../../assets/icons/german-flag.png') },
-    { id: 'Italian', name: 'Italian', flag: require('../../assets/icons/italian-flag.png') },
-    { id: 'Czech', name: 'Czech', flag: require('../../assets/icons/czech-flag.png') },
-    { id: 'Spanish', name: 'Spanish', flag: require('../../assets/icons/spanish-flag.png') },
+  const goals = [
+    { 
+      id: 'daily-communication', 
+      name: 'Daily Communication',
+      icon: require('../../assets/icons/goal1.png'),
+    },
+    { 
+      id: 'school-studies', 
+      name: 'School studies',
+      icon: require('../../assets/icons/goal2.png'),
+    },
+    { 
+      id: 'career-growth', 
+      name: 'Career & Professional Growth',
+      icon: require('../../assets/icons/goal3.png'),
+    },
+    { 
+      id: 'cultural-connection', 
+      name: 'Cultural Connection',
+      icon: require('../../assets/icons/goal4.png'),
+    },
+    { 
+      id: 'education-access', 
+      name: 'Education & Knowledge Access',
+      icon: require('../../assets/icons/goal5.png'),
+    },
+    { 
+      id: 'cognitive-growth', 
+      name: 'Cognitive Growth',
+      icon: require('../../assets/icons/goal6.png'),
+    },
+    { 
+      id: 'travel-exploration', 
+      name: 'Travel & Exploration',
+      icon: require('../../assets/icons/goal7.png'),
+    },
   ];
 
   const handleContinue = () => {
-    if (selectedLanguage) {
-      // TODO: Save selected language to user preferences/state
-      router.push('/onboarding/language-level');
+    if (selectedGoal) {
+      // TODO: Save selected goal to user preferences/state
+      router.replace('/(tabs)'); // Temporary navigation to main app
     }
   };
+
 
   return (
     <SafeAreaView style={styles.screen} edges={['top', 'bottom']}>
@@ -65,37 +95,37 @@ export default function ChooseLanguageScreen() {
 
           {/* Title and Subtitle */}
           <View style={styles.titleSection}>
-            <Text style={styles.mainTitle}>Choose Language</Text>
-            <Text style={styles.subtitle}>What language are you down to tackle first?</Text>
+            <Text style={styles.mainTitle}>Your Goal</Text>
+            <Text style={styles.subtitle}>Why are you learning?</Text>
           </View>
 
-          {/* Language List */}
-          <View style={styles.languageList}>
-            {languages.map((language) => {
-              const isSelected = language.id === selectedLanguage;
+          {/* Goal List */}
+          <View style={styles.goalList}>
+            {goals.map((goal) => {
+              const isSelected = goal.id === selectedGoal;
               return (
                 <TouchableOpacity
-                  key={language.id}
+                  key={goal.id}
                   style={[
-                    styles.languageItem,
-                    isSelected && styles.languageItemSelected,
+                    styles.goalItem,
+                    isSelected && styles.goalItemSelected,
                   ]}
-                  onPress={() => setSelectedLanguage(language.id)}
+                  onPress={() => setSelectedGoal(goal.id)}
                   activeOpacity={0.8}
                 >
-                  {/* Flag Image */}
+                  {/* Icon */}
                   <Image 
-                    source={language.flag} 
-                    style={styles.flagImage}
-                    resizeMode="cover"
+                    source={goal.icon} 
+                    style={styles.icon}
+                    resizeMode="contain"
                   />
 
-                  {/* Language Name */}
+                  {/* Goal Name */}
                   <Text style={[
-                    styles.languageName,
-                    isSelected && styles.languageNameSelected,
+                    styles.goalName,
+                    isSelected && styles.goalNameSelected,
                   ]}>
-                    {language.name}
+                    {goal.name}
                   </Text>
 
                   {/* Radio Button */}
@@ -112,11 +142,11 @@ export default function ChooseLanguageScreen() {
           <TouchableOpacity 
             style={[
               styles.continueButton,
-              !selectedLanguage && styles.continueButtonDisabled
+              !selectedGoal && styles.continueButtonDisabled
             ]} 
             activeOpacity={0.8}
             onPress={handleContinue}
-            disabled={!selectedLanguage}
+            disabled={!selectedGoal}
           >
             <Text style={styles.continueButtonText}>Continue</Text>
           </TouchableOpacity>
@@ -168,7 +198,7 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
   },
   progressFill: {
-    width: '25%', // Approximate 25% progress
+    width: '100%', // 100% progress (final step)
     height: 10,
     backgroundColor: '#27EDB7',
     borderRadius: 1000,
@@ -197,11 +227,11 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     width: '100%',
   },
-  // Language List
-  languageList: {
+  // Goal List
+  goalList: {
     gap: 8,
   },
-  languageItem: {
+  goalItem: {
     flexDirection: 'row',
     alignItems: 'center',
     padding: Spacing.lg,
@@ -213,7 +243,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.25,
     borderColor: 'transparent',
   },
-  languageItemSelected: {
+  goalItemSelected: {
     backgroundColor: '#E9FDF8',
     borderColor: '#1FBE92',
     shadowColor: '#000000',
@@ -222,12 +252,17 @@ const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 4,
   },
-  flagImage: {
+  iconContainer: {
     width: 26,
     height: 26,
-    borderRadius: 13,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  languageName: {
+  icon: {
+    width: 26,
+    height: 26,
+  },
+  goalName: {
     flex: 1,
     fontFamily: Typography.fontFamily.body,
     fontWeight: Typography.weights.regular as '500',
@@ -236,7 +271,7 @@ const styles = StyleSheet.create({
     letterSpacing: Typography.letterSpacing,
     color: Colors.text.primary,
   },
-  languageNameSelected: {
+  goalNameSelected: {
     fontWeight: Typography.weights.semibold as '600',
     color: '#1FBE92',
   },
@@ -275,3 +310,4 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
 });
+
