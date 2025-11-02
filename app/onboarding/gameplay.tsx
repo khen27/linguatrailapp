@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { useRouter } from 'expo-router';
 import { BackgroundDecorations } from '@/components/subscription/BackgroundDecorations';
 
 export default function OnboardingGameplayScreen() {
+  const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
 
   const handleOptionSelect = (optionIndex: number) => {
     setSelectedOption(optionIndex);
+    // Brief pause to show the green selection state, then navigate
+    setTimeout(() => {
+      router.replace('/onboarding/gameplay-chat');
+    }, 400);
   };
 
   return (
