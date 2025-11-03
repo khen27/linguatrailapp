@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, Alert, Image } from 'react-native';
-import { Svg, Path } from 'react-native-svg';
+import Svg, { Path, Rect } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -268,9 +268,11 @@ export default function AddStep3Screen() {
                     onPress={() => handleDeleteFile(file.id)}
                     activeOpacity={0.8}
                   >
-                    <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <Path d="M6 7H14M8 7V5H12V7M7 7V15H13V7" stroke="#F84E5B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </Svg>
+                    <Image 
+                      source={require('@/assets/icons/trashcan.png')}
+                      style={styles.deleteIcon}
+                      resizeMode="cover"
+                    />
                   </TouchableOpacity>
                 </View>
               ))}
@@ -566,6 +568,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  deleteIcon: {
+    width: 36,
+    height: 36,
   },
   // Skip Button
   skipButton: {
