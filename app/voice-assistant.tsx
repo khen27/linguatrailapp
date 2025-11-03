@@ -71,7 +71,8 @@ export default function VoiceAssistantScreen() {
         {/* User Response Text - Absolutely Positioned */}
         <View style={styles.responseSection}>
           <Text style={styles.responseText}>
-            Yesterday morning I woke up at 7am. I had a lot of homework, so I decided to start my day earlier than usual.
+            Yesterday morning I woke up at 7am. I had a lot of homework,{' '}
+            <Text style={styles.responseTextGray}>so I decided to start my day earlier than usual.</Text>
           </Text>
         </View>
 
@@ -217,7 +218,7 @@ const styles = StyleSheet.create({
   },
   aiCharmContainer: {
     position: 'absolute',
-    top: '35%',
+    top: 250, // Positioned between the two text elements
     left: 0,
     right: 0,
     alignItems: 'center',
@@ -230,7 +231,7 @@ const styles = StyleSheet.create({
   },
   speakingIconContainer: {
     position: 'absolute',
-    top: '35%',
+    top: 250, // Positioned between the two text elements
     left: 0,
     right: 0,
     alignItems: 'center',
@@ -250,6 +251,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '600',
     color: '#000000',
+    lineHeight: 26.4, // 120% of 22
+    textAlign: 'left',
+    letterSpacing: -0.44, // -2% of 22
+    fontFamily: 'Manrope',
+  },
+  responseTextGray: {
+    fontSize: 22,
+    fontWeight: '600',
+    color: '#737373',
     lineHeight: 26.4, // 120% of 22
     textAlign: 'left',
     letterSpacing: -0.44, // -2% of 22
