@@ -192,7 +192,7 @@ export default function VoiceAssistantScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#202020',
+    backgroundColor: '#000000',
   },
   safeArea: {
     flex: 1,
