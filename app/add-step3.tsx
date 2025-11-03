@@ -1,14 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, Alert, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, Alert, Image, Modal, ScrollView, Dimensions } from 'react-native';
 import Svg, { Path, Rect } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import { BlurView } from 'expo-blur';
+import * as Haptics from 'expo-haptics';
 import * as DocumentPicker from 'expo-document-picker';
 import { useToast } from '@/hooks/useToast';
 // NOTE: Avoid static import of expo-image-picker to prevent runtime crash
 // when the dev client doesn't include the native module. We'll dynamically
 // import it inside handlers.
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+
+// Figma design dimensions: 375px screen width, 359px modal width (8px margins on each side)
+// Modal height: 617px with 25px bottom margin
+const MODAL_HORIZONTAL_MARGIN = (SCREEN_WIDTH * 8) / 375;
+const MODAL_BOTTOM_MARGIN = 25;
 
 interface UploadedFile {
   id: string;
@@ -18,18 +27,29 @@ interface UploadedFile {
   size?: number;
 }
 
+interface Textbook {
+  id: string;
+  name: string;
+}
+
 export default function AddStep3Screen() {
   const router = useRouter();
   const toast = useToast();
-  const [selectedTextType, setSelectedTextType] = useState('');
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [selectedTextbook, setSelectedTextbook] = useState('');
+  const [tempSelectedTextbook, setTempSelectedTextbook] = useState('');
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
-  const textTypeOptions = [
-    'Text Document',
-    'PDF',
-    'Image',
-    'Voice Note'
+  const textbooks: Textbook[] = [
+    { id: '1', name: 'Raymond Murphy (Cambridge)' },
+    { id: '2', name: 'Michael Swan (Oxford)' },
+    { id: '3', name: 'Liz & John Soars (Oxford University Press)' },
+    { id: '4', name: 'Clive Oxenden & Christina Latham-Koenig' },
+    { id: '5', name: 'Sarah Cunningham & Peter Moor (Pearson)' },
+    { id: '6', name: 'Antonia Clare & JJ Wilson (Pearson)' },
+    { id: '7', name: 'Jack C. Richards (Cambridge University Pre...' },
+    { id: '8', name: 'Steven J. Molinsky & Bill Bliss (Pearson)' },
+    { id: '9', name: 'Michael Swan (Oxford)' },
   ];
 
   const handleUploadDocument = async () => {
@@ -112,6 +132,28 @@ export default function AddStep3Screen() {
     setUploadedFiles(prev => prev.filter(f => f.id !== fileId));
   };
 
+  const handleOpenModal = () => {
+    setTempSelectedTextbook(selectedTextbook);
+    setIsModalOpen(true);
+  };
+
+  const handleSelectTextbook = (textbookName: string) => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setTempSelectedTextbook(textbookName);
+  };
+
+  const handleConfirm = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    setSelectedTextbook(tempSelectedTextbook);
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    setTempSelectedTextbook(selectedTextbook);
+    setIsModalOpen(false);
+  };
+
   return (
     <View style={styles.screen}>
       <SafeAreaView style={styles.safeArea} edges={['top']}>
@@ -174,53 +216,21 @@ export default function AddStep3Screen() {
             <Text style={styles.subtitle}>Upload the document, take photo or paste text of the language task you want to get help with.</Text>
           </View>
 
-          {/* Dropdown Area */}
+          {/* Textbook Selection Button */}
           <View style={styles.inputSection}>
             <Text style={styles.inputLabel}>Choose Textbook</Text>
             <TouchableOpacity 
               style={styles.dropdownButton}
               activeOpacity={0.8}
-              onPress={() => setIsDropdownOpen(!isDropdownOpen)}
+              onPress={handleOpenModal}
             >
               <Text style={styles.dropdownText}>
-                {selectedTextType || 'Choose common textbook'}
+                {selectedTextbook || 'Choose common textbook'}
               </Text>
               <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
                 <Path d="M5 7.5L10 12.5L15 7.5" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </TouchableOpacity>
-
-            {/* Dropdown Menu */}
-            {isDropdownOpen && (
-              <View style={styles.dropdownMenu}>
-                {textTypeOptions.map((option, index) => (
-                  <TouchableOpacity
-                    key={index}
-                    style={[
-                      styles.dropdownOption,
-                      selectedTextType === option && styles.dropdownOptionSelected,
-                    ]}
-                    onPress={() => {
-                      setSelectedTextType(option);
-                      setIsDropdownOpen(false);
-                    }}
-                    activeOpacity={0.8}
-                  >
-                    <Text style={[
-                      styles.dropdownOptionText,
-                      selectedTextType === option && styles.dropdownOptionTextSelected,
-                    ]}>
-                      {option}
-                    </Text>
-                    {selectedTextType === option && (
-                      <View style={styles.dropdownRadioButton}>
-                        <View style={styles.dropdownRadioButtonInner} />
-                      </View>
-                    )}
-                  </TouchableOpacity>
-                ))}
-              </View>
-            )}
           </View>
 
           {/* "or" Separator */}
@@ -289,6 +299,77 @@ export default function AddStep3Screen() {
           </TouchableOpacity>
         </KeyboardAvoidingView>
       </View>
+
+      {/* Textbook Selection Modal */}
+      <Modal
+        visible={isModalOpen}
+        transparent={true}
+        animationType="slide"
+        onRequestClose={handleCancel}
+      >
+        <View style={styles.modalContainer}>
+          {/* Blurred Background Overlay */}
+          <TouchableOpacity 
+            style={styles.modalBackdrop}
+            activeOpacity={1}
+            onPress={handleCancel}
+          >
+            <BlurView intensity={2.5} tint="dark" style={styles.modalBlurOverlay} />
+          </TouchableOpacity>
+
+          {/* Modal Content Card */}
+          <View style={styles.modalCard}>
+            <ScrollView 
+              style={styles.modalScrollView}
+              contentContainerStyle={styles.modalContent}
+              showsVerticalScrollIndicator={false}
+            >
+              {textbooks.map((textbook) => (
+                <TouchableOpacity
+                  key={textbook.id}
+                  style={[
+                    styles.textbookOption,
+                    tempSelectedTextbook === textbook.name && styles.textbookOptionSelected,
+                  ]}
+                  onPress={() => handleSelectTextbook(textbook.name)}
+                  activeOpacity={0.8}
+                >
+                  <Text style={[
+                    styles.textbookOptionText,
+                    tempSelectedTextbook === textbook.name && styles.textbookOptionTextSelected,
+                  ]}>
+                    {textbook.name}
+                  </Text>
+                  {tempSelectedTextbook === textbook.name && (
+                    <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                      <Path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z" fill="#23D5A5"/>
+                      <Path d="M10.5799 15.58C10.3799 15.58 10.1899 15.5 10.0499 15.36L7.21994 12.53C6.92994 12.24 6.92994 11.76 7.21994 11.47C7.50994 11.18 7.98994 11.18 8.27994 11.47L10.5799 13.77L15.7199 8.63C16.0099 8.34 16.4899 8.34 16.7799 8.63C17.0699 8.92 17.0699 9.4 16.7799 9.69L11.1099 15.36C10.9699 15.5 10.7799 15.58 10.5799 15.58Z" fill="white"/>
+                    </Svg>
+                  )}
+                </TouchableOpacity>
+              ))}
+            </ScrollView>
+
+            {/* Action Buttons */}
+            <View style={styles.modalActions}>
+              <TouchableOpacity
+                style={styles.cancelButton}
+                onPress={handleCancel}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.cancelButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.confirmButton}
+                onPress={handleConfirm}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.confirmButtonText}>Confirm</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
@@ -436,34 +517,66 @@ const styles = StyleSheet.create({
     color: '#5C5C5C',
     textAlign: 'left',
   },
-  dropdownMenu: {
-    position: 'absolute',
-    top: 48,
-    left: 0,
-    right: 0,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 16,
-    borderWidth: 1,
-    borderColor: '#E0E3EF',
-    shadowColor: '#000000',
-    shadowOffset: { width: 0, height: 8 },
-    shadowOpacity: 0.04,
-    shadowRadius: 16,
-    elevation: 4,
-    zIndex: 10,
+  // Modal Styles
+  modalContainer: {
+    flex: 1,
+    justifyContent: 'flex-end',
   },
-  dropdownOption: {
+  modalBackdrop: {
+    position: 'absolute',
+    width: '100%',
+    height: '100%',
+  },
+  modalBlurOverlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.1)',
+  },
+  modalCard: {
+    position: 'absolute',
+    left: MODAL_HORIZONTAL_MARGIN,
+    right: MODAL_HORIZONTAL_MARGIN,
+    bottom: MODAL_BOTTOM_MARGIN,
+    height: 617,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 32,
+    padding: 16,
+    gap: 16,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: -2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 20,
+    elevation: 8,
+  },
+  modalScrollView: {
+    flex: 1,
+  },
+  modalContent: {
+    gap: 6,
+  },
+  textbookOption: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    padding: 16,
-    borderBottomWidth: 1,
-    borderBottomColor: '#F6F7FA',
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    height: 48,
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: '#F6F7FA',
+    borderRadius: 1000,
+    shadowColor: '#000000',
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.02,
+    shadowRadius: 2,
+    elevation: 1,
   },
-  dropdownOptionSelected: {
+  textbookOptionSelected: {
     backgroundColor: '#E9FDF8',
+    borderColor: '#DFFCF4',
+    shadowOpacity: 0,
+    elevation: 0,
   },
-  dropdownOptionText: {
+  textbookOptionText: {
     flex: 1,
     fontFamily: 'Urbanist',
     fontWeight: '500',
@@ -472,25 +585,52 @@ const styles = StyleSheet.create({
     letterSpacing: -0.32,
     color: '#263574',
   },
-  dropdownOptionTextSelected: {
+  textbookOptionTextSelected: {
     fontWeight: '600',
-    color: '#1FBE92',
+    color: '#263574',
   },
-  dropdownRadioButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    borderWidth: 4,
-    borderColor: '#1FBE92',
-    backgroundColor: '#FFFFFF',
+  modalActions: {
+    flexDirection: 'row',
+    gap: 12,
+    height: 52,
+  },
+  cancelButton: {
+    flex: 1,
+    height: 52,
+    backgroundColor: '#F6F7FA',
+    borderRadius: 1000,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 12,
   },
-  dropdownRadioButtonInner: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    backgroundColor: '#1FBE92',
+  cancelButtonText: {
+    fontFamily: 'Urbanist',
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.32,
+    color: '#202020',
+    textAlign: 'center',
+  },
+  confirmButton: {
+    flex: 1,
+    height: 52,
+    backgroundColor: '#27EDB7',
+    borderRadius: 1000,
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingVertical: 14,
+    paddingHorizontal: 12,
+  },
+  confirmButtonText: {
+    fontFamily: 'Urbanist',
+    fontWeight: '600',
+    fontSize: 16,
+    lineHeight: 24,
+    letterSpacing: -0.32,
+    color: '#2F4291',
+    textAlign: 'center',
   },
   // Separator Section
   separatorSection: {
