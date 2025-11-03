@@ -66,14 +66,20 @@ export default function SummaryScreen() {
   ]);
 
   const ROW_HEIGHT = 75; // approx: 51 row + 24 spacing
+  const SWAP_THRESHOLD = ROW_HEIGHT * 0.5; // 50% threshold for smoother swaps
+  
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const initialIndexRef = useRef<number>(0);
   const draggingIndexRef = useRef<number | null>(null);
-  const translationYRef = useRef(0);
-  const setDragging = (idx: number | null) => { draggingIndexRef.current = idx; setDraggingIndex(idx); };
+  const lastSwapPositionRef = useRef(0);
+  const setDragging = (idx: number | null) => { 
+    draggingIndexRef.current = idx; 
+    setDraggingIndex(idx); 
+  };
 
   const onStartDrag = (index: number) => {
     initialIndexRef.current = index;
+    lastSwapPositionRef.current = 0;
     setDragging(index);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
@@ -87,21 +93,31 @@ export default function SummaryScreen() {
       return next;
     });
   };
+
   const onPanMove = (translationY: number) => {
-    // Restore earlier deadzone for more stable dragging
-    const smoothed = Math.abs(translationY) < 6 ? 0 : translationY;
-    translationYRef.current = smoothed;
     const start = initialIndexRef.current;
-    const offset = Math.round(smoothed / ROW_HEIGHT);
-    const target = Math.max(0, Math.min(modules.length - 1, start + offset));
-    if (draggingIndexRef.current !== target) {
-      swapItems(draggingIndexRef.current ?? start, target);
-      setDragging(target);
-      Haptics.selectionAsync();
+    const currentIndex = draggingIndexRef.current ?? start;
+    
+    // Calculate target index based on translation with threshold
+    const direction = translationY > 0 ? 1 : -1;
+    const distance = Math.abs(translationY);
+    
+    // Only swap when crossing threshold
+    if (distance - Math.abs(lastSwapPositionRef.current) >= SWAP_THRESHOLD) {
+      const steps = Math.floor(distance / SWAP_THRESHOLD);
+      const target = Math.max(0, Math.min(modules.length - 1, start + (steps * direction)));
+      
+      if (currentIndex !== target) {
+        lastSwapPositionRef.current = steps * SWAP_THRESHOLD * direction;
+        swapItems(currentIndex, target);
+        setDragging(target);
+        Haptics.selectionAsync();
+      }
     }
   };
 
   const onPanRelease = () => {
+    lastSwapPositionRef.current = 0;
     setDragging(null);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
@@ -174,10 +190,22 @@ export default function SummaryScreen() {
 
         {/* Learning Modules List */}
         <View style={styles.modulesList}>
-          {/* Vertical dashed timeline guide via SVG (no RN dashed warning) */}
-          <Svg pointerEvents="none" style={styles.timelineSvg} width={2} height="100%">
-            <Line x1={1} y1={0} x2={1} y2="100%" stroke="#E0E3EF" strokeWidth={2} strokeDasharray="4,6" />
-          </Svg>
+          {/* Vertical dashed timeline guide via SVG (aligned through icon centers). 
+              Starts at top of the second row's icon and ends at bottom of the fourth row's icon */}
+          {(() => {
+            const PADDING_TOP = 24; // modulesList paddingTop
+            const ICON_SIZE = 44; // from SummaryRow styles
+            const ROW_CONTENT_HEIGHT = 51;
+            const ICON_TOP_OFFSET_IN_ROW = (ROW_CONTENT_HEIGHT - ICON_SIZE) / 2; // 3.5
+            const startY = PADDING_TOP + ROW_HEIGHT * 1 + ICON_TOP_OFFSET_IN_ROW; // top of second row icon
+            const endY = PADDING_TOP + ROW_HEIGHT * 3 + ICON_TOP_OFFSET_IN_ROW + ICON_SIZE; // bottom of fourth row icon
+            const svgHeight = endY - startY;
+            return (
+              <Svg pointerEvents="none" style={[styles.timelineSvg, { top: startY }]} width={2} height={svgHeight}>
+                <Line x1={1} y1={0} x2={1} y2={svgHeight} stroke="#E0E3EF" strokeWidth={2} strokeDasharray="4,6" />
+              </Svg>
+            );
+          })()}
           <FlatList
             ref={listRef}
             data={modules}
