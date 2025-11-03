@@ -42,13 +42,17 @@ export default function AddStep3Screen() {
 
   const textbooks: Textbook[] = [
     { id: '1', name: 'Antonia Clare & JJ Wilson (Pearson)' },
-    { id: '2', name: 'Clive Oxenden & Christina Latham-Koenig' },
-    { id: '3', name: 'Jack C. Richards (Cambridge University Pre...' },
-    { id: '4', name: 'Liz & John Soars (Oxford University Press)' },
-    { id: '5', name: 'Michael Swan (Oxford)' },
-    { id: '6', name: 'Raymond Murphy (Cambridge)' },
-    { id: '7', name: 'Sarah Cunningham & Peter Moor (Pearson)' },
-    { id: '8', name: 'Steven J. Molinsky & Bill Bliss (Pearson)' },
+    { id: '2', name: 'Betty Schrampfer Azar (Pearson)' },
+    { id: '3', name: 'Clive Oxenden & Christina Latham-Koenig' },
+    { id: '4', name: 'Diane Larsen-Freeman (Oxford)' },
+    { id: '5', name: 'Jack C. Richards (Cambridge University Pre...' },
+    { id: '6', name: 'Liz & John Soars (Oxford University Press)' },
+    { id: '7', name: 'Michael Swan (Oxford)' },
+    { id: '8', name: 'Raymond Murphy (Cambridge)' },
+    { id: '9', name: 'Sarah Cunningham & Peter Moor (Pearson)' },
+    { id: '10', name: 'Steven J. Molinsky & Bill Bliss (Pearson)' },
+    { id: '11', name: 'Virginia Evans & Jenny Dooley (Express Publishing)' },
+    { id: '12', name: 'William Strunk Jr. & E.B. White (Macmillan)' },
   ];
 
   const handleUploadDocument = async () => {
