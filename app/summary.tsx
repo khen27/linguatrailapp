@@ -202,7 +202,7 @@ export default function SummaryScreen() {
       <View style={styles.card}>
         <View style={styles.headerBlock}>
           <Text style={styles.sessionTitle}>English Speaking Session</Text>
-          <Text style={styles.sessionSubtitle}>Overall periods: 1 Hour : 13 Minutes</Text>
+          <Text style={styles.sessionSubtitle}>Overall periods: 1 Hour, 13 Minutes</Text>
         </View>
 
         {/* Learning Modules List */}
