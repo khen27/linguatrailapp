@@ -37,14 +37,14 @@ export default function VoiceAssistantScreen() {
           />
 
           {/* Progress Bar */}
-          <View style={styles.progressSection}>
+          {/* <View style={styles.progressSection}>
             <ProgressBar
               progress={0.25} // 25% progress for demo
               height={10}
               backgroundColor="#FFFFFF"
               fillColor="#27EDB7"
             />
-          </View>
+          </View> */}
 
           {/* Instruction Text */}
           <View style={styles.instructionSection}>
