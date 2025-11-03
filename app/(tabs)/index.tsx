@@ -9,6 +9,7 @@ export default function HomeScreen() {
   const { isOn, setFlag } = useFeatureFlags();
   const router = useRouter();
   const [learningInput, setLearningInput] = useState('');
+  const [inputContentHeight, setInputContentHeight] = useState(24);
   
   // Check if we should show the notification
   const shouldShowNotification = isOn('extendedFirstRun') && !isOn('hasSeenExtendedFirstRun');
@@ -107,13 +108,18 @@ export default function HomeScreen() {
           <Text style={styles.learningInputTitle}>What Would You Like To Learn Today?</Text>
           <View style={styles.learningInputContainer}>
             <TextInput
-              style={styles.learningInputText}
+              style={[styles.learningInputText, { height: Math.min(Math.max(24, inputContentHeight), 96) }]}
               placeholder="Ask anything..."
               placeholderTextColor="#5C5C5C"
               value={learningInput}
               onChangeText={setLearningInput}
               multiline
               textAlignVertical="top"
+              scrollEnabled={true}
+              onContentSizeChange={(event) => {
+                const { height } = event.nativeEvent.contentSize;
+                setInputContentHeight(height);
+              }}
             />
             <View style={styles.learningInputButtons}>
               <TouchableOpacity style={styles.uploadButton}>
@@ -642,8 +648,8 @@ const styles = StyleSheet.create({
     lineHeight: 24,
     fontFamily: 'Urbanist',
     width: '100%',
-    flex: 1,
     minHeight: 24,
+    maxHeight: 96,
     textAlignVertical: 'top',
     padding: 0,
     margin: 0,
