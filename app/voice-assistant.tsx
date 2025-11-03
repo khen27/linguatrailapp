@@ -1,13 +1,20 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TextInput, Keyboard, TouchableWithoutFeedback, Platform, Image, UIManager } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
 import { Svg, Rect, Path, G, ClipPath, Defs } from 'react-native-svg';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { SpeakingIcon } from '@/components/ui/speaking-icon';
+import LottieView from 'lottie-react-native';
 
 const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
+
+const LOTTIE_VIEW_NAME = 'LottieAnimationView';
+const isLottieSupported = Platform.OS !== 'web' && (
+  UIManager.getViewManagerConfig?.(LOTTIE_VIEW_NAME) != null ||
+  UIManager.hasViewManagerConfig?.(LOTTIE_VIEW_NAME) === true
+);
 
 export default function VoiceAssistantScreen() {
   const router = useRouter();
@@ -70,13 +77,22 @@ export default function VoiceAssistantScreen() {
 
         {/* Spacing handled via bottom offset; no background overlay */}
 
-        {/* AI Charm Image - Absolutely Positioned */}
+        {/* AI Charm Animation - Absolutely Positioned */}
         <View style={styles.aiCharmContainer}>
-          <Image 
-            source={require('@/assets/icons/ai-charm.png')}
-            style={styles.aiCharmImage}
-            resizeMode="contain"
-          />
+          {isLottieSupported ? (
+            <LottieView
+              source={require('@/assets/animations/wave-animation.json')}
+              autoPlay
+              loop
+              style={styles.aiCharmImage}
+            />
+          ) : (
+            <Image 
+              source={require('@/assets/icons/ai-charm.png')}
+              style={styles.aiCharmImage}
+              resizeMode="contain"
+            />
+          )}
         </View>
 
         {/* Speaking Icon - Absolutely Positioned */}
