@@ -1,13 +1,15 @@
 import React from 'react';
 import { 
-  SafeAreaView, 
   View, 
   Text, 
   Image, 
   StyleSheet,
   Dimensions,
   ScrollView,
+  Platform,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Colors, Typography, Spacing } from '@/constants/design-tokens';
 import { BackButton } from './BackButton';
 import { BackgroundDecorations } from '@/components/subscription/BackgroundDecorations';
@@ -29,8 +31,14 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
   showBackgroundDecorations = false,
   children,
 }) => {
+  const insets = useSafeAreaInsets();
+  
+  // On iOS, use original 25px bottom spacing. On Android, add safe area inset to avoid nav bar overlap
+  // Maintain consistent container height per memory requirement
+  const bottomSpacing = Platform.OS === 'ios' ? 25 : 25 + insets.bottom;
+  
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       {showBackgroundDecorations && <BackgroundDecorations />}
       <BackButton />
 
@@ -42,7 +50,7 @@ export const OnboardingScreen: React.FC<OnboardingScreenProps> = ({
         <Text style={styles.appTitle}>LinguaTrail</Text>
       </View>
 
-      <View style={styles.formContainer}>
+      <View style={[styles.formContainer, { bottom: bottomSpacing }]}>
         {(title || subtitle) && (
           <View style={styles.header}>
             {title && <Text style={styles.title}>{title}</Text>}
@@ -87,7 +95,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     position: 'absolute',
-    bottom: 25,
+    // bottom is now set dynamically in component based on platform and safe area insets
     left: 8,
     right: 8,
     display: 'flex',
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     paddingBottom: 32,
     gap: 24,
-    height: screenHeight * 0.67, // ~541px on 812px height devices for consistency
+    height: screenHeight * 0.67, // ~541px on 812px height devices for consistency (per memory requirement)
   },
   header: {
     alignItems: 'center',

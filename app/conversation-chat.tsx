@@ -83,7 +83,7 @@ export default function ConversationChatScreen() {
         }}
       />
       <View style={styles.container}>
-        <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
           {/* Header Section */}
           <View style={styles.headerSection}>
             <ScreenHeader

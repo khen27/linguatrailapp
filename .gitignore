@@ -274,4 +274,5 @@ android/fastlane/test_output
 yarn-error.log
 
 # Local Netlify folder
-.netlify
+.netlifyios/
+android/

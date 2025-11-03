@@ -7,8 +7,9 @@ import {
   TouchableOpacity,
   Image,
   StatusBar,
+  Platform,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import Svg, { Path, Rect } from 'react-native-svg';
 import { useToast } from '@/hooks/useToast';
@@ -20,13 +21,17 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [keepLoggedIn, setKeepLoggedIn] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
+  const insets = useSafeAreaInsets();
+  
+  // On iOS, use original 25px bottom spacing. On Android, add safe area inset to avoid nav bar overlap
+  const bottomSpacing = Platform.OS === 'ios' ? 25 : 25 + insets.bottom;
 
   const handleComingSoon = () => {
     toast.show({ message: 'Coming Soon!', preset: 'comingSoon' });
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <StatusBar barStyle="light-content" backgroundColor="#091729" />
       
       {/* Background */}
@@ -52,7 +57,7 @@ export default function LoginScreen() {
       </View>
 
       {/* Login Form Container */}
-      <View style={styles.formContainer}>
+      <View style={[styles.formContainer, { bottom: bottomSpacing }]}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>Login account</Text>
@@ -202,7 +207,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     position: 'absolute',
-    bottom: 25,
+    // bottom is now set dynamically in component based on platform and safe area insets
     left: 8,
     right: 8,
     backgroundColor: '#FFFFFF',

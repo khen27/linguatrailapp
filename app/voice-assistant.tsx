@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TextInput, Keyboard, TouchableWithoutFeedback, Platform, Image, UIManager } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
 import { Svg, Rect, Path, G, ClipPath, Defs, Mask } from 'react-native-svg';
 import { ProgressBar } from '@/components/ui/progress-bar';
@@ -19,6 +19,10 @@ const isLottieSupported = Platform.OS !== 'web' && (
 export default function VoiceAssistantScreen() {
   const router = useRouter();
   const hiddenInputRef = React.useRef<TextInput>(null);
+  const insets = useSafeAreaInsets();
+  
+  // On iOS, use original 64px bottom spacing. On Android, add safe area inset to avoid nav bar overlap
+  const bottomButtonSpacing = Platform.OS === 'ios' ? 64 : 64 + insets.bottom;
 
   const handleBackPress = () => {
     router.back();
@@ -38,7 +42,7 @@ export default function VoiceAssistantScreen() {
       />
       <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); hiddenInputRef.current?.blur(); }}>
         <View style={styles.container}>
-        <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
         {/* Main Content */}
         <View style={styles.contentContainer}>
           {/* Header */}
