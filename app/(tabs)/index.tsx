@@ -45,13 +45,12 @@ export default function HomeScreen() {
         </View>
           <View style={styles.greetingContainer}>
             <Text style={styles.greetingSubtitle}>Welcome back!</Text>
-            <Text style={styles.greetingTitle}>Good Morning, Zander 👋</Text>
+            <Text style={styles.greetingTitle}>Zander 👋</Text>
           </View>
         </View>
         <View style={styles.streakContainer}>
           <Text style={styles.streakEmoji}>🔥</Text>
           <Text style={styles.streakNumber}>12</Text>
-          <Text style={styles.streakText}>Day</Text>
         </View>
       </View>
 
@@ -435,24 +434,30 @@ const styles = StyleSheet.create({
     flexShrink: 0,
   },
   streakEmoji: {
-    fontSize: 16,
-    lineHeight: 18,
+    fontSize: 13,
+    lineHeight: 15,
+    margin: 0,
+    padding: 0,
   },
   streakNumber: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 24,
-    letterSpacing: -0.32,
+    lineHeight: 19,
+    letterSpacing: -0.26,
     fontFamily: 'Urbanist',
+    margin: 0,
+    padding: 0,
   },
   streakText: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 18,
-    letterSpacing: -0.24,
+    lineHeight: 19,
+    letterSpacing: -0.26,
     fontFamily: 'Urbanist',
+    margin: 0,
+    padding: 0,
   },
   // Extended First Run Notification
   extendedFirstRunNotification: {
