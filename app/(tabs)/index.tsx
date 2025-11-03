@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { View, StyleSheet, Text, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
@@ -7,6 +8,7 @@ import { useRouter } from 'expo-router';
 export default function HomeScreen() {
   const { isOn, setFlag } = useFeatureFlags();
   const router = useRouter();
+  const [learningInput, setLearningInput] = useState('');
   
   // Check if we should show the notification
   const shouldShowNotification = isOn('extendedFirstRun') && !isOn('hasSeenExtendedFirstRun');
@@ -19,7 +21,13 @@ export default function HomeScreen() {
         <View style={styles.ellipse11} />
         <View style={styles.ellipse13} />
 
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        <ScrollView 
+          style={styles.scrollView} 
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+          showsVerticalScrollIndicator={false}
+        >
           {/* Top Header Section */}
           <View style={styles.header}>
         <View style={styles.headerLeft}>
@@ -98,7 +106,15 @@ export default function HomeScreen() {
         <View style={styles.learningInputCard}>
           <Text style={styles.learningInputTitle}>What Would You Like To Learn Today?</Text>
           <View style={styles.learningInputContainer}>
-            <Text style={styles.learningInputSubtitle}>Ask anything...</Text>
+            <TextInput
+              style={styles.learningInputText}
+              placeholder="Ask anything..."
+              placeholderTextColor="#5C5C5C"
+              value={learningInput}
+              onChangeText={setLearningInput}
+              multiline
+              textAlignVertical="top"
+            />
             <View style={styles.learningInputButtons}>
               <TouchableOpacity style={styles.uploadButton}>
                 <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
@@ -595,7 +611,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingBottom: 12,
     width: '100%',
-    height: 230,
+    minHeight: 230,
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: 12,
@@ -611,25 +627,26 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     width: '100%',
-    height: 136,
+    minHeight: 136,
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     gap: 24,
     // Note: backdrop-filter is not supported in React Native
   },
-  learningInputSubtitle: {
+  learningInputText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#5C5C5C',
+    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
-    opacity: 0.9,
     width: '100%',
-    height: 24,
-    textAlign: 'left',
-    alignSelf: 'flex-start',
+    flex: 1,
+    minHeight: 24,
+    textAlignVertical: 'top',
+    padding: 0,
+    margin: 0,
   },
   learningInputButtons: {
     flexDirection: 'row',
