@@ -207,7 +207,7 @@ const styles = StyleSheet.create({
   },
   responseSection: {
     position: 'absolute',
-    bottom: 370, // Fixed position, doesn't move
+    bottom: 150, // Fixed position, doesn't move
     left: 0,
     right: 0,
     paddingHorizontal: 24,
