@@ -4,10 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
 import { useFeatureFlags } from '@/contexts/FeatureFlagContext';
 import { useRouter } from 'expo-router';
+import { useToast } from '@/hooks/useToast';
 
 export default function HomeScreen() {
   const { isOn, setFlag } = useFeatureFlags();
   const router = useRouter();
+  const toast = useToast();
   const [learningInput, setLearningInput] = useState('');
   const [inputContentHeight, setInputContentHeight] = useState(24);
   
@@ -122,7 +124,11 @@ export default function HomeScreen() {
               }}
             />
             <View style={styles.learningInputButtons}>
-              <TouchableOpacity style={styles.uploadButton}>
+              <TouchableOpacity 
+                style={styles.uploadButton}
+                onPress={() => toast.show({ message: 'Coming Soon!', preset: 'comingSoon' })}
+                activeOpacity={0.8}
+              >
                 <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
                   <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" fill="white"/>
                   <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" stroke="#E0E3EF"/>
