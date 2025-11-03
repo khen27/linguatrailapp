@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { WarningBadge } from './icons/WarningBadge';
+import { ErrorBadge } from './icons/ErrorBadge';
 import { Colors, Typography } from '@/constants/design-tokens';
 
 export type ToastPreset = 'comingSoon' | 'success' | 'error';
@@ -67,12 +68,15 @@ export const ToastBanner: React.FC<ToastBannerProps> = ({
     }
   }, [preset]);
 
-  const content = useMemo(() => (
-    <View style={styles.row}>
-      <WarningBadge />
-      <Text style={[styles.text, { color: presetStyles.textColor }]}>{message}</Text>
-    </View>
-  ), [message, presetStyles.textColor]);
+  const content = useMemo(() => {
+    const icon = preset === 'error' ? <ErrorBadge /> : <WarningBadge />;
+    return (
+      <View style={styles.row}>
+        {icon}
+        <Text style={[styles.text, { color: presetStyles.textColor }]}>{message}</Text>
+      </View>
+    );
+  }, [message, presetStyles.textColor, preset]);
 
   return (
     <Animated.View style={[styles.container, stylePosition, { transform: [{ translateY }], opacity }]}

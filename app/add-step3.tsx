@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as DocumentPicker from 'expo-document-picker';
+import { useToast } from '@/hooks/useToast';
 // NOTE: Avoid static import of expo-image-picker to prevent runtime crash
 // when the dev client doesn't include the native module. We'll dynamically
 // import it inside handlers.
@@ -19,6 +20,7 @@ interface UploadedFile {
 
 export default function AddStep3Screen() {
   const router = useRouter();
+  const toast = useToast();
   const [selectedTextType, setSelectedTextType] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
@@ -34,7 +36,7 @@ export default function AddStep3Screen() {
     try {
       const ImagePickerLib = await import('expo-image-picker');
       if (!ImagePickerLib || !ImagePickerLib.launchImageLibraryAsync) {
-        Alert.alert('Unavailable', 'Image Picker is not available in this build.');
+        toast.show({ message: 'Failed to open image picker', preset: 'error' });
         return;
       }
 
@@ -60,10 +62,9 @@ export default function AddStep3Screen() {
           size: asset.fileSize,
         };
         setUploadedFiles(prev => [...prev, newFile]);
-        Alert.alert('Success', 'Image added successfully!');
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to pick image');
+      toast.show({ message: 'Failed to pick image', preset: 'error' });
       console.error('Image pick error:', error);
     }
   };
@@ -72,7 +73,7 @@ export default function AddStep3Screen() {
     try {
       const ImagePickerLib = await import('expo-image-picker');
       if (!ImagePickerLib || !ImagePickerLib.launchCameraAsync) {
-        Alert.alert('Unavailable', 'Camera is not available in this build.');
+        toast.show({ message: 'Failed to open camera', preset: 'error' });
         return;
       }
 
@@ -100,10 +101,9 @@ export default function AddStep3Screen() {
           size: result.assets[0].fileSize,
         };
         setUploadedFiles(prev => [...prev, newFile]);
-        Alert.alert('Success', 'Photo taken successfully!');
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to take photo');
+      toast.show({ message: 'Failed to take photo', preset: 'error' });
       console.error('Camera error:', error);
     }
   };
