@@ -135,7 +135,11 @@ export default function HomeScreen() {
                   <Path d="M20.9749 21V23.9167C20.9749 25.525 22.2833 26.8333 23.8916 26.8333C25.4999 26.8333 26.8083 25.525 26.8083 23.9167V19.3333C26.8083 16.1083 24.1999 13.5 20.9749 13.5C17.7499 13.5 15.1416 16.1083 15.1416 19.3333V24.3333C15.1416 27.0917 17.3833 29.3333 20.1416 29.3333" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.sendButton}>
+              <TouchableOpacity 
+                style={styles.sendButton}
+                onPress={() => toast.show({ message: 'Coming Soon!', preset: 'comingSoon' })}
+                activeOpacity={0.8}
+              >
                 <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <Path d="M12 19L12 5" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <Path d="M5 12L12 5L19 12" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
