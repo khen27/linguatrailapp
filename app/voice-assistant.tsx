@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
 import { Svg, Rect, Path, Defs, LinearGradient, Stop, Ellipse } from 'react-native-svg';
@@ -11,6 +11,7 @@ const { width: screenWidth, height: screenHeight } = Dimensions.get('window');
 
 export default function VoiceAssistantScreen() {
   const router = useRouter();
+  const hiddenInputRef = React.useRef<TextInput>(null);
 
   const handleBackPress = () => {
     router.back();
@@ -21,6 +22,16 @@ export default function VoiceAssistantScreen() {
     console.log('Menu pressed');
   };
 
+  const handleKeyboardButtonPress = () => {
+    // Focus the hidden text input to open the keyboard
+    hiddenInputRef.current?.focus();
+  };
+
+  const handleDismissKeyboard = () => {
+    Keyboard.dismiss();
+    hiddenInputRef.current?.blur();
+  };
+
   return (
     <>
       <Stack.Screen 
@@ -28,7 +39,8 @@ export default function VoiceAssistantScreen() {
           headerShown: false,
         }}
       />
-      <View style={styles.container}>
+      <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+        <View style={styles.container}>
       <SafeAreaView style={styles.safeArea} edges={['top']}>
         {/* Main Content */}
         <View style={styles.contentContainer}>
@@ -98,7 +110,7 @@ export default function VoiceAssistantScreen() {
             {/* Action Buttons */}
           <View style={styles.actionButtonsContainer}>
             {/* Left Button - Keyboard */}
-            <TouchableOpacity style={styles.actionButton}>
+            <TouchableOpacity style={styles.actionButton} onPress={handleKeyboardButtonPress}>
               <Svg width="52" height="52" viewBox="0 0 52 52" fill="none">
                 <Rect x="52" y="52" width="52" height="52" rx="26" transform="rotate(180 52 52)" fill="#F6F7FA"/>
                 <Path d="M21.5 18H30.5C31.12 18 31.67 18.02 32.16 18.09C34.79 18.38 35.5 19.62 35.5 23V29C35.5 32.38 34.79 33.62 32.16 33.91C31.67 33.98 31.12 34 30.5 34H21.5C20.88 34 20.33 33.98 19.84 33.91C17.21 33.62 16.5 32.38 16.5 29V23C16.5 19.62 17.21 18.38 19.84 18.09C20.33 18.02 20.88 18 21.5 18Z" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -132,8 +144,16 @@ export default function VoiceAssistantScreen() {
             </TouchableOpacity>
           </View>
         </View>
+
+        {/* Hidden Text Input for Keyboard */}
+        <TextInput
+          ref={hiddenInputRef}
+          style={styles.hiddenInput}
+          placeholder=""
+        />
       </SafeAreaView>
     </View>
+    </TouchableWithoutFeedback>
     </>
   );
 }
@@ -270,5 +290,12 @@ const styles = StyleSheet.create({
   curvedTop: {
     position: 'absolute',
     bottom: 0,
+  },
+  hiddenInput: {
+    position: 'absolute',
+    opacity: 0,
+    width: 1,
+    height: 1,
+    left: -1000,
   },
 });
