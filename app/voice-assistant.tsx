@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
-import { Svg, Rect, Path, Defs, LinearGradient, Stop } from 'react-native-svg';
+import { Svg, Rect, Path, Defs, LinearGradient, Stop, Ellipse } from 'react-native-svg';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { SpeakingIcon } from '@/components/ui/speaking-icon';
@@ -65,6 +65,8 @@ export default function VoiceAssistantScreen() {
           </Text>
         </View>
 
+        {/* Spacing handled via bottom offset; no background overlay */}
+
         {/* AI Charm Image - Absolutely Positioned */}
         <View style={styles.aiCharmContainer}>
           <Image 
@@ -81,37 +83,44 @@ export default function VoiceAssistantScreen() {
 
         {/* Bottom White Curved Overlay */}
         <View style={styles.bottomOverlay}>
-          <Svg 
-            width={screenWidth} 
-            height="300" 
-            viewBox={`0 0 ${screenWidth} 300`}
-            style={styles.curvedTop}
-          >
-            <Path
-              d={`M 0 120 Q ${screenWidth / 2} 10 ${screenWidth} 120 L ${screenWidth} 300 L 0 300 Z`}
-              fill="white"
-            />
-          </Svg>
-          
-          {/* Action Buttons */}
+            <Svg 
+              width={screenWidth} 
+              height="300" 
+              viewBox={`0 0 ${screenWidth} 300`}
+              style={styles.curvedTop}
+            >
+              <Path
+                d={`M 0 120 Q ${screenWidth / 2} 10 ${screenWidth} 120 L ${screenWidth} 300 L 0 300 Z`}
+                fill="white"
+              />
+            </Svg>
+            
+            {/* Action Buttons */}
           <View style={styles.actionButtonsContainer}>
             {/* Left Button - Keyboard */}
             <TouchableOpacity style={styles.actionButton}>
-              <Image 
-                source={require('@/assets/icons/ai-left-bottom-button.png')}
-                style={styles.actionButtonImage}
-                resizeMode="contain"
-              />
+              <Svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                <Rect x="52" y="52" width="52" height="52" rx="26" transform="rotate(180 52 52)" fill="#F6F7FA"/>
+                <Path d="M21.5 18H30.5C31.12 18 31.67 18.02 32.16 18.09C34.79 18.38 35.5 19.62 35.5 23V29C35.5 32.38 34.79 33.62 32.16 33.91C31.67 33.98 31.12 34 30.5 34H21.5C20.88 34 20.33 33.98 19.84 33.91C17.21 33.62 16.5 32.38 16.5 29V23C16.5 19.62 17.21 18.38 19.84 18.09C20.33 18.02 20.88 18 21.5 18Z" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M27.5 24H31" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M21 29.5H21.02H31" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M24.0946 24H24.1036" stroke="#2F4291" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                <Path d="M21.0946 24H21.1036" stroke="#2F4291" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+              </Svg>
             </TouchableOpacity>
 
-            {/* Center Button - Main Action */}
-            <TouchableOpacity style={styles.mainActionButton}>
-              <Image 
-                source={require('@/assets/icons/ai-center-bottom-button.png')}
-                style={styles.mainActionButtonImage}
-                resizeMode="contain"
-              />
-            </TouchableOpacity>
+            {/* Center Button - Main Action with Nested Layers */}
+            <View style={styles.mainActionButtonOuter}>
+              <View style={styles.mainActionButtonMiddle}>
+                <TouchableOpacity style={styles.mainActionButton}>
+                  <Image 
+                    source={require('@/assets/icons/ai-center-bottom-button.png')}
+                    style={styles.mainActionButtonImage}
+                    resizeMode="contain"
+                  />
+                </TouchableOpacity>
+              </View>
+            </View>
 
             {/* Right Button - Close */}
             <TouchableOpacity style={styles.actionButton}>
@@ -183,11 +192,12 @@ const styles = StyleSheet.create({
   },
   responseSection: {
     position: 'absolute',
-    bottom: 340, // 300px overlay height + 40px gap
+    bottom: 300, // lowered to sit below the graphic cleanly
     left: 0,
     right: 0,
     paddingHorizontal: 24,
     alignItems: 'center',
+    zIndex: 10,
   },
   responseText: {
     fontSize: 22,
@@ -221,9 +231,27 @@ const styles = StyleSheet.create({
     width: 51,
     height: 51,
   },
-  mainActionButton: {
+  mainActionButtonOuter: {
     width: 102,
     height: 102,
+    backgroundColor: '#E9FDF8',
+    borderRadius: 92.7273,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mainActionButtonMiddle: {
+    width: 83.45,
+    height: 83.45,
+    backgroundColor: '#DFFCF4',
+    borderRadius: 92.7273,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  mainActionButton: {
+    width: 64.91,
+    height: 64.91,
+    backgroundColor: '#27EDB7',
+    borderRadius: 46.3636,
     justifyContent: 'center',
     alignItems: 'center',
   },
