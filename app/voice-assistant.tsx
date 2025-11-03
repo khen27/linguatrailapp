@@ -79,7 +79,7 @@ export default function VoiceAssistantScreen() {
         </View>
 
         {/* Bottom White Curved Overlay */}
-        <View style={styles.bottomOverlay}>
+        {/* <View style={styles.bottomOverlay}>
             <Svg 
               width={screenWidth} 
               height="300" 
@@ -93,9 +93,9 @@ export default function VoiceAssistantScreen() {
             </Svg>
             
             {/* Action Buttons */}
-          <View style={styles.actionButtonsContainer}>
+          {/* <View style={styles.actionButtonsContainer}>
             {/* Left Button - Keyboard */}
-            <TouchableOpacity style={styles.actionButton} onPress={() => hiddenInputRef.current?.focus()}>
+            {/* <TouchableOpacity style={styles.actionButton} onPress={() => hiddenInputRef.current?.focus()}>
               <Svg width="52" height="52" viewBox="0 0 52 52" fill="none">
                 <Rect x="52" y="52" width="52" height="52" rx="26" transform="rotate(180 52 52)" fill="#F6F7FA"/>
                 <Path d="M21.5 18H30.5C31.12 18 31.67 18.02 32.16 18.09C34.79 18.38 35.5 19.62 35.5 23V29C35.5 32.38 34.79 33.62 32.16 33.91C31.67 33.98 31.12 34 30.5 34H21.5C20.88 34 20.33 33.98 19.84 33.91C17.21 33.62 16.5 32.38 16.5 29V23C16.5 19.62 17.21 18.38 19.84 18.09C20.33 18.02 20.88 18 21.5 18Z" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -107,7 +107,7 @@ export default function VoiceAssistantScreen() {
             </TouchableOpacity>
 
             {/* Center Button - Main Action with Nested Layers */}
-            <View style={styles.mainActionButtonOuter}>
+            {/* <View style={styles.mainActionButtonOuter}>
               <View style={styles.mainActionButtonMiddle}>
                 <TouchableOpacity style={styles.mainActionButton}>
                   <Image 
@@ -120,16 +120,31 @@ export default function VoiceAssistantScreen() {
             </View>
 
             {/* Right Button - Close */}
-            <TouchableOpacity style={styles.actionButton}>
+            {/* <TouchableOpacity style={styles.actionButton}>
               <Image 
                 source={require('@/assets/icons/ai-right-bottom-button.png')}
                 style={styles.actionButtonImage}
                 resizeMode="contain"
               />
             </TouchableOpacity>
-          </View>
+          </View> */}
           {/* Hidden Text Input to invoke keyboard (kept off-screen) */}
-          <TextInput ref={hiddenInputRef} style={styles.hiddenInput} />
+          {/* <TextInput ref={hiddenInputRef} style={styles.hiddenInput} /> */}
+        {/* </View> */}
+        
+        {/* Center Button - Standalone */}
+        <View style={styles.standaloneCenterButtonContainer}>
+          <View style={styles.mainActionButtonOuter}>
+            <View style={styles.mainActionButtonMiddle}>
+              <TouchableOpacity style={styles.mainActionButton}>
+                <Image 
+                  source={require('@/assets/icons/ai-center-bottom-button.png')}
+                  style={styles.mainActionButtonImage}
+                  resizeMode="contain"
+                />
+              </TouchableOpacity>
+            </View>
+          </View>
         </View>
         </SafeAreaView>
       </View>
@@ -277,5 +292,13 @@ const styles = StyleSheet.create({
     width: 1,
     height: 1,
     left: -1000,
+  },
+  standaloneCenterButtonContainer: {
+    position: 'absolute',
+    bottom: 50,
+    left: 0,
+    right: 0,
+    alignItems: 'center',
+    justifyContent: 'center',
   },
 });
