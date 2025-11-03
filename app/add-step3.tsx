@@ -41,15 +41,14 @@ export default function AddStep3Screen() {
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
 
   const textbooks: Textbook[] = [
-    { id: '1', name: 'Raymond Murphy (Cambridge)' },
-    { id: '2', name: 'Michael Swan (Oxford)' },
-    { id: '3', name: 'Liz & John Soars (Oxford University Press)' },
-    { id: '4', name: 'Clive Oxenden & Christina Latham-Koenig' },
-    { id: '5', name: 'Sarah Cunningham & Peter Moor (Pearson)' },
-    { id: '6', name: 'Antonia Clare & JJ Wilson (Pearson)' },
-    { id: '7', name: 'Jack C. Richards (Cambridge University Pre...' },
+    { id: '1', name: 'Antonia Clare & JJ Wilson (Pearson)' },
+    { id: '2', name: 'Clive Oxenden & Christina Latham-Koenig' },
+    { id: '3', name: 'Jack C. Richards (Cambridge University Pre...' },
+    { id: '4', name: 'Liz & John Soars (Oxford University Press)' },
+    { id: '5', name: 'Michael Swan (Oxford)' },
+    { id: '6', name: 'Raymond Murphy (Cambridge)' },
+    { id: '7', name: 'Sarah Cunningham & Peter Moor (Pearson)' },
     { id: '8', name: 'Steven J. Molinsky & Bill Bliss (Pearson)' },
-    { id: '9', name: 'Michael Swan (Oxford)' },
   ];
 
   const handleUploadDocument = async () => {
