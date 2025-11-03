@@ -161,12 +161,6 @@ export default function SummaryScreen() {
             {/* Title */}
             <Text style={styles.headerTitle}>Summary</Text>
 
-            {/* Streak Pill */}
-            <View style={styles.streakPill}>
-              <Text style={styles.streakEmoji}>🔥</Text>
-              <Text style={styles.streakCount}>15</Text>
-            </View>
-
             {/* Close Button */}
             <TouchableOpacity 
               style={styles.headerButton}
@@ -190,22 +184,12 @@ export default function SummaryScreen() {
 
         {/* Learning Modules List */}
         <View style={styles.modulesList}>
-          {/* Vertical dashed timeline guide via SVG (aligned through icon centers). 
-              Starts at top of the second row's icon and ends at bottom of the fourth row's icon */}
-          {(() => {
-            const PADDING_TOP = 24; // modulesList paddingTop
-            const ICON_SIZE = 44; // from SummaryRow styles
-            const ROW_CONTENT_HEIGHT = 51;
-            const ICON_TOP_OFFSET_IN_ROW = (ROW_CONTENT_HEIGHT - ICON_SIZE) / 2; // 3.5
-            const startY = PADDING_TOP + ROW_HEIGHT * 1 + ICON_TOP_OFFSET_IN_ROW; // top of second row icon
-            const endY = PADDING_TOP + ROW_HEIGHT * 3 + ICON_TOP_OFFSET_IN_ROW + ICON_SIZE; // bottom of fourth row icon
-            const svgHeight = endY - startY;
-            return (
-              <Svg pointerEvents="none" style={[styles.timelineSvg, { top: startY }]} width={2} height={svgHeight}>
-                <Line x1={1} y1={0} x2={1} y2={svgHeight} stroke="#E0E3EF" strokeWidth={2} strokeDasharray="4,6" />
-              </Svg>
-            );
-          })()}
+          {/* Vertical dashed timeline guide via SVG (aligned through icon centers).
+              Kept independent of reordering to prevent disappearing during drag. */}
+          <Svg pointerEvents="none" style={styles.timelineSvg} width={2} height="100%">
+            {/* Compute start/end inside the path positions using stroke dash offsets is complex; we keep full height */}
+            <Line x1={1} y1={0} x2={1} y2="100%" stroke="#E0E3EF" strokeWidth={2} strokeDasharray="4,6" />
+          </Svg>
           <FlatList
             ref={listRef}
             data={modules}
@@ -219,22 +203,8 @@ export default function SummaryScreen() {
 
         {/* Bottom Sheet Footer */}
         <View style={styles.footer}>
-          {/* Customize Flow pill */}
-          <View style={styles.customizePill}>
-            <View style={styles.customizeRow}>
-              <Text style={styles.customizeText}>Customise flow...</Text>
-              <TouchableOpacity 
-                style={styles.pocketButton}
-                activeOpacity={0.85}
-                onPress={() => listRef.current?.scrollToOffset({ offset: 0, animated: true })}
-              >
-                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                  <Path d="M12 6L12 18" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round"/>
-                  <Path d="M8 10L12 6L16 10" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
-                </Svg>
-              </TouchableOpacity>
-            </View>
-          </View>
+          {/* Customize Flow pill - temporarily removed */}
+          {/* <View style={styles.customizePill}></View> */}
 
           {/* Confirm Create Button */}
           <TouchableOpacity 
@@ -293,29 +263,9 @@ const styles = StyleSheet.create({
     letterSpacing: -0.32,
     color: T.colors.blueNormal,
     textAlign: 'center',
-    marginRight: 'auto',
+    flex: 1,
   },
-  streakPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: '#FEF9EB', // Yellow/Light from spec
-    borderRadius: 1036.36,
-    gap: 6,
-  },
-  streakEmoji: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  streakCount: {
-    fontFamily: 'Urbanist',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 24,
-    letterSpacing: -0.32,
-    color: T.colors.blueNormal,
-  },
+  // Removed streak pill styles
   // Main Card
   card: {
     position: 'absolute',
@@ -356,8 +306,9 @@ const styles = StyleSheet.create({
   timelineSvg: {
     position: 'absolute',
     left: 24 + 22,
-    top: 0,
-    bottom: 0,
+    top: 24 + ((51 - 44) / 2), // start at top of apple icon center line
+    bottom: 24 + ((51 - 44) / 2), // end at bottom near yellow books icon
+    zIndex: 0,
   },
   // Footer with Confirm Button
   footer: {
