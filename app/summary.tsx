@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions, Platform } from 'react-native';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { Svg, Path, Line } from 'react-native-svg';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
@@ -11,6 +11,10 @@ import * as Haptics from 'expo-haptics';
 
 export default function SummaryScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  
+  // On iOS, use original 0px bottom spacing. On Android, add safe area inset to avoid nav bar overlap
+  const footerBottomSpacing = Platform.OS === 'ios' ? 0 : insets.bottom;
 
   const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -167,7 +171,7 @@ export default function SummaryScreen() {
     <View style={styles.screen}>
       {/* Glass Header */}
       <BlurView intensity={45} tint="light" style={styles.glassHeader}>
-        <SafeAreaView edges={['top']}>
+        <SafeAreaView edges={['top', 'bottom']}>
           <View style={styles.headerContent}>
             {/* Back Button */}
             <TouchableOpacity 
@@ -224,7 +228,7 @@ export default function SummaryScreen() {
         </View>
 
         {/* Bottom Sheet Footer */}
-        <View style={styles.footer}>
+        <View style={[styles.footer, { bottom: footerBottomSpacing }]}>
           {/* Customize Flow pill - temporarily removed */}
           {/* <View style={styles.customizePill}></View> */}
 
@@ -332,7 +336,7 @@ const styles = StyleSheet.create({
   // Footer with Confirm Button
   footer: {
     position: 'absolute',
-    bottom: 0,
+    // bottom is now set dynamically in component based on platform and safe area insets
     left: 0,
     right: 0,
     width: '100%',

@@ -21,7 +21,7 @@ export default function AddScreen() {
 
   return (
     <View style={styles.screen}>
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
         {/* Header Navigation */}
         <View style={styles.header}>
           {/* Back Button */}

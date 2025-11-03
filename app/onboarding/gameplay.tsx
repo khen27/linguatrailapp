@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Image, Dimensions, Platform } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { BackgroundDecorations } from '@/components/subscription/BackgroundDecorations';
+
+const { width: screenWidth } = Dimensions.get('window');
 
 export default function OnboardingGameplayScreen() {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
+  const insets = useSafeAreaInsets();
+  
+  // Responsive card width with constraints
+  const cardWidth = Math.min(Math.max(screenWidth - 32, 320), 359);
+  
+  // On iOS, use original 25px bottom spacing. On Android, add safe area inset to avoid nav bar overlap
+  const bottomSpacing = Platform.OS === 'ios' ? 25 : 25 + insets.bottom;
 
   const handleOptionSelect = (optionIndex: number) => {
     setSelectedOption(optionIndex);
@@ -24,7 +34,7 @@ export default function OnboardingGameplayScreen() {
       <View style={styles.overlay} />
       
       {/* Main Content Card */}
-      <View style={styles.contentCard}>
+      <View style={[styles.contentCard, { width: cardWidth, marginLeft: -(cardWidth / 2), bottom: bottomSpacing }]}>
         <View style={styles.contentContainer}>
           {/* Progress Bar */}
           <View style={styles.progressSection}>
@@ -112,11 +122,9 @@ const styles = StyleSheet.create({
   },
   contentCard: {
     position: 'absolute',
-    width: 359,
+    // width, marginLeft, and bottom are now set dynamically in component for responsiveness and safe area
     height: 742,
     left: '50%',
-    marginLeft: -179.5,
-    bottom: 25,
     backgroundColor: '#FFFFFF',
     borderRadius: 32,
     paddingTop: 16,
@@ -125,7 +133,7 @@ const styles = StyleSheet.create({
     zIndex: 10,
   },
   contentContainer: {
-    width: 327,
+    width: '100%',
     gap: 20,
   },
   progressSection: {
@@ -155,7 +163,7 @@ const styles = StyleSheet.create({
     color: '#263574',
     textAlign: 'center',
     fontFamily: 'Urbanist',
-    width: 327,
+    // Removed fixed width for responsiveness
   },
   subtitle: {
     fontSize: 16,
@@ -166,7 +174,7 @@ const styles = StyleSheet.create({
     opacity: 0.7,
     textAlign: 'center',
     fontFamily: 'Urbanist',
-    width: 327,
+    // Removed fixed width for responsiveness
   },
   questionCard: {
     width: '100%',
@@ -185,7 +193,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     left: 22,
     top: 21,
-    width: 283,
+    right: 22,
     fontSize: 22,
     fontWeight: '600',
     color: '#263574',
