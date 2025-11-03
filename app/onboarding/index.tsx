@@ -7,8 +7,9 @@ import {
   Image,
   StatusBar,
   Dimensions,
+  Platform,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import Svg, { Path } from 'react-native-svg';
 import { Colors, Typography, Spacing, BorderRadius } from '@/constants/design-tokens';
@@ -17,9 +18,13 @@ const { height: screenHeight } = Dimensions.get('window');
 
 export default function OnboardingWelcomeScreen() {
   const router = useRouter();
+  const insets = useSafeAreaInsets();
+  
+  // On iOS, use original 40px bottom spacing. On Android, add safe area inset to avoid nav bar overlap
+  const bottomSpacing = Platform.OS === 'ios' ? 40 : 40 + insets.bottom;
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
       <StatusBar barStyle="light-content" backgroundColor="#091729" />
 
       {/* Background Decorative Elements */}
@@ -35,7 +40,7 @@ export default function OnboardingWelcomeScreen() {
       </View>
 
       {/* Welcome Content Container */}
-      <View style={styles.contentContainer}>
+      <View style={[styles.contentContainer, { bottom: bottomSpacing }]}>
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.welcomeTitle}>Welcome to LinguaTrail</Text>
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     position: 'absolute',
-    bottom: 40,
+    // bottom is now set dynamically in component based on platform and safe area insets
     left: 0,
     right: 0,
     paddingHorizontal: Spacing.lg,
