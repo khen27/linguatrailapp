@@ -1,11 +1,16 @@
 import React from 'react';
-import { View, StyleSheet, TouchableOpacity, Text } from 'react-native';
+import { View, StyleSheet, TouchableOpacity, Text, Platform } from 'react-native';
 import { useRouter, usePathname } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { HomeIcon, BookIcon, AddIcon, ChartIcon, ProfileIcon } from './tab-icons';
 
 export function FloatingTabBar() {
   const router = useRouter();
   const pathname = usePathname();
+  const insets = useSafeAreaInsets();
+  
+  // On iOS, use original 20px padding. On Android, add safe area inset to avoid nav bar overlap
+  const bottomPadding = Platform.OS === 'ios' ? 20 : 20 + insets.bottom;
 
   const tabs = [
     {
@@ -50,7 +55,7 @@ export function FloatingTabBar() {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { paddingBottom: bottomPadding }]}>
       <View style={styles.tabBar}>
         {tabs.map((tab) => {
           const IconComponent = tab.icon;
@@ -103,7 +108,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     alignItems: 'center',
-    paddingBottom: 20,
+    // paddingBottom is now set dynamically in component based on safe area insets
   },
   tabBar: {
     flexDirection: 'row',
