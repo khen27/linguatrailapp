@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, StatusBar, KeyboardAvoidingView, Platform, Alert, Image } from 'react-native';
-import { Svg, Path } from 'react-native-svg';
+import Svg, { Path, Rect } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
 import * as DocumentPicker from 'expo-document-picker';
+import { useToast } from '@/hooks/useToast';
 // NOTE: Avoid static import of expo-image-picker to prevent runtime crash
 // when the dev client doesn't include the native module. We'll dynamically
 // import it inside handlers.
@@ -19,6 +20,7 @@ interface UploadedFile {
 
 export default function AddStep3Screen() {
   const router = useRouter();
+  const toast = useToast();
   const [selectedTextType, setSelectedTextType] = useState('');
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<UploadedFile[]>([]);
@@ -34,7 +36,7 @@ export default function AddStep3Screen() {
     try {
       const ImagePickerLib = await import('expo-image-picker');
       if (!ImagePickerLib || !ImagePickerLib.launchImageLibraryAsync) {
-        Alert.alert('Unavailable', 'Image Picker is not available in this build.');
+        toast.show({ message: 'Failed to open image picker', preset: 'error' });
         return;
       }
 
@@ -60,44 +62,29 @@ export default function AddStep3Screen() {
           size: asset.fileSize,
         };
         setUploadedFiles(prev => [...prev, newFile]);
-        Alert.alert('Success', 'Image added successfully!');
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to pick image');
+      toast.show({ message: 'Failed to pick image', preset: 'error' });
       console.error('Image pick error:', error);
     }
   };
 
   const handleTakePhoto = async () => {
     try {
-      // Check if running on simulator/emulator (with fallback if expo-device isn't available)
-      let isSimulator = false;
-      try {
-        const Device = await import('expo-device');
-        isSimulator = !Device.default.isDevice;
-      } catch (deviceError) {
-        // If expo-device isn't available, assume it might be a simulator
-        // This is a safe fallback since simulators don't have cameras anyway
-        isSimulator = true;
-      }
-
-      if (isSimulator) {
-        Alert.alert('Simulator Detected', 'Camera is not available on simulators. Please use a physical device to take photos.');
-        return;
-      }
-
       const ImagePickerLib = await import('expo-image-picker');
       if (!ImagePickerLib || !ImagePickerLib.launchCameraAsync) {
-        Alert.alert('Unavailable', 'Camera is not available in this build.');
+        toast.show({ message: 'Failed to open camera', preset: 'error' });
         return;
       }
 
+      // Request camera permissions
       const permissionResult = await ImagePickerLib.requestCameraPermissionsAsync();
       if (permissionResult.granted === false) {
         Alert.alert('Permission Required', 'Camera permission is required to take photos');
         return;
       }
 
+      // Launch camera - will handle simulator detection automatically
       const result = await ImagePickerLib.launchCameraAsync({
         mediaTypes: ImagePickerLib.MediaTypeOptions.Images,
         allowsEditing: true,
@@ -114,10 +101,9 @@ export default function AddStep3Screen() {
           size: result.assets[0].fileSize,
         };
         setUploadedFiles(prev => [...prev, newFile]);
-        Alert.alert('Success', 'Photo taken successfully!');
       }
     } catch (error) {
-      Alert.alert('Error', 'Failed to take photo');
+      toast.show({ message: 'Failed to take photo', preset: 'error' });
       console.error('Camera error:', error);
     }
   };
@@ -282,9 +268,11 @@ export default function AddStep3Screen() {
                     onPress={() => handleDeleteFile(file.id)}
                     activeOpacity={0.8}
                   >
-                    <Svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                      <Path d="M6 7H14M8 7V5H12V7M7 7V15H13V7" stroke="#F84E5B" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-                    </Svg>
+                    <Image 
+                      source={require('@/assets/icons/trashcan.png')}
+                      style={styles.deleteIcon}
+                      resizeMode="cover"
+                    />
                   </TouchableOpacity>
                 </View>
               ))}
@@ -580,6 +568,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  deleteIcon: {
+    width: 36,
+    height: 36,
   },
   // Skip Button
   skipButton: {

@@ -1,12 +1,17 @@
+import { useState } from 'react';
 import { View, StyleSheet, Text, Image, ScrollView, TextInput, TouchableOpacity } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop, Circle } from 'react-native-svg';
 import { useFeatureFlags } from '@/contexts/FeatureFlagContext';
 import { useRouter } from 'expo-router';
+import { useToast } from '@/hooks/useToast';
 
 export default function HomeScreen() {
   const { isOn, setFlag } = useFeatureFlags();
   const router = useRouter();
+  const toast = useToast();
+  const [learningInput, setLearningInput] = useState('');
+  const [inputContentHeight, setInputContentHeight] = useState(24);
   
   // Check if we should show the notification
   const shouldShowNotification = isOn('extendedFirstRun') && !isOn('hasSeenExtendedFirstRun');
@@ -19,7 +24,13 @@ export default function HomeScreen() {
         <View style={styles.ellipse11} />
         <View style={styles.ellipse13} />
 
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        <ScrollView 
+          style={styles.scrollView} 
+          contentContainerStyle={styles.scrollContent}
+          keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="interactive"
+          showsVerticalScrollIndicator={false}
+        >
           {/* Top Header Section */}
           <View style={styles.header}>
         <View style={styles.headerLeft}>
@@ -34,13 +45,12 @@ export default function HomeScreen() {
         </View>
           <View style={styles.greetingContainer}>
             <Text style={styles.greetingSubtitle}>Welcome back!</Text>
-            <Text style={styles.greetingTitle}>Good Morning, Zander 👋</Text>
+            <Text style={styles.greetingTitle}>Zander 👋</Text>
           </View>
         </View>
         <View style={styles.streakContainer}>
           <Text style={styles.streakEmoji}>🔥</Text>
           <Text style={styles.streakNumber}>12</Text>
-          <Text style={styles.streakText}>Day</Text>
         </View>
       </View>
 
@@ -98,16 +108,37 @@ export default function HomeScreen() {
         <View style={styles.learningInputCard}>
           <Text style={styles.learningInputTitle}>What Would You Like To Learn Today?</Text>
           <View style={styles.learningInputContainer}>
-            <Text style={styles.learningInputSubtitle}>Ask anything...</Text>
+            <TextInput
+              style={[styles.learningInputText, { height: Math.min(Math.max(24, inputContentHeight), 96) }]}
+              placeholder="Ask anything..."
+              placeholderTextColor="#5C5C5C"
+              value={learningInput}
+              onChangeText={setLearningInput}
+              multiline
+              textAlignVertical="top"
+              scrollEnabled={true}
+              onContentSizeChange={(event) => {
+                const { height } = event.nativeEvent.contentSize;
+                setInputContentHeight(height);
+              }}
+            />
             <View style={styles.learningInputButtons}>
-              <TouchableOpacity style={styles.uploadButton}>
+              <TouchableOpacity 
+                style={styles.uploadButton}
+                onPress={() => toast.show({ message: 'Coming Soon!', preset: 'comingSoon' })}
+                activeOpacity={0.8}
+              >
                 <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
                   <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" fill="white"/>
                   <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" stroke="#E0E3EF"/>
                   <Path d="M20.9749 21V23.9167C20.9749 25.525 22.2833 26.8333 23.8916 26.8333C25.4999 26.8333 26.8083 25.525 26.8083 23.9167V19.3333C26.8083 16.1083 24.1999 13.5 20.9749 13.5C17.7499 13.5 15.1416 16.1083 15.1416 19.3333V24.3333C15.1416 27.0917 17.3833 29.3333 20.1416 29.3333" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                 </Svg>
               </TouchableOpacity>
-              <TouchableOpacity style={styles.sendButton}>
+              <TouchableOpacity 
+                style={styles.sendButton}
+                onPress={() => toast.show({ message: 'Coming Soon!', preset: 'comingSoon' })}
+                activeOpacity={0.8}
+              >
                 <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <Path d="M12 19L12 5" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
                   <Path d="M5 12L12 5L19 12" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -396,29 +427,37 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     backgroundColor: '#FEF9EB',
-    borderRadius: 1000,
+    borderRadius: 1036.36,
     width: 80,
     height: 40,
     gap: 6,
     flexShrink: 0,
   },
   streakEmoji: {
-    fontSize: 16,
-    lineHeight: 18,
+    fontSize: 13,
+    lineHeight: 15,
+    margin: 0,
+    padding: 0,
   },
   streakNumber: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 18,
+    lineHeight: 19,
+    letterSpacing: -0.26,
     fontFamily: 'Urbanist',
+    margin: 0,
+    padding: 0,
   },
   streakText: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 18,
+    lineHeight: 19,
+    letterSpacing: -0.26,
     fontFamily: 'Urbanist',
+    margin: 0,
+    padding: 0,
   },
   // Extended First Run Notification
   extendedFirstRunNotification: {
@@ -432,24 +471,25 @@ const styles = StyleSheet.create({
   extendedFirstRunContent: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
     gap: 8,
     paddingHorizontal: 8,
     paddingVertical: 8,
-    height: 58,
+    minHeight: 58,
   },
   extendedFirstRunIconContainer: {
     width: 42,
     height: 42,
     alignItems: 'center',
     justifyContent: 'center',
+    flexShrink: 0,
   },
   extendedFirstRunText: {
     flexDirection: 'column',
     alignItems: 'flex-start',
     padding: 0,
     flex: 1,
-    height: 42,
+    flexShrink: 1,
   },
   extendedFirstRunTitle: {
     fontSize: 14,
@@ -458,7 +498,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
-    height: 21,
   },
   extendedFirstRunSubtitle: {
     fontSize: 14,
@@ -467,7 +506,6 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
-    height: 21,
   },
   // Learned Today Section
   learnedTodaySection: {
@@ -594,7 +632,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingBottom: 12,
     width: '100%',
-    height: 230,
+    minHeight: 230,
     flexDirection: 'column',
     alignItems: 'flex-start',
     gap: 12,
@@ -610,25 +648,26 @@ const styles = StyleSheet.create({
     borderRadius: 16,
     padding: 16,
     width: '100%',
-    height: 136,
+    minHeight: 136,
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     gap: 24,
     // Note: backdrop-filter is not supported in React Native
   },
-  learningInputSubtitle: {
+  learningInputText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#5C5C5C',
+    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
-    opacity: 0.9,
     width: '100%',
-    height: 24,
-    textAlign: 'left',
-    alignSelf: 'flex-start',
+    minHeight: 24,
+    maxHeight: 96,
+    textAlignVertical: 'top',
+    padding: 0,
+    margin: 0,
   },
   learningInputButtons: {
     flexDirection: 'row',

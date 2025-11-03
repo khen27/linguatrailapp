@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, StatusBar, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, StatusBar, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -8,6 +8,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 export default function AddStep2Screen() {
   const router = useRouter();
   const [textInput, setTextInput] = useState('');
+  const [inputContentHeight, setInputContentHeight] = useState(24);
 
   return (
     <View style={styles.screen}>
@@ -58,40 +59,54 @@ export default function AddStep2Screen() {
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           keyboardVerticalOffset={0}
         >
-          {/* Progress Bar Section */}
-          <View style={styles.progressSection}>
-            <View style={styles.progressTrack}>
-              <View style={styles.progressFill} />
-            </View>
-          </View>
-
-          {/* Title and Subtitle */}
-          <View style={styles.titleSection}>
-            <Text style={styles.mainTitle}>Give Insights</Text>
-            <Text style={styles.subtitle}>Upload the document, take photo or paste text of the language task you want to get help with.</Text>
-          </View>
-
-          {/* Text Input Area */}
-          <View style={styles.inputSection}>
-            <Text style={styles.inputLabel}>Relevant Text</Text>
-            <TextInput
-              style={styles.textInput}
-              placeholder="Paste the text here..."
-              placeholderTextColor="#5C5C5C"
-              multiline={true}
-              value={textInput}
-              onChangeText={setTextInput}
-            />
-          </View>
-
-          {/* Skip Button */}
-          <TouchableOpacity 
-            style={styles.skipButton} 
-            activeOpacity={0.8}
-            onPress={() => router.push('/add-step3')}
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={styles.scrollContent}
+            keyboardShouldPersistTaps="handled"
+            keyboardDismissMode="interactive"
+            showsVerticalScrollIndicator={true}
           >
-            <Text style={styles.skipButtonText}>Skip</Text>
-          </TouchableOpacity>
+            {/* Progress Bar Section */}
+            <View style={styles.progressSection}>
+              <View style={styles.progressTrack}>
+                <View style={styles.progressFill} />
+              </View>
+            </View>
+
+            {/* Title and Subtitle */}
+            <View style={styles.titleSection}>
+              <Text style={styles.mainTitle}>Give Insights</Text>
+              <Text style={styles.subtitle}>Upload the document, take photo or paste text of the language task you want to get help with.</Text>
+            </View>
+
+            {/* Text Input Area */}
+            <View style={styles.inputSection}>
+              <Text style={styles.inputLabel}>Relevant Text</Text>
+              <TextInput
+                style={[styles.textInput, { height: Math.min(Math.max(120, inputContentHeight), 200) }]}
+                placeholder="Paste the text here..."
+                placeholderTextColor="#5C5C5C"
+                multiline={true}
+                value={textInput}
+                onChangeText={setTextInput}
+                textAlignVertical="top"
+                scrollEnabled={true}
+                onContentSizeChange={(event) => {
+                  const { height } = event.nativeEvent.contentSize;
+                  setInputContentHeight(height);
+                }}
+              />
+            </View>
+
+            {/* Skip Button */}
+            <TouchableOpacity 
+              style={styles.skipButton} 
+              activeOpacity={0.8}
+              onPress={() => router.push('/add-step3')}
+            >
+              <Text style={styles.skipButtonText}>Skip</Text>
+            </TouchableOpacity>
+          </ScrollView>
         </KeyboardAvoidingView>
       </View>
     </View>
@@ -158,9 +173,14 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    gap: 24,
     zIndex: 2,
-    paddingHorizontal: 0,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    gap: 24,
+    paddingBottom: 24,
   },
   // Progress Bar
   progressSection: {
@@ -207,9 +227,9 @@ const styles = StyleSheet.create({
   },
   // Text Input Section
   inputSection: {
-    flex: 1,
     paddingHorizontal: 24,
     gap: 12,
+    minHeight: 200,
   },
   inputLabel: {
     fontFamily: 'Urbanist',
@@ -220,7 +240,8 @@ const styles = StyleSheet.create({
     color: '#263574',
   },
   textInput: {
-    flex: 1,
+    minHeight: 120,
+    maxHeight: 200,
     backgroundColor: '#FFFFFF',
     borderWidth: 1,
     borderColor: '#E0E3EF',
@@ -242,7 +263,7 @@ const styles = StyleSheet.create({
     borderRadius: 1000,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 'auto',
+    marginTop: 8,
     zIndex: 3,
   },
   skipButtonText: {

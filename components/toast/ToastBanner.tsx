@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useRef } from 'react';
 import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
 import { WarningBadge } from './icons/WarningBadge';
+import { ErrorBadge } from './icons/ErrorBadge';
 import { Colors, Typography } from '@/constants/design-tokens';
 
 export type ToastPreset = 'comingSoon' | 'success' | 'error';
@@ -67,12 +68,15 @@ export const ToastBanner: React.FC<ToastBannerProps> = ({
     }
   }, [preset]);
 
-  const content = useMemo(() => (
-    <View style={styles.row}>
-      <WarningBadge />
-      <Text numberOfLines={1} ellipsizeMode="tail" style={[styles.text, { color: presetStyles.textColor }]}>{message}</Text>
-    </View>
-  ), [message, presetStyles.textColor]);
+  const content = useMemo(() => {
+    const icon = preset === 'error' ? <ErrorBadge /> : <WarningBadge />;
+    return (
+      <View style={styles.row}>
+        {icon}
+        <Text style={[styles.text, { color: presetStyles.textColor }]}>{message}</Text>
+      </View>
+    );
+  }, [message, presetStyles.textColor, preset]);
 
   return (
     <Animated.View style={[styles.container, stylePosition, { transform: [{ translateY }], opacity }]}
@@ -87,7 +91,7 @@ export const ToastBanner: React.FC<ToastBannerProps> = ({
   );
 };
 
-const WIDTH = 151;
+const MIN_WIDTH = 151;
 const HEIGHT = 40;
 
 const styles = StyleSheet.create({
@@ -95,8 +99,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     alignSelf: 'center',
     alignItems: 'center',
-    width: WIDTH,
+    minWidth: MIN_WIDTH,
     height: HEIGHT,
+    paddingHorizontal: 14,
   },
   overlay: {
     position: 'absolute',
@@ -125,11 +130,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 10,
-    paddingRight: 14,
-    paddingLeft: 10,
+    paddingHorizontal: 10,
     gap: 6,
     height: HEIGHT,
-    width: WIDTH,
+    flexShrink: 0,
+    width: '100%',
   },
   text: {
     fontFamily: Typography.fontFamily.body,
@@ -138,6 +143,6 @@ const styles = StyleSheet.create({
     lineHeight: 20,
     letterSpacing: Typography.letterSpacing,
     color: '#000000',
-    flexShrink: 1,
+    flexShrink: 0,
   },
 });

@@ -23,7 +23,6 @@ export default function InsightsScreen() {
             <View style={styles.streakContainer}>
               <Text style={styles.streakEmoji}>🔥</Text>
               <Text style={styles.streakNumber}>12</Text>
-              <Text style={styles.streakText}>Day</Text>
             </View>
           </View>
 
@@ -211,29 +210,37 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     paddingVertical: 8,
     backgroundColor: '#FEF9EB',
-    borderRadius: 1000,
+    borderRadius: 1036.36,
     width: 80,
     height: 40,
     gap: 6,
     flexShrink: 0,
   },
   streakEmoji: {
-    fontSize: 16,
-    lineHeight: 18,
+    fontSize: 13,
+    lineHeight: 15,
+    margin: 0,
+    padding: 0,
   },
   streakNumber: {
-    fontSize: 16,
+    fontSize: 13,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 18,
+    lineHeight: 19,
+    letterSpacing: -0.26,
     fontFamily: 'Urbanist',
+    margin: 0,
+    padding: 0,
   },
   streakText: {
-    fontSize: 12,
+    fontSize: 13,
     fontWeight: '600',
     color: '#263574',
-    lineHeight: 18,
+    lineHeight: 19,
+    letterSpacing: -0.26,
     fontFamily: 'Urbanist',
+    margin: 0,
+    padding: 0,
   },
   // Main Content Container
   mainContentContainer: {
