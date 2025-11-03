@@ -8,6 +8,7 @@ import { BlurView } from 'expo-blur';
 import * as Haptics from 'expo-haptics';
 import * as DocumentPicker from 'expo-document-picker';
 import { useToast } from '@/hooks/useToast';
+import AnimatedProgressBar from '../components/AnimatedProgressBar';
 // NOTE: Avoid static import of expo-image-picker to prevent runtime crash
 // when the dev client doesn't include the native module. We'll dynamically
 // import it inside handlers.
@@ -207,11 +208,7 @@ export default function AddStep3Screen() {
           keyboardVerticalOffset={0}
         >
           {/* Progress Bar Section */}
-          <View style={styles.progressSection}>
-            <View style={styles.progressTrack}>
-              <View style={styles.progressFill} />
-            </View>
-          </View>
+          <AnimatedProgressBar progress={1.0} delay={200} />
 
           {/* Title and Subtitle */}
           <View style={styles.titleSection}>
@@ -442,22 +439,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 0,
   },
   // Progress Bar
-  progressSection: {
-    paddingHorizontal: 24,
-  },
-  progressTrack: {
-    width: '100%',
-    height: 10,
-    backgroundColor: '#F6F7FA',
-    borderRadius: 1000,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    width: 327,
-    height: 10,
-    backgroundColor: '#27EDB7',
-    borderRadius: 1000,
-  },
   // Title Section
   titleSection: {
     paddingHorizontal: 24,
