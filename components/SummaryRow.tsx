@@ -1,8 +1,16 @@
-import React, { useEffect, useRef } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { DesignTokens as T } from '../constants/design-tokens';
-import { LongPressGestureHandler, PanGestureHandler, State } from 'react-native-gesture-handler';
+import { Gesture, GestureDetector } from 'react-native-gesture-handler';
+import Animated, { 
+  useAnimatedStyle, 
+  useSharedValue, 
+  withSpring, 
+  withTiming,
+  runOnJS,
+  Layout,
+} from 'react-native-reanimated';
 
 interface SummaryRowProps {
   title: string;
@@ -21,6 +29,11 @@ interface SummaryRowProps {
   isAnyDragging?: boolean;
 }
 
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const ROW_HORIZONTAL_PADDING = SCREEN_WIDTH * 0.072; // matches timeline alignment in summary screen
+const ROW_VERTICAL_SPACING = 24;
+const ICON_SIZE = 44;
+
 export default function SummaryRow({
   title,
   subtitle,
@@ -37,115 +50,138 @@ export default function SummaryRow({
   isDragging = false,
   isAnyDragging = false,
 }: SummaryRowProps) {
-  const scale = useRef(new Animated.Value(1)).current;
-
-  const longRef = useRef<any>(null);
-  const panRef = useRef<any>(null);
+  const scale = useSharedValue(1);
+  const opacity = useSharedValue(1);
+  const translateY = useSharedValue(0);
+  const isPressed = useSharedValue(false);
 
   useEffect(() => {
     if (isDragging) {
-      Animated.spring(scale, {
-        toValue: 1.02,
-        useNativeDriver: true,
-        stiffness: 220,
-        damping: 24,
-        mass: 0.6,
-      }).start();
+      scale.value = withSpring(1.05, { damping: 20, stiffness: 300 });
+      opacity.value = withTiming(1, { duration: 150 });
     } else {
-      Animated.timing(scale, {
-        toValue: 1,
-        duration: 120,
-        useNativeDriver: true,
-      }).start();
+      scale.value = withSpring(1, { damping: 20, stiffness: 300 });
+      opacity.value = withTiming(isAnyDragging ? 0.4 : 1, { duration: 200 });
     }
-  }, [isDragging]);
+  }, [isDragging, isAnyDragging]);
+
+  const longPress = Gesture.LongPress()
+    .minDuration(150)
+    .onStart(() => {
+      'worklet';
+      isPressed.value = true;
+      if (onStartDrag) {
+        runOnJS(onStartDrag)();
+      }
+    });
+
+  const pan = Gesture.Pan()
+    .manualActivation(true)
+    .onTouchesMove((evt, state) => {
+      if (isPressed.value) {
+        state.activate();
+      } else {
+        state.fail();
+      }
+    })
+    .onChange((event) => {
+      'worklet';
+      const CLAMP = 60; // limit visual lift to avoid large jumps
+      const ty = Math.max(-CLAMP, Math.min(CLAMP, event.translationY));
+      translateY.value = ty;
+      if (onPanMove) {
+        runOnJS(onPanMove)(event.translationY);
+      }
+    })
+    .onEnd(() => {
+      'worklet';
+      translateY.value = withSpring(0, { damping: 20, stiffness: 300 });
+      isPressed.value = false;
+      if (onPanRelease) {
+        runOnJS(onPanRelease)();
+      }
+    })
+    .onFinalize(() => {
+      'worklet';
+      isPressed.value = false;
+    });
+
+  const composed = Gesture.Simultaneous(longPress, pan);
+
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      transform: [
+        { scale: scale.value },
+        { translateY: isDragging ? translateY.value : 0 },
+      ],
+      opacity: opacity.value,
+      zIndex: isDragging ? 999 : 0,
+    };
+  });
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        { transform: [{ scale }], opacity: isAnyDragging && !isDragging ? 0.98 : 1 },
-        isDragging && styles.dragShadow,
-      ]}
-    >
-      {/* Colored Icon Container */}
-      <View style={[styles.iconContainer, { backgroundColor }]}>
-        <Text style={styles.emoji}>{emoji}</Text>
-      </View>
+    <GestureDetector gesture={composed}>
+      <Animated.View
+        style={[
+          styles.container,
+          animatedStyle,
+          isDragging && styles.dragShadow,
+        ]}
+        layout={Layout.springify().stiffness(260).damping(22)}
+      >
+        {/* Drag backdrop to prevent seeing content behind while swapping */}
+        {isDragging && <View pointerEvents="none" style={styles.dragBackdrop} />}
+        {/* Colored Icon Container */}
+        <View style={[styles.iconContainer, { backgroundColor }]}>
+          <Text style={styles.emoji}>{emoji}</Text>
+        </View>
 
-      {/* Content Container */}
-      <View style={styles.contentContainer}>
-        {/* Title */}
-        <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
-          {title}
-        </Text>
+        {/* Content Container */}
+        <View style={styles.contentContainer}>
+          {/* Title */}
+          <Text style={styles.title} numberOfLines={1} ellipsizeMode="tail">
+            {title}
+          </Text>
 
-        {/* Subtitle */}
-        <Text style={styles.subtitle} numberOfLines={1} ellipsizeMode="tail">
-          {subtitle}
-        </Text>
+          {/* Subtitle */}
+          <Text style={styles.subtitle} numberOfLines={1} ellipsizeMode="tail">
+            {subtitle}
+          </Text>
 
-        {/* Progress Bar */}
-        <View style={styles.progressContainer}>
-          <View style={styles.progressTrack}>
-            <View 
-              style={[
-                styles.progressFill, 
-                { 
-                  width: `${progressPercentage}%`,
-                  backgroundColor: backgroundColor 
-                }
-              ]} 
-            />
+          {/* Progress Bar */}
+          <View style={styles.progressContainer}>
+            <View style={styles.progressTrack}>
+              <View 
+                style={[
+                  styles.progressFill, 
+                  { 
+                    width: `${progressPercentage}%`,
+                    backgroundColor: backgroundColor 
+                  }
+                ]} 
+              />
+            </View>
           </View>
         </View>
-      </View>
 
-      {/* Sort Control - Single Hamburger */}
-      <LongPressGestureHandler
-        ref={longRef}
-        minDurationMs={200}
-        onHandlerStateChange={({ nativeEvent }) => {
-          if (nativeEvent.state === State.ACTIVE) {
-            onStartDrag && onStartDrag();
-          }
-        }}
-      >
-        <PanGestureHandler
-          ref={panRef}
-          simultaneousHandlers={longRef}
-          activeOffsetY={[-2, 2]}
-          onGestureEvent={({ nativeEvent }) => {
-            if (onPanMove) onPanMove(nativeEvent.translationY);
-          }}
-          onHandlerStateChange={({ nativeEvent }) => {
-            if (
-              nativeEvent.state === State.END ||
-              nativeEvent.state === State.CANCELLED ||
-              nativeEvent.state === State.FAILED
-            ) {
-              onPanRelease && onPanRelease();
-            }
-          }}
-        >
-          <View style={styles.sortContainer} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
-            <Svg width="20" height="20" viewBox="0 0 24 24">
-              <Path 
-                d="M21 7.75H3C2.59 7.75 2.25 7.41 2.25 7C2.25 6.59 2.59 6.25 3 6.25H21C21.41 6.25 21.75 6.59 21.75 7C21.75 7.41 21.41 7.75 21 7.75Z" 
-                fill="#5C5C5C"
-              />
-              <Path 
-                d="M21 12.75H3C2.59 12.75 2.25 12.41 2.25 12C2.25 11.59 2.59 11.25 3 11.25H21C21.41 11.25 21.75 11.59 21.75 12C21.75 12.41 21.41 12.75 21 12.75Z" 
-                fill="#5C5C5C"
-              />
-              <Path 
-                d="M21 17.75H3C2.59 17.75 2.25 17.41 2.25 17C2.25 16.59 2.59 16.25 3 16.25H21C21.41 16.25 21.75 16.59 21.75 17C21.75 17.41 21.41 17.75 21 17.75Z" 
-                fill="#5C5C5C"
-              />
-            </Svg>
-          </View>
-        </PanGestureHandler>
-      </LongPressGestureHandler>
-    </Animated.View>
+        {/* Sort Control - Single Hamburger */}
+        <View style={styles.sortContainer} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}>
+          <Svg width="20" height="20" viewBox="0 0 24 24">
+            <Path 
+              d="M21 7.75H3C2.59 7.75 2.25 7.41 2.25 7C2.25 6.59 2.59 6.25 3 6.25H21C21.41 6.25 21.75 6.59 21.75 7C21.75 7.41 21.41 7.75 21 7.75Z" 
+              fill="#5C5C5C"
+            />
+            <Path 
+              d="M21 12.75H3C2.59 12.75 2.25 12.41 2.25 12C2.25 11.59 2.59 11.25 3 11.25H21C21.41 11.25 21.75 11.59 21.75 12C21.75 12.41 21.41 12.75 21 12.75Z" 
+              fill="#5C5C5C"
+            />
+            <Path 
+              d="M21 17.75H3C2.59 17.75 2.25 17.41 2.25 17C2.25 16.59 2.59 16.25 3 16.25H21C21.41 16.25 21.75 16.59 21.75 17C21.75 17.41 21.41 17.75 21 17.75Z" 
+              fill="#5C5C5C"
+            />
+          </Svg>
+        </View>
+      </Animated.View>
+    </GestureDetector>
   );
 }
 
@@ -153,10 +189,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: '7.2%', // 24px out of 375px screen width
+    paddingHorizontal: ROW_HORIZONTAL_PADDING,
     gap: 10,
     height: 51,
-    marginBottom: '6.4%', // 24px out of 375px screen width
+    marginBottom: ROW_VERTICAL_SPACING,
   },
   dragShadow: {
     shadowColor: '#000',
@@ -165,9 +201,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     elevation: 6,
   },
+  dragBackdrop: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -6,
+    bottom: -6,
+    backgroundColor: T.colors.white,
+    borderRadius: 20,
+  },
   iconContainer: {
-    width: 44,
-    height: 44,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     borderRadius: T.radii.chip,
     justifyContent: 'center',
     alignItems: 'center',

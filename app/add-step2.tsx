@@ -4,6 +4,7 @@ import { Svg, Path } from 'react-native-svg';
 import { useRouter } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { LinearGradient } from 'expo-linear-gradient';
+import AnimatedProgressBar from '../components/AnimatedProgressBar';
 
 export default function AddStep2Screen() {
   const router = useRouter();
@@ -67,11 +68,7 @@ export default function AddStep2Screen() {
             showsVerticalScrollIndicator={true}
           >
             {/* Progress Bar Section */}
-            <View style={styles.progressSection}>
-              <View style={styles.progressTrack}>
-                <View style={styles.progressFill} />
-              </View>
-            </View>
+            <AnimatedProgressBar progress={0.66} delay={200} />
 
             {/* Title and Subtitle */}
             <View style={styles.titleSection}>
@@ -181,23 +178,6 @@ const styles = StyleSheet.create({
   scrollContent: {
     gap: 24,
     paddingBottom: 24,
-  },
-  // Progress Bar
-  progressSection: {
-    paddingHorizontal: 24,
-  },
-  progressTrack: {
-    width: '100%',
-    height: 10,
-    backgroundColor: '#F6F7FA',
-    borderRadius: 1000,
-    overflow: 'hidden',
-  },
-  progressFill: {
-    width: 218,
-    height: 10,
-    backgroundColor: '#27EDB7',
-    borderRadius: 1000,
   },
   // Title Section
   titleSection: {

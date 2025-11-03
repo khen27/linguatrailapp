@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { Svg, Path, Line } from 'react-native-svg';
@@ -11,6 +11,8 @@ import * as Haptics from 'expo-haptics';
 
 export default function SummaryScreen() {
   const router = useRouter();
+
+  const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
   // Mock data for learning modules - matches the design spec
   const listRef = useRef<FlatList<any>>(null);
@@ -66,14 +68,41 @@ export default function SummaryScreen() {
   ]);
 
   const ROW_HEIGHT = 75; // approx: 51 row + 24 spacing
+  const ICON_SIZE = 44;
+  const ICON_VERTICAL_OFFSET = (51 - ICON_SIZE) / 2;
+  const ROW_HORIZONTAL_PADDING = SCREEN_WIDTH * 0.072;
+
+  const SWAP_THRESHOLD = ROW_HEIGHT * 0.5; // 50% threshold for smoother swaps
+  
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
   const initialIndexRef = useRef<number>(0);
   const draggingIndexRef = useRef<number | null>(null);
-  const translationYRef = useRef(0);
-  const setDragging = (idx: number | null) => { draggingIndexRef.current = idx; setDraggingIndex(idx); };
+  const lastSwapPositionRef = useRef(0);
+  const setDragging = (idx: number | null) => { 
+    draggingIndexRef.current = idx; 
+    setDraggingIndex(idx); 
+  };
+
+  const timelineStyle = useMemo(() => {
+    const itemCount = modules.length;
+    if (itemCount === 0) {
+      return {
+        left: ROW_HORIZONTAL_PADDING + ICON_SIZE / 2,
+        top: 24 + ICON_VERTICAL_OFFSET,
+        height: 0,
+      };
+    }
+
+    return {
+      left: ROW_HORIZONTAL_PADDING + ICON_SIZE / 2,
+      top: 24 + ICON_VERTICAL_OFFSET,
+      height: Math.max(itemCount - 1, 0) * ROW_HEIGHT + ICON_SIZE,
+    };
+  }, [modules.length, ROW_HORIZONTAL_PADDING, ICON_SIZE, ICON_VERTICAL_OFFSET, ROW_HEIGHT]);
 
   const onStartDrag = (index: number) => {
     initialIndexRef.current = index;
+    lastSwapPositionRef.current = 0;
     setDragging(index);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
@@ -87,21 +116,31 @@ export default function SummaryScreen() {
       return next;
     });
   };
+
   const onPanMove = (translationY: number) => {
-    // Restore earlier deadzone for more stable dragging
-    const smoothed = Math.abs(translationY) < 6 ? 0 : translationY;
-    translationYRef.current = smoothed;
     const start = initialIndexRef.current;
-    const offset = Math.round(smoothed / ROW_HEIGHT);
-    const target = Math.max(0, Math.min(modules.length - 1, start + offset));
-    if (draggingIndexRef.current !== target) {
-      swapItems(draggingIndexRef.current ?? start, target);
-      setDragging(target);
-      Haptics.selectionAsync();
+    const currentIndex = draggingIndexRef.current ?? start;
+    
+    // Calculate target index based on translation with threshold
+    const direction = translationY > 0 ? 1 : -1;
+    const distance = Math.abs(translationY);
+    
+    // Only swap when crossing threshold
+    if (distance - Math.abs(lastSwapPositionRef.current) >= SWAP_THRESHOLD) {
+      const steps = Math.floor(distance / SWAP_THRESHOLD);
+      const target = Math.max(0, Math.min(modules.length - 1, start + (steps * direction)));
+      
+      if (currentIndex !== target) {
+        lastSwapPositionRef.current = steps * SWAP_THRESHOLD * direction;
+        swapItems(currentIndex, target);
+        setDragging(target);
+        Haptics.selectionAsync();
+      }
     }
   };
 
   const onPanRelease = () => {
+    lastSwapPositionRef.current = 0;
     setDragging(null);
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
   };
@@ -145,12 +184,6 @@ export default function SummaryScreen() {
             {/* Title */}
             <Text style={styles.headerTitle}>Summary</Text>
 
-            {/* Streak Pill */}
-            <View style={styles.streakPill}>
-              <Text style={styles.streakEmoji}>🔥</Text>
-              <Text style={styles.streakCount}>15</Text>
-            </View>
-
             {/* Close Button */}
             <TouchableOpacity 
               style={styles.headerButton}
@@ -169,13 +202,14 @@ export default function SummaryScreen() {
       <View style={styles.card}>
         <View style={styles.headerBlock}>
           <Text style={styles.sessionTitle}>English Speaking Session</Text>
-          <Text style={styles.sessionSubtitle}>Overall periods: 1 Hour : 13 Minutes</Text>
+          <Text style={styles.sessionSubtitle}>Overall periods: 1 Hour, 13 Minutes</Text>
         </View>
 
         {/* Learning Modules List */}
         <View style={styles.modulesList}>
-          {/* Vertical dashed timeline guide via SVG (no RN dashed warning) */}
-          <Svg pointerEvents="none" style={styles.timelineSvg} width={2} height="100%">
+          {/* Vertical dashed timeline guide via SVG (aligned through icon centers).
+              Kept independent of reordering to prevent disappearing during drag. */}
+          <Svg pointerEvents="none" style={[styles.timelineSvg, timelineStyle]} width={2} height={timelineStyle.height}>
             <Line x1={1} y1={0} x2={1} y2="100%" stroke="#E0E3EF" strokeWidth={2} strokeDasharray="4,6" />
           </Svg>
           <FlatList
@@ -191,22 +225,8 @@ export default function SummaryScreen() {
 
         {/* Bottom Sheet Footer */}
         <View style={styles.footer}>
-          {/* Customize Flow pill */}
-          <View style={styles.customizePill}>
-            <View style={styles.customizeRow}>
-              <Text style={styles.customizeText}>Customise flow...</Text>
-              <TouchableOpacity 
-                style={styles.pocketButton}
-                activeOpacity={0.85}
-                onPress={() => listRef.current?.scrollToOffset({ offset: 0, animated: true })}
-              >
-                <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-                  <Path d="M12 6L12 18" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round"/>
-                  <Path d="M8 10L12 6L16 10" stroke="#FFFFFF" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round"/>
-                </Svg>
-              </TouchableOpacity>
-            </View>
-          </View>
+          {/* Customize Flow pill - temporarily removed */}
+          {/* <View style={styles.customizePill}></View> */}
 
           {/* Confirm Create Button */}
           <TouchableOpacity 
@@ -265,33 +285,13 @@ const styles = StyleSheet.create({
     letterSpacing: -0.32,
     color: T.colors.blueNormal,
     textAlign: 'center',
-    marginRight: 'auto',
+    flex: 1,
   },
-  streakPill: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    backgroundColor: '#FEF9EB', // Yellow/Light from spec
-    borderRadius: 1036.36,
-    gap: 6,
-  },
-  streakEmoji: {
-    fontSize: 16,
-    lineHeight: 24,
-  },
-  streakCount: {
-    fontFamily: 'Urbanist',
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 24,
-    letterSpacing: -0.32,
-    color: T.colors.blueNormal,
-  },
+  // Removed streak pill styles
   // Main Card
   card: {
     position: 'absolute',
-    top: 116, // matches spec top gap under header/glass
+    top: 136, // increased from 126 to move content down a bit more
     left: 0,
     right: 0,
     bottom: 0,
@@ -327,9 +327,7 @@ const styles = StyleSheet.create({
   },
   timelineSvg: {
     position: 'absolute',
-    left: 24 + 22,
-    top: 0,
-    bottom: 0,
+    zIndex: 0,
   },
   // Footer with Confirm Button
   footer: {
@@ -338,7 +336,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     width: '100%',
-    height: 170,
     backgroundColor: T.colors.white,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
