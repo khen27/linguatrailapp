@@ -62,7 +62,7 @@ export default function VoiceAssistantScreen() {
           {/* Instruction Text */}
           <View style={styles.instructionSection}>
             <Text style={styles.instructionText}>
-              Go ahead, I'm listening
+              What happened yesterday morning?
             </Text>
           </View>
 
@@ -71,7 +71,7 @@ export default function VoiceAssistantScreen() {
         {/* User Response Text - Absolutely Positioned */}
         <View style={styles.responseSection}>
           <Text style={styles.responseText}>
-            I wake up at seven o'clock.
+            Yesterday morning I woke up at 7am. I had a lot of homework, so I decided to start my day earlier than usual.
           </Text>
         </View>
 
