@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Dimensions } from 'react-native';
 import { Svg, Path } from 'react-native-svg';
 import { DesignTokens as T } from '../constants/design-tokens';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
@@ -28,6 +28,11 @@ interface SummaryRowProps {
   isDragging?: boolean;
   isAnyDragging?: boolean;
 }
+
+const { width: SCREEN_WIDTH } = Dimensions.get('window');
+const ROW_HORIZONTAL_PADDING = SCREEN_WIDTH * 0.072; // matches timeline alignment in summary screen
+const ROW_VERTICAL_SPACING = 24;
+const ICON_SIZE = 44;
 
 export default function SummaryRow({
   title,
@@ -81,7 +86,9 @@ export default function SummaryRow({
     })
     .onChange((event) => {
       'worklet';
-      translateY.value = event.translationY;
+      const CLAMP = 60; // limit visual lift to avoid large jumps
+      const ty = Math.max(-CLAMP, Math.min(CLAMP, event.translationY));
+      translateY.value = ty;
       if (onPanMove) {
         runOnJS(onPanMove)(event.translationY);
       }
@@ -121,6 +128,8 @@ export default function SummaryRow({
         ]}
         layout={Layout.springify().stiffness(260).damping(22)}
       >
+        {/* Drag backdrop to prevent seeing content behind while swapping */}
+        {isDragging && <View pointerEvents="none" style={styles.dragBackdrop} />}
         {/* Colored Icon Container */}
         <View style={[styles.iconContainer, { backgroundColor }]}>
           <Text style={styles.emoji}>{emoji}</Text>
@@ -180,10 +189,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: '7.2%', // 24px out of 375px screen width
+    paddingHorizontal: ROW_HORIZONTAL_PADDING,
     gap: 10,
     height: 51,
-    marginBottom: '6.4%', // 24px out of 375px screen width
+    marginBottom: ROW_VERTICAL_SPACING,
   },
   dragShadow: {
     shadowColor: '#000',
@@ -192,9 +201,18 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 8 },
     elevation: 6,
   },
+  dragBackdrop: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: -6,
+    bottom: -6,
+    backgroundColor: T.colors.white,
+    borderRadius: 20,
+  },
   iconContainer: {
-    width: 44,
-    height: 44,
+    width: ICON_SIZE,
+    height: ICON_SIZE,
     borderRadius: T.radii.chip,
     justifyContent: 'center',
     alignItems: 'center',

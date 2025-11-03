@@ -1,5 +1,5 @@
 import React, { useMemo, useRef, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, FlatList } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, FlatList, Dimensions } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { BlurView } from 'expo-blur';
 import { Svg, Path, Line } from 'react-native-svg';
@@ -11,6 +11,8 @@ import * as Haptics from 'expo-haptics';
 
 export default function SummaryScreen() {
   const router = useRouter();
+
+  const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
   // Mock data for learning modules - matches the design spec
   const listRef = useRef<FlatList<any>>(null);
@@ -66,6 +68,10 @@ export default function SummaryScreen() {
   ]);
 
   const ROW_HEIGHT = 75; // approx: 51 row + 24 spacing
+  const ICON_SIZE = 44;
+  const ICON_VERTICAL_OFFSET = (51 - ICON_SIZE) / 2;
+  const ROW_HORIZONTAL_PADDING = SCREEN_WIDTH * 0.072;
+
   const SWAP_THRESHOLD = ROW_HEIGHT * 0.5; // 50% threshold for smoother swaps
   
   const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
@@ -76,6 +82,23 @@ export default function SummaryScreen() {
     draggingIndexRef.current = idx; 
     setDraggingIndex(idx); 
   };
+
+  const timelineStyle = useMemo(() => {
+    const itemCount = modules.length;
+    if (itemCount === 0) {
+      return {
+        left: ROW_HORIZONTAL_PADDING + ICON_SIZE / 2,
+        top: 24 + ICON_VERTICAL_OFFSET,
+        height: 0,
+      };
+    }
+
+    return {
+      left: ROW_HORIZONTAL_PADDING + ICON_SIZE / 2,
+      top: 24 + ICON_VERTICAL_OFFSET,
+      height: Math.max(itemCount - 1, 0) * ROW_HEIGHT + ICON_SIZE,
+    };
+  }, [modules.length, ROW_HORIZONTAL_PADDING, ICON_SIZE, ICON_VERTICAL_OFFSET, ROW_HEIGHT]);
 
   const onStartDrag = (index: number) => {
     initialIndexRef.current = index;
@@ -186,8 +209,7 @@ export default function SummaryScreen() {
         <View style={styles.modulesList}>
           {/* Vertical dashed timeline guide via SVG (aligned through icon centers).
               Kept independent of reordering to prevent disappearing during drag. */}
-          <Svg pointerEvents="none" style={styles.timelineSvg} width={2} height="100%">
-            {/* Compute start/end inside the path positions using stroke dash offsets is complex; we keep full height */}
+          <Svg pointerEvents="none" style={[styles.timelineSvg, timelineStyle]} width={2} height={timelineStyle.height}>
             <Line x1={1} y1={0} x2={1} y2="100%" stroke="#E0E3EF" strokeWidth={2} strokeDasharray="4,6" />
           </Svg>
           <FlatList
@@ -269,7 +291,7 @@ const styles = StyleSheet.create({
   // Main Card
   card: {
     position: 'absolute',
-    top: 116, // matches spec top gap under header/glass
+    top: 136, // increased from 126 to move content down a bit more
     left: 0,
     right: 0,
     bottom: 0,
@@ -305,9 +327,6 @@ const styles = StyleSheet.create({
   },
   timelineSvg: {
     position: 'absolute',
-    left: 24 + 22,
-    top: 24 + ((51 - 44) / 2), // start at top of apple icon center line
-    bottom: 24 + ((51 - 44) / 2), // end at bottom near yellow books icon
     zIndex: 0,
   },
   // Footer with Confirm Button
@@ -317,7 +336,6 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     width: '100%',
-    height: 170,
     backgroundColor: T.colors.white,
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
