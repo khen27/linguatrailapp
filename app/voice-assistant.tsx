@@ -36,7 +36,7 @@ export default function VoiceAssistantScreen() {
           <ScreenHeader
             title="English Speaking Session"
             onBackPress={handleBackPress}
-            onMenuPress={handleMenuPress}
+            showMenuButton={false}
           />
 
           {/* Progress Bar */}
