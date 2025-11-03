@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, Image, TextInput, Keyboard, TouchableWithoutFeedback } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
-import { Svg, Rect, Path, Defs, LinearGradient, Stop, Ellipse } from 'react-native-svg';
+import { Svg, Rect, Path } from 'react-native-svg';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { SpeakingIcon } from '@/components/ui/speaking-icon';
@@ -17,21 +17,6 @@ export default function VoiceAssistantScreen() {
     router.back();
   };
 
-  const handleMenuPress = () => {
-    // TODO: Implement menu functionality
-    console.log('Menu pressed');
-  };
-
-  const handleKeyboardButtonPress = () => {
-    // Focus the hidden text input to open the keyboard
-    hiddenInputRef.current?.focus();
-  };
-
-  const handleDismissKeyboard = () => {
-    Keyboard.dismiss();
-    hiddenInputRef.current?.blur();
-  };
-
   return (
     <>
       <Stack.Screen 
@@ -39,9 +24,9 @@ export default function VoiceAssistantScreen() {
           headerShown: false,
         }}
       />
-      <TouchableWithoutFeedback onPress={handleDismissKeyboard}>
+      <TouchableWithoutFeedback onPress={() => { Keyboard.dismiss(); hiddenInputRef.current?.blur(); }}>
         <View style={styles.container}>
-      <SafeAreaView style={styles.safeArea} edges={['top']}>
+        <SafeAreaView style={styles.safeArea} edges={['top']}>
         {/* Main Content */}
         <View style={styles.contentContainer}>
           {/* Header */}
@@ -110,7 +95,7 @@ export default function VoiceAssistantScreen() {
             {/* Action Buttons */}
           <View style={styles.actionButtonsContainer}>
             {/* Left Button - Keyboard */}
-            <TouchableOpacity style={styles.actionButton} onPress={handleKeyboardButtonPress}>
+            <TouchableOpacity style={styles.actionButton} onPress={() => hiddenInputRef.current?.focus()}>
               <Svg width="52" height="52" viewBox="0 0 52 52" fill="none">
                 <Rect x="52" y="52" width="52" height="52" rx="26" transform="rotate(180 52 52)" fill="#F6F7FA"/>
                 <Path d="M21.5 18H30.5C31.12 18 31.67 18.02 32.16 18.09C34.79 18.38 35.5 19.62 35.5 23V29C35.5 32.38 34.79 33.62 32.16 33.91C31.67 33.98 31.12 34 30.5 34H21.5C20.88 34 20.33 33.98 19.84 33.91C17.21 33.62 16.5 32.38 16.5 29V23C16.5 19.62 17.21 18.38 19.84 18.09C20.33 18.02 20.88 18 21.5 18Z" stroke="#2F4291" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -143,17 +128,12 @@ export default function VoiceAssistantScreen() {
               />
             </TouchableOpacity>
           </View>
+          {/* Hidden Text Input to invoke keyboard (kept off-screen) */}
+          <TextInput ref={hiddenInputRef} style={styles.hiddenInput} />
         </View>
-
-        {/* Hidden Text Input for Keyboard */}
-        <TextInput
-          ref={hiddenInputRef}
-          style={styles.hiddenInput}
-          placeholder=""
-        />
-      </SafeAreaView>
-    </View>
-    </TouchableWithoutFeedback>
+        </SafeAreaView>
+      </View>
+      </TouchableWithoutFeedback>
     </>
   );
 }
@@ -198,8 +178,8 @@ const styles = StyleSheet.create({
     zIndex: -1,
   },
   aiCharmImage: {
-    width: 300,
-    height: 300,
+    width: 250, // Reduced from 300
+    height: 250, // Reduced from 300
   },
   speakingIconContainer: {
     position: 'absolute',
@@ -212,7 +192,7 @@ const styles = StyleSheet.create({
   },
   responseSection: {
     position: 'absolute',
-    bottom: 300, // lowered to sit below the graphic cleanly
+    bottom: 370, // Fixed position, doesn't move
     left: 0,
     right: 0,
     paddingHorizontal: 24,
