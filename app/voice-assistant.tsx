@@ -243,7 +243,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     paddingHorizontal: 24,
-    alignItems: 'center',
+    alignItems: 'flex-start',
     zIndex: 10,
   },
   responseText: {
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#000000',
     lineHeight: 26.4, // 120% of 22
-    textAlign: 'center',
+    textAlign: 'left',
     letterSpacing: -0.44, // -2% of 22
     fontFamily: 'Manrope',
   },
