@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TextInput, Keyboard, TouchableWithoutFeedback, Platform, Image, UIManager } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
-import { Svg, Rect, Path, G, ClipPath, Defs } from 'react-native-svg';
+import { Svg, Rect, Path, G, ClipPath, Defs, Mask } from 'react-native-svg';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { SpeakingIcon } from '@/components/ui/speaking-icon';
@@ -156,23 +156,27 @@ export default function VoiceAssistantScreen() {
         
         {/* Center Button - Standalone */}
         <View style={styles.standaloneCenterButtonContainer}>
-          <View style={styles.mainActionButtonOuter}>
-            <View style={styles.mainActionButtonMiddle}>
-              <TouchableOpacity style={styles.mainActionButton}>
-                <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                  <Defs>
-                    <ClipPath id="clip0_4418_8041">
-                      <Rect width="24" height="24" fill="white"/>
-                    </ClipPath>
-                  </Defs>
-                  <G clipPath="url(#clip0_4418_8041)">
-                    <Path d="M12.0001 21.9302C6.9601 21.9302 2.8501 17.8302 2.8501 12.7802V10.9002C2.8501 10.5102 3.1701 10.2002 3.5501 10.2002C3.9301 10.2002 4.2501 10.5202 4.2501 10.9002V12.7802C4.2501 17.0502 7.7201 20.5202 11.9901 20.5202C16.2601 20.5202 19.7301 17.0502 19.7301 12.7802V10.9002C19.7301 10.5102 20.0501 10.2002 20.4301 10.2002C20.8101 10.2002 21.1301 10.5202 21.1301 10.9002V12.7802C21.1501 17.8302 17.0401 21.9302 12.0001 21.9302Z" fill="white"/>
-                    <Path d="M11.9999 2C8.6399 2 5.8999 4.74 5.8999 8.1V12.79C5.8999 16.15 8.6399 18.89 11.9999 18.89C15.3599 18.89 18.0999 16.15 18.0999 12.79V8.1C18.0999 4.74 15.3599 2 11.9999 2ZM14.1799 10.59C14.1099 10.86 13.8599 11.04 13.5899 11.04C13.5399 11.04 13.4799 11.03 13.4299 11.02C12.4099 10.74 11.3299 10.74 10.3099 11.02C9.9799 11.11 9.6499 10.92 9.5599 10.59C9.4699 10.27 9.6599 9.93 9.9899 9.84C11.2199 9.5 12.5199 9.5 13.7499 9.84C14.0799 9.93 14.2699 10.26 14.1799 10.59ZM15.0299 7.82C14.9399 8.07 14.7099 8.22 14.4599 8.22C14.3899 8.22 14.3199 8.21 14.2499 8.18C12.7199 7.62 11.0399 7.62 9.5099 8.18C9.1899 8.3 8.8399 8.14 8.7199 7.82C8.6099 7.51 8.7699 7.16 9.0899 7.04C10.8899 6.39 12.8699 6.39 14.6599 7.04C14.9799 7.16 15.1399 7.51 15.0299 7.82Z" fill="white"/>
-                  </G>
-                </Svg>
-              </TouchableOpacity>
-            </View>
-          </View>
+          <TouchableOpacity>
+            <Svg width="102" height="102" viewBox="0 0 102 102" fill="none">
+              <Defs>
+                <ClipPath id="clip0_6429_3901">
+                  <Rect width="32" height="32" fill="white" transform="translate(35.0005 35)"/>
+                </ClipPath>
+                <Mask id="mask0_6429_3901" maskUnits="userSpaceOnUse" x="35" y="35" width="33" height="32">
+                  <Path d="M67.0005 35H35.0005V67H67.0005V35Z" fill="white"/>
+                </Mask>
+              </Defs>
+              <Rect width="102" height="102" rx="51" fill="#E9FDF8"/>
+              <Rect x="9.27295" y="9.27272" width="83.4545" height="83.4545" rx="41.7273" fill="#BCF9E9"/>
+              <Rect x="18.5459" y="18.5455" width="64.9091" height="64.9091" rx="32.4545" fill="#68C0A5"/>
+              <G clipPath="url(#clip0_6429_3901)">
+                <G mask="url(#mask0_6429_3901)">
+                  <Path d="M51.0008 64.2403C44.2808 64.2403 38.8008 58.7736 38.8008 52.0403V49.5336C38.8008 49.0136 39.2274 48.6003 39.7341 48.6003C40.2408 48.6003 40.6674 49.0269 40.6674 49.5336V52.0403C40.6674 57.7336 45.2941 62.3603 50.9874 62.3603C56.6808 62.3603 61.3074 57.7336 61.3074 52.0403V49.5336C61.3074 49.0136 61.7341 48.6003 62.2408 48.6003C62.7474 48.6003 63.1741 49.0269 63.1741 49.5336V52.0403C63.2008 58.7736 57.7208 64.2403 51.0008 64.2403Z" fill="#EBF8F7"/>
+                  <Path d="M51.0005 37.6667C46.5205 37.6667 42.8672 41.32 42.8672 45.8V52.0534C42.8672 56.5334 46.5205 60.1867 51.0005 60.1867C55.4805 60.1867 59.1339 56.5334 59.1339 52.0534V45.8C59.1339 41.32 55.4805 37.6667 51.0005 37.6667ZM53.9072 49.12C53.8139 49.48 53.4805 49.72 53.1205 49.72C53.0539 49.72 52.9739 49.7067 52.9072 49.6934C51.5472 49.32 50.1072 49.32 48.7472 49.6934C48.3072 49.8134 47.8672 49.56 47.7472 49.12C47.6272 48.6934 47.8805 48.24 48.3205 48.12C49.9605 47.6667 51.6939 47.6667 53.3339 48.12C53.7739 48.24 54.0272 48.68 53.9072 49.12ZM55.0405 45.4267C54.9205 45.76 54.6139 45.96 54.2805 45.96C54.1872 45.96 54.0939 45.9467 54.0005 45.9067C51.9605 45.16 49.7205 45.16 47.6805 45.9067C47.2539 46.0667 46.7872 45.8534 46.6272 45.4267C46.4805 45.0134 46.6939 44.5467 47.1205 44.3867C49.5205 43.52 52.1605 43.52 54.5472 44.3867C54.9739 44.5467 55.1872 45.0134 55.0405 45.4267Z" fill="#EBF8F7"/>
+                </G>
+              </G>
+            </Svg>
+          </TouchableOpacity>
         </View>
         </SafeAreaView>
       </View>
@@ -235,7 +239,7 @@ const styles = StyleSheet.create({
   },
   responseSection: {
     position: 'absolute',
-    bottom: 150, // Fixed position, doesn't move
+    bottom: 220, // Moved up to be between animation and button
     left: 0,
     right: 0,
     paddingHorizontal: 24,
