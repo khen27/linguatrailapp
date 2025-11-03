@@ -727,7 +727,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 20,
     width: '100%',
-    height: 86,
+    minHeight: 86,
     // Note: backdrop-filter is not supported in React Native
   },
   notificationIcon: {
@@ -738,8 +738,8 @@ const styles = StyleSheet.create({
   },
   notificationText: {
     flex: 1,
-    width: 303,
-    height: 42,
+    // Removed fixed width to allow responsive sizing
+    // Removed fixed height to allow text wrapping
     justifyContent: 'center',
     alignItems: 'flex-start',
   },
@@ -750,8 +750,8 @@ const styles = StyleSheet.create({
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
-    width: 273,
-    height: 42,
+    // Removed fixed width to allow text wrapping on all screen sizes
+    flex: 1,
     textAlign: 'left',
   },
   // Trail Progress outer card
