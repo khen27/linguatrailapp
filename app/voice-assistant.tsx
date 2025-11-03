@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   instructionText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#5C5C5C',
+    color: '#000000',
     lineHeight: 21, // 150% of 14
     textAlign: 'center',
     letterSpacing: -0.28, // -2% of 14
@@ -249,7 +249,7 @@ const styles = StyleSheet.create({
   responseText: {
     fontSize: 22,
     fontWeight: '600',
-    color: '#263574',
+    color: '#000000',
     lineHeight: 26.4, // 120% of 22
     textAlign: 'center',
     letterSpacing: -0.44, // -2% of 22
