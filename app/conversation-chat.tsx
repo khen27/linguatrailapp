@@ -1,14 +1,28 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, StyleSheet, FlatList, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Image } from 'react-native';
+import { View, StyleSheet, FlatList, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter, Stack } from 'expo-router';
 import { ScreenHeader } from '@/components/ui/screen-header';
 import { ProgressBar } from '@/components/ui/progress-bar';
+import { ThemedView } from '@/components/themed-view';
+import { ThemedText } from '@/components/themed-text';
+import { useThemeColor } from '@/hooks/use-theme-color';
 import { Svg, Path, Rect } from 'react-native-svg';
 
 export default function ConversationChatScreen() {
   const router = useRouter();
   const [progress, setProgress] = useState(0.25); // 25% progress for demo
+
+  const progressBarBg = useThemeColor({ light: '#FFFFFF', dark: '#1C2124' }, 'background');
+  const assistantBubbleBg = useThemeColor({ light: '#F6F7FA', dark: '#1C2124' }, 'background');
+  const userBubbleBg = useThemeColor({ light: '#FFFFFF', dark: '#1C2124' }, 'background');
+  const bottomOverlayBg = useThemeColor({ light: '#FFFFFF', dark: '#11181C' }, 'background');
+  const composerCardBg = useThemeColor({ light: '#F6F7FA', dark: '#1C2124' }, 'background');
+  const composerSubtitleColor = useThemeColor({ light: '#5C5C5C', dark: '#9BA1A6' }, 'text');
+  const attachButtonBg = useThemeColor({ light: '#FFFFFF', dark: '#1C2124' }, 'background');
+  const attachButtonBorder = useThemeColor({ light: '#E0E3EF', dark: '#2F3639' }, 'icon');
+  const attachIconStroke = useThemeColor({ light: '#5C5C5C', dark: '#9BA1A6' }, 'icon');
+  const textInputColor = useThemeColor({ light: '#263574', dark: '#ECEDEE' }, 'text');
   
   type Message = {
     id: string;
@@ -82,7 +96,7 @@ export default function ConversationChatScreen() {
           headerShown: false,
         }}
       />
-      <View style={styles.container}>
+      <ThemedView lightColor="#F6F7FA" darkColor="#11181C" style={styles.container}>
         <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
           {/* Header Section */}
           <View style={styles.headerSection}>
@@ -98,7 +112,7 @@ export default function ConversationChatScreen() {
             <ProgressBar
               progress={progress}
               height={10}
-              backgroundColor="#FFFFFF"
+              backgroundColor={progressBarBg}
               fillColor="#27EDB7"
             />
           </View>
@@ -113,42 +127,42 @@ export default function ConversationChatScreen() {
                 style={styles.messagesList}
               renderItem={({ item }) => (
                 item.role === 'assistant' ? (
-                  <View style={styles.assistantRow}>
-                    <Text style={styles.assistantText}>{item.text}</Text>
+                  <View style={[styles.assistantRow, { backgroundColor: assistantBubbleBg }]}>
+                    <ThemedText lightColor="#263574" darkColor="#ECEDEE" style={styles.assistantText}>{item.text}</ThemedText>
                     {item.id === lastAssistantId && (
                       <View style={styles.actionsRow}>
                         <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
                           <Image
                             source={require('@/assets/icons/vuesax/linear/copy.png')}
-                            style={styles.actionIcon}
+                            style={[styles.actionIcon, { tintColor: attachIconStroke }]}
                             resizeMode="contain"
                           />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
                           <Image
                             source={require('@/assets/icons/vuesax/linear/like.png')}
-                            style={styles.actionIcon}
+                            style={[styles.actionIcon, { tintColor: attachIconStroke }]}
                             resizeMode="contain"
                           />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
                           <Image
                             source={require('@/assets/icons/vuesax/linear/dislike.png')}
-                            style={styles.actionIcon}
+                            style={[styles.actionIcon, { tintColor: attachIconStroke }]}
                             resizeMode="contain"
                           />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
                           <Image
                             source={require('@/assets/icons/vuesax/linear/refresh-2.png')}
-                            style={styles.actionIcon}
+                            style={[styles.actionIcon, { tintColor: attachIconStroke }]}
                             resizeMode="contain"
                           />
                         </TouchableOpacity>
                         <TouchableOpacity style={styles.actionButton} activeOpacity={0.8}>
                           <Image
                             source={require('@/assets/icons/vuesax/linear/volume-high.png')}
-                            style={styles.actionIcon}
+                            style={[styles.actionIcon, { tintColor: attachIconStroke }]}
                             resizeMode="contain"
                           />
                         </TouchableOpacity>
@@ -157,8 +171,8 @@ export default function ConversationChatScreen() {
                   </View>
                 ) : (
                   <View style={styles.userRow}>
-                    <View style={styles.userBubble}>
-                      <Text style={styles.userBubbleText}>{item.text}</Text>
+                    <View style={[styles.userBubble, { backgroundColor: userBubbleBg }]}>
+                      <ThemedText lightColor="#263574" darkColor="#ECEDEE" style={styles.userBubbleText}>{item.text}</ThemedText>
                     </View>
                   </View>
                 )
@@ -170,26 +184,26 @@ export default function ConversationChatScreen() {
           </View>
 
           {/* Footer Section - Bottom Overlay */}
-          <View style={styles.bottomOverlay}>
+          <View style={[styles.bottomOverlay, { backgroundColor: bottomOverlayBg }]}>
             <KeyboardAvoidingView
               behavior={Platform.OS === 'ios' ? 'padding' : undefined}
               keyboardVerticalOffset={12}
               style={styles.footerSection}
             >
-              <View style={styles.composerCard}>
-                <Text style={styles.composerSubtitle}>Ask anything...</Text>
+              <View style={[styles.composerCard, { backgroundColor: composerCardBg, borderColor: composerCardBg }]}>
+                <ThemedText lightColor="#5C5C5C" darkColor="#9BA1A6" style={styles.composerSubtitle}>Ask anything...</ThemedText>
                 <View style={styles.composerRow}>
-                  <TouchableOpacity style={styles.attachButton} activeOpacity={0.8}>
+                  <TouchableOpacity style={[styles.attachButton, { backgroundColor: attachButtonBg, borderColor: attachButtonBorder }]} activeOpacity={0.8}>
                     <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-                      <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" fill="white"/>
-                      <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" stroke="#E0E3EF"/>
-                      <Path d="M20.9749 21V23.9167C20.9749 25.525 22.2833 26.8333 23.8916 26.8333C25.4999 26.8333 26.8083 25.525 26.8083 23.9167V19.3333C26.8083 16.1083 24.1999 13.5 20.9749 13.5C17.7499 13.5 15.1416 16.1083 15.1416 19.3333V24.3333C15.1416 27.0917 17.3833 29.3333 20.1416 29.3333" stroke="#5C5C5C" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                      <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" fill={attachButtonBg}/>
+                      <Rect x="41.5" y="41.5" width="41" height="41" rx="20.5" transform="rotate(180 41.5 41.5)" stroke={attachButtonBorder}/>
+                      <Path d="M20.9749 21V23.9167C20.9749 25.525 22.2833 26.8333 23.8916 26.8333C25.4999 26.8333 26.8083 25.525 26.8083 23.9167V19.3333C26.8083 16.1083 24.1999 13.5 20.9749 13.5C17.7499 13.5 15.1416 16.1083 15.1416 19.3333V24.3333C15.1416 27.0917 17.3833 29.3333 20.1416 29.3333" stroke={attachIconStroke} strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
                     </Svg>
                   </TouchableOpacity>
                   <TextInput
-                    style={styles.textInput}
+                    style={[styles.textInput, { color: textInputColor }]}
                     placeholder=""
-                    placeholderTextColor="#5C5C5C"
+                    placeholderTextColor={composerSubtitleColor}
                     multiline
                   />
                   <TouchableOpacity style={styles.sendButton} activeOpacity={0.8}>
@@ -200,11 +214,11 @@ export default function ConversationChatScreen() {
                   </TouchableOpacity>
                 </View>
               </View>
-              <Text style={styles.helperText}>AI can make mistakes. Please double-check responses.</Text>
+              <ThemedText lightColor="#5C5C5C" darkColor="#9BA1A6" style={styles.helperText}>AI can make mistakes. Please double-check responses.</ThemedText>
             </KeyboardAvoidingView>
           </View>
         </SafeAreaView>
-      </View>
+      </ThemedView>
     </>
   );
 }
@@ -213,7 +227,6 @@ const styles = StyleSheet.create({
   // Root container with proper background
   container: {
     flex: 1,
-    backgroundColor: '#F6F7FA',
   },
   safeArea: {
     flex: 1,
@@ -266,14 +279,12 @@ const styles = StyleSheet.create({
   assistantRow: {
     marginBottom: 16,
     maxWidth: 270,
-    backgroundColor: '#F6F7FA',
     borderRadius: 16,
     padding: 0,
   },
   assistantText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#263574',
     lineHeight: 21,
     letterSpacing: -0.28,
     fontFamily: 'Urbanist',
@@ -286,7 +297,6 @@ const styles = StyleSheet.create({
   },
   userBubble: {
     maxWidth: 270,
-    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     borderTopRightRadius: 16,
     borderTopLeftRadius: 16,
@@ -297,7 +307,6 @@ const styles = StyleSheet.create({
   userBubbleText: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#263574',
     lineHeight: 21,
     letterSpacing: -0.28,
     fontFamily: 'Urbanist',
@@ -315,7 +324,6 @@ const styles = StyleSheet.create({
     right: 0,
     bottom: 0,
     height: 200,
-    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingTop: 16,
@@ -326,9 +334,7 @@ const styles = StyleSheet.create({
     elevation: 8,
   },
   composerCard: {
-    backgroundColor: '#F6F7FA',
     borderWidth: 1,
-    borderColor: '#F6F7FA',
     borderRadius: 16,
     height: 122,
     position: 'relative',
@@ -359,9 +365,7 @@ const styles = StyleSheet.create({
     width: 42,
     height: 42,
     borderRadius: 1036.36,
-    backgroundColor: '#FFFFFF',
     borderWidth: 1,
-    borderColor: '#E0E3EF',
     alignItems: 'center',
     justifyContent: 'center',
     padding: 11,
@@ -370,7 +374,6 @@ const styles = StyleSheet.create({
   textInput: {
     flex: 1,
     height: 42,
-    color: '#263574',
     fontSize: 16,
     fontWeight: '500',
     fontFamily: 'Urbanist',
@@ -400,7 +403,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 12,
     lineHeight: 18,
-    color: '#5C5C5C',
     fontWeight: '600',
     fontFamily: 'Urbanist',
   },

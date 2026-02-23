@@ -5,6 +5,9 @@ import Svg, { Path, Rect, Defs, LinearGradient as SvgLinearGradient, Stop, Circl
 import { useFeatureFlags } from '@/contexts/FeatureFlagContext';
 import { useRouter } from 'expo-router';
 import { useToast } from '@/hooks/useToast';
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import { useThemeColor } from '@/hooks/use-theme-color';
 
 export default function HomeScreen() {
   const { isOn, setFlag } = useFeatureFlags();
@@ -12,12 +15,16 @@ export default function HomeScreen() {
   const toast = useToast();
   const [learningInput, setLearningInput] = useState('');
   const [inputContentHeight, setInputContentHeight] = useState(24);
+
+  const progressTrackColor = useThemeColor({ light: '#E9FDF8', dark: '#2F3639' }, 'background');
+  const progressTrackColorAlt2 = useThemeColor({ light: '#FEF9EB', dark: '#2F3639' }, 'background');
+  const progressTrackColorAlt3 = useThemeColor({ light: '#FEEDEF', dark: '#2F3639' }, 'background');
   
   // Check if we should show the notification
   const shouldShowNotification = isOn('extendedFirstRun') && !isOn('hasSeenExtendedFirstRun');
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <ThemedView style={styles.safeArea}>
       <View style={styles.container}>
         {/* Background Ellipses */}
         <View style={styles.ellipse12} />
@@ -34,7 +41,7 @@ export default function HomeScreen() {
           {/* Top Header Section */}
           <View style={styles.header}>
         <View style={styles.headerLeft}>
-        <View style={[
+        <ThemedView lightColor="#FFFFFF" darkColor="#1C2124" style={[
           styles.profileAvatarContainer,
           shouldShowNotification && styles.profileAvatarWithNotification
         ]}>
@@ -42,50 +49,52 @@ export default function HomeScreen() {
             source={require('@/assets/q.jpg')}
             style={styles.profileAvatar}
           />
-        </View>
+        </ThemedView>
           <View style={styles.greetingContainer}>
-            <Text style={styles.greetingSubtitle}>Welcome back!</Text>
-            <Text style={styles.greetingTitle}>Quinton 👋</Text>
+            <ThemedText style={styles.greetingSubtitle}>Welcome back!</ThemedText>
+            <ThemedText style={styles.greetingTitle}>Zander 👋</ThemedText>
           </View>
         </View>
-        <View style={styles.streakContainer}>
+        <ThemedView lightColor="#FEF9EB" darkColor="#2D2A1F" style={styles.streakContainer}>
           <Text style={styles.streakEmoji}>🔥</Text>
-          <Text style={styles.streakNumber}>12</Text>
-        </View>
+          <ThemedText style={styles.streakNumber}>12</ThemedText>
+        </ThemedView>
       </View>
 
       {/* Extended First Run Notification */}
       {shouldShowNotification && (
-        <TouchableOpacity 
-          style={styles.extendedFirstRunNotification}
+        <TouchableOpacity
+          activeOpacity={0.9}
           onPress={() => { setFlag('hasSeenExtendedFirstRun', true); router.push('/(tabs)/profile'); }}
         >
-          <View style={styles.extendedFirstRunContent}>
-            <View style={styles.extendedFirstRunIconContainer}>
-              <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
-                <Rect x="42" y="42" width="42" height="42" rx="8" transform="rotate(180 42 42)" fill="#FDC8CC"/>
-                <Path d="M29.1331 24.2667L23.7997 14.6667C23.0831 13.375 22.0914 12.6667 20.9997 12.6667C19.9081 12.6667 18.9164 13.375 18.1997 14.6667L12.8664 24.2667C12.1914 25.4917 12.1164 26.6667 12.6581 27.5917C13.1997 28.5167 14.2664 29.025 15.6664 29.025H26.3331C27.7331 29.025 28.7997 28.5167 29.3414 27.5917C29.8831 26.6667 29.8081 25.4833 29.1331 24.2667ZM20.3747 18.5C20.3747 18.1583 20.6581 17.875 20.9997 17.875C21.3414 17.875 21.6247 18.1583 21.6247 18.5V22.6667C21.6247 23.0083 21.3414 23.2917 20.9997 23.2917C20.6581 23.2917 20.3747 23.0083 20.3747 22.6667V18.5ZM21.5914 25.7583C21.5497 25.7917 21.5081 25.825 21.4664 25.8583C21.4164 25.8917 21.3664 25.9167 21.3164 25.9333C21.2664 25.9583 21.2164 25.975 21.1581 25.9833C21.1081 25.9917 21.0497 26 20.9997 26C20.9497 26 20.8914 25.9917 20.8331 25.9833C20.7831 25.975 20.7331 25.9583 20.6831 25.9333C20.6331 25.9167 20.5831 25.8917 20.5331 25.8583C20.4914 25.825 20.4497 25.7917 20.4081 25.7583C20.2581 25.6 20.1664 25.3833 20.1664 25.1667C20.1664 24.95 20.2581 24.7333 20.4081 24.575C20.4497 24.5417 20.4914 24.5083 20.5331 24.475C20.5831 24.4417 20.6331 24.4167 20.6831 24.4C20.7331 24.375 20.7831 24.3583 20.8331 24.35C20.9414 24.325 21.0581 24.325 21.1581 24.35C21.2164 24.3583 21.2664 24.375 21.3164 24.4C21.3664 24.4167 21.4164 24.4417 21.4664 24.475C21.5081 24.5083 21.5497 24.5417 21.5914 24.575C21.7414 24.7333 21.8331 24.95 21.8331 25.1667C21.8331 25.3833 21.7414 25.6 21.5914 25.7583Z" fill="#C63E49"/>
-              </Svg>
+          <ThemedView lightColor="#FEEDEF" darkColor="#2D1F20" style={styles.extendedFirstRunNotification}>
+            <View style={styles.extendedFirstRunContent}>
+              <View style={styles.extendedFirstRunIconContainer}>
+                <Svg width="42" height="42" viewBox="0 0 42 42" fill="none">
+                  <Rect x="42" y="42" width="42" height="42" rx="8" transform="rotate(180 42 42)" fill="#FDC8CC"/>
+                  <Path d="M29.1331 24.2667L23.7997 14.6667C23.0831 13.375 22.0914 12.6667 20.9997 12.6667C19.9081 12.6667 18.9164 13.375 18.1997 14.6667L12.8664 24.2667C12.1914 25.4917 12.1164 26.6667 12.6581 27.5917C13.1997 28.5167 14.2664 29.025 15.6664 29.025H26.3331C27.7331 29.025 28.7997 28.5167 29.3414 27.5917C29.8831 26.6667 29.8081 25.4833 29.1331 24.2667ZM20.3747 18.5C20.3747 18.1583 20.6581 17.875 20.9997 17.875C21.3414 17.875 21.6247 18.1583 21.6247 18.5V22.6667C21.6247 23.0083 21.3414 23.2917 20.9997 23.2917C20.6581 23.2917 20.3747 23.0083 20.3747 22.6667V18.5ZM21.5914 25.7583C21.5497 25.7917 21.5081 25.825 21.4664 25.8583C21.4164 25.8917 21.3664 25.9167 21.3164 25.9333C21.2664 25.9583 21.2164 25.975 21.1581 25.9833C21.1081 25.9917 21.0497 26 20.9997 26C20.9497 26 20.8914 25.9917 20.8331 25.9833C20.7831 25.975 20.7331 25.9583 20.6831 25.9333C20.6331 25.9167 20.5831 25.8917 20.5331 25.8583C20.4914 25.825 20.4497 25.7917 20.4081 25.7583C20.2581 25.6 20.1664 25.3833 20.1664 25.1667C20.1664 24.95 20.2581 24.7333 20.4081 24.575C20.4497 24.5417 20.4914 24.5083 20.5331 24.475C20.5831 24.4417 20.6331 24.4167 20.6831 24.4C20.7331 24.375 20.7831 24.3583 20.8331 24.35C20.9414 24.325 21.0581 24.325 21.1581 24.35C21.2164 24.3583 21.2664 24.375 21.3164 24.4C21.3664 24.4167 21.4164 24.4417 21.4664 24.475C21.5081 24.5083 21.5497 24.5417 21.5914 24.575C21.7414 24.7333 21.8331 24.95 21.8331 25.1667C21.8331 25.3833 21.7414 25.6 21.5914 25.7583Z" fill="#C63E49"/>
+                </Svg>
+              </View>
+              <View style={styles.extendedFirstRunText}>
+                <ThemedText style={styles.extendedFirstRunTitle}>Tell us how you learn</ThemedText>
+                <ThemedText style={styles.extendedFirstRunSubtitle}>Go to your Profile to personalize your lessons.</ThemedText>
+              </View>
             </View>
-            <View style={styles.extendedFirstRunText}>
-              <Text style={styles.extendedFirstRunTitle}>Tell us how you learn</Text>
-              <Text style={styles.extendedFirstRunSubtitle}>Go to your Profile to personalize your lessons.</Text>
-            </View>
-          </View>
+          </ThemedView>
         </TouchableOpacity>
       )}
 
       {/* Learned Today Section */}
       <View style={styles.learnedTodaySection}>
-        <View style={styles.learnedTodayCard}>
+        <ThemedView lightColor="rgba(255,255,255,0.75)" darkColor="#11181C" style={styles.learnedTodayCard}>
           <View style={styles.learnedTodayContent}>
             <View style={styles.learnedTodayStats}>
-              <Text style={styles.learnedTodayTitle}>Learned Today</Text>
+              <ThemedText style={styles.learnedTodayTitle}>Learned Today</ThemedText>
               <View style={styles.learnedTodayTimeContainer}>
-                <Text style={styles.learnedTodayTimeMain}>36</Text>
-                <Text style={styles.learnedTodayTimeUnit}> Min</Text>
-                <Text style={styles.learnedTodayTimeSlash}> / </Text>
-                <Text style={styles.learnedTodayTimeTotal}>60 Min</Text>
+                <ThemedText style={styles.learnedTodayTimeMain}>36</ThemedText>
+                <ThemedText style={styles.learnedTodayTimeUnit}> Min</ThemedText>
+                <ThemedText style={styles.learnedTodayTimeSlash}> / </ThemedText>
+                <ThemedText style={styles.learnedTodayTimeTotal}>60 Min</ThemedText>
               </View>
               <View style={styles.learnedTodayProgressContainer}>
                 <View style={styles.learnedTodayProgressTrack} />
@@ -100,14 +109,14 @@ export default function HomeScreen() {
               />
             </View>
           </View>
-        </View>
+        </ThemedView>
       </View>
 
       {/* What Would You Like To Learn Today Section */}
       <View style={styles.learningInputSection}>
-        <View style={styles.learningInputCard}>
-          <Text style={styles.learningInputTitle}>What Would You Like To Learn Today?</Text>
-          <View style={styles.learningInputContainer}>
+        <ThemedView lightColor="#FFFFFF" darkColor="#11181C" style={styles.learningInputCard}>
+          <ThemedText style={styles.learningInputTitle}>What Would You Like To Learn Today?</ThemedText>
+          <ThemedView lightColor="#F6F7FA" darkColor="#1C2124" style={styles.learningInputContainer}>
             <TextInput
               style={[styles.learningInputText, { height: Math.min(Math.max(24, inputContentHeight), 96) }]}
               placeholder="Ask anything..."
@@ -145,13 +154,13 @@ export default function HomeScreen() {
                 </Svg>
               </TouchableOpacity>
             </View>
-          </View>
-        </View>
+          </ThemedView>
+        </ThemedView>
       </View>
 
       {/* Notification Banner */}
       <View style={styles.notificationBanner}>
-        <View style={styles.notificationContent}>
+        <ThemedView lightColor="#FEF9EB" darkColor="#2D2A1F" style={styles.notificationContent}>
           <View style={styles.notificationIcon}>
             <Svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <Path opacity="0.4" d="M12.0001 7.88989L10.9301 9.74989C10.6901 10.1599 10.8901 10.4999 11.3601 10.4999H12.6301C13.1101 10.4999 13.3001 10.8399 13.0601 11.2499L12.0001 13.1099" stroke="#DDB235" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -160,150 +169,88 @@ export default function HomeScreen() {
             </Svg>
           </View>
           <View style={styles.notificationText}>
-            <Text style={styles.notificationTitle}>First Spanish lesson completed! Add details for your next lesson.</Text>
+            <ThemedText style={styles.notificationTitle}>First Spanish lesson completed! Add details for your next lesson.</ThemedText>
           </View>
-        </View>
+        </ThemedView>
       </View>
 
 
       {/* Ongoing Tasks - Horizontal Scrollable */}
       <View style={styles.tasksSection}>
         <View style={styles.tasksHeader}>
-          <Text style={styles.tasksTitle}>Ongoing Tasks</Text>
-          <Text style={styles.viewAllText}>View all</Text>
+          <ThemedText style={styles.tasksTitle}>Ongoing Tasks</ThemedText>
+          <ThemedText style={styles.viewAllText}>View all</ThemedText>
         </View>
-        <ScrollView 
-          horizontal 
+        <ScrollView
+          horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.tasksScrollContainer}
           style={styles.tasksScrollView}
         >
           {/* Spanish Task Card */}
-          <View style={styles.horizontalTaskCard}>
+          <ThemedView lightColor="#FFFFFF" darkColor="#11181C" style={styles.horizontalTaskCard}>
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
                 <Svg width="60" height="60" viewBox="0 0 60 60">
-                  {/* Background track - transparent */}
-                  <Circle
-                    cx="30"
-                    cy="30"
-                    r="22"
-                    fill="none"
-                    stroke="#E9FDF8"
-                    strokeWidth="8"
-                  />
-                  {/* Progress fill - 87% */}
-                  <Circle
-                    cx="30"
-                    cy="30"
-                    r="22"
-                    fill="none"
-                    stroke="#27EDB7"
-                    strokeWidth="8"
-                    strokeDasharray={`${2 * Math.PI * 22 * 0.87} ${2 * Math.PI * 22}`}
-                    strokeDashoffset={2 * Math.PI * 22 * 0.25}
-                    transform="rotate(-90 30 30)"
-                    strokeLinecap="round"
-                  />
+                  <Circle cx="30" cy="30" r="22" fill="none" stroke="#E9FDF8" strokeWidth="8" />
+                  <Circle cx="30" cy="30" r="22" fill="none" stroke="#27EDB7" strokeWidth="8" strokeDasharray={`${2 * Math.PI * 22 * 0.87} ${2 * Math.PI * 22}`} strokeDashoffset={2 * Math.PI * 22 * 0.25} transform="rotate(-90 30 30)" strokeLinecap="round" />
                 </Svg>
-                <Text style={styles.progressPercentage}>87%</Text>
+                <ThemedText style={styles.progressPercentage}>87%</ThemedText>
               </View>
             </View>
             <View style={styles.taskTextContainer}>
-              <Text style={styles.taskTitle}>Spanish Language</Text>
-              <Text style={styles.taskSubtitle}>13% remaining</Text>
+              <ThemedText style={styles.taskTitle}>Spanish Language</ThemedText>
+              <ThemedText style={styles.taskSubtitle}>13% remaining</ThemedText>
             </View>
-          </View>
+          </ThemedView>
 
           {/* Danish Task Card */}
-          <View style={styles.horizontalTaskCard}>
+          <ThemedView lightColor="#FFFFFF" darkColor="#11181C" style={styles.horizontalTaskCard}>
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
                 <Svg width="60" height="60" viewBox="0 0 60 60">
-                  {/* Background track - transparent */}
-                  <Circle
-                    cx="30"
-                    cy="30"
-                    r="22"
-                    fill="none"
-                    stroke="#FEF9EB"
-                    strokeWidth="8"
-                  />
-                  {/* Progress fill - 69% */}
-                  <Circle
-                    cx="30"
-                    cy="30"
-                    r="22"
-                    fill="none"
-                    stroke="#F5C63B"
-                    strokeWidth="8"
-                    strokeDasharray={`${2 * Math.PI * 22 * 0.69} ${2 * Math.PI * 22}`}
-                    strokeDashoffset={2 * Math.PI * 22 * 0.25}
-                    transform="rotate(-90 30 30)"
-                    strokeLinecap="round"
-                  />
+                  <Circle cx="30" cy="30" r="22" fill="none" stroke="#FEF9EB" strokeWidth="8" />
+                  <Circle cx="30" cy="30" r="22" fill="none" stroke="#F5C63B" strokeWidth="8" strokeDasharray={`${2 * Math.PI * 22 * 0.69} ${2 * Math.PI * 22}`} strokeDashoffset={2 * Math.PI * 22 * 0.25} transform="rotate(-90 30 30)" strokeLinecap="round" />
                 </Svg>
-                <Text style={styles.progressPercentage}>69%</Text>
+                <ThemedText style={styles.progressPercentage}>69%</ThemedText>
               </View>
             </View>
             <View style={styles.taskTextContainer}>
-              <Text style={styles.taskTitle}>Danish Language</Text>
-              <Text style={styles.taskSubtitle}>31% remaining</Text>
+              <ThemedText style={styles.taskTitle}>Danish Language</ThemedText>
+              <ThemedText style={styles.taskSubtitle}>31% remaining</ThemedText>
             </View>
-          </View>
+          </ThemedView>
 
           {/* Turkish Task Card */}
-          <View style={styles.horizontalTaskCard}>
+          <ThemedView lightColor="#FFFFFF" darkColor="#11181C" style={styles.horizontalTaskCard}>
             <View style={styles.circularProgressContainer}>
               <View style={styles.progressChart}>
                 <Svg width="60" height="60" viewBox="0 0 60 60">
-                  {/* Background track - transparent */}
-                  <Circle
-                    cx="30"
-                    cy="30"
-                    r="22"
-                    fill="none"
-                    stroke="#FEEDEF"
-                    strokeWidth="8"
-                  />
-                  {/* Progress fill - 48% */}
-                  <Circle
-                    cx="30"
-                    cy="30"
-                    r="22"
-                    fill="none"
-                    stroke="#F84E5B"
-                    strokeWidth="8"
-                    strokeDasharray={`${2 * Math.PI * 22 * 0.48} ${2 * Math.PI * 22}`}
-                    strokeDashoffset={2 * Math.PI * 22 * 0.25}
-                    transform="rotate(-90 30 30)"
-                    strokeLinecap="round"
-                  />
+                  <Circle cx="30" cy="30" r="22" fill="none" stroke="#FEEDEF" strokeWidth="8" />
+                  <Circle cx="30" cy="30" r="22" fill="none" stroke="#F84E5B" strokeWidth="8" strokeDasharray={`${2 * Math.PI * 22 * 0.48} ${2 * Math.PI * 22}`} strokeDashoffset={2 * Math.PI * 22 * 0.25} transform="rotate(-90 30 30)" strokeLinecap="round" />
                 </Svg>
-                <Text style={styles.progressPercentage}>48%</Text>
+                <ThemedText style={styles.progressPercentage}>48%</ThemedText>
               </View>
             </View>
             <View style={styles.taskTextContainer}>
-              <Text style={styles.taskTitle}>Turkish Language</Text>
-              <Text style={styles.taskSubtitle}>52% remaining</Text>
+              <ThemedText style={styles.taskTitle}>Turkish Language</ThemedText>
+              <ThemedText style={styles.taskSubtitle}>52% remaining</ThemedText>
             </View>
-          </View>
+          </ThemedView>
         </ScrollView>
       </View>
       </ScrollView>
     </View>
-    </SafeAreaView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#F6F7FA',
   },
   container: {
     flex: 1,
-    backgroundColor: '#F6F7FA',
   },
   scrollView: {
     flex: 1,
@@ -362,7 +309,6 @@ const styles = StyleSheet.create({
     position: 'relative',
     width: 42,
     height: 42,
-    backgroundColor: '#FFFFFF',
     borderRadius: 21,
     alignItems: 'center',
     justifyContent: 'center',
@@ -406,7 +352,6 @@ const styles = StyleSheet.create({
   greetingSubtitle: {
     fontSize: 12,
     fontWeight: '500',
-    color: '#263574',
     opacity: 0.7,
     letterSpacing: -0.02,
     lineHeight: 18,
@@ -415,7 +360,6 @@ const styles = StyleSheet.create({
   greetingTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
@@ -426,7 +370,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 12,
     paddingVertical: 8,
-    backgroundColor: '#FEF9EB',
     borderRadius: 1036.36,
     width: 80,
     height: 40,
@@ -442,7 +385,6 @@ const styles = StyleSheet.create({
   streakNumber: {
     fontSize: 13,
     fontWeight: '600',
-    color: '#263574',
     lineHeight: 19,
     letterSpacing: -0.26,
     fontFamily: 'Urbanist',
@@ -463,9 +405,8 @@ const styles = StyleSheet.create({
   extendedFirstRunNotification: {
     marginHorizontal: 20,
     marginBottom: 20,
-    backgroundColor: '#FEEDEF',
     borderWidth: 1,
-    borderColor: '#FEE4E6',
+    borderColor: 'transparent',
     borderRadius: 16,
   },
   extendedFirstRunContent: {
@@ -494,7 +435,6 @@ const styles = StyleSheet.create({
   extendedFirstRunTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
@@ -502,7 +442,6 @@ const styles = StyleSheet.create({
   extendedFirstRunSubtitle: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
@@ -516,18 +455,15 @@ const styles = StyleSheet.create({
   learnedTodayTitle: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
   },
   learnedTodayCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.75)',
     borderWidth: 1,
-    borderColor: '#FFFFFF',
+    borderColor: 'transparent',
     borderRadius: 16,
     padding: 12,
-    // Note: backdrop-filter is not supported in React Native
   },
   learnedTodayContent: {
     flexDirection: 'row',
@@ -556,7 +492,6 @@ const styles = StyleSheet.create({
   learnedTodayTimeMain: {
     fontSize: 22,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 29,
     fontFamily: 'Urbanist',
@@ -564,7 +499,6 @@ const styles = StyleSheet.create({
   learnedTodayTimeUnit: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#5C5C5C',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
@@ -572,7 +506,6 @@ const styles = StyleSheet.create({
   learnedTodayTimeSlash: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#5C5C5C',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
@@ -580,7 +513,6 @@ const styles = StyleSheet.create({
   learnedTodayTimeTotal: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#5C5C5C',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
@@ -617,7 +549,6 @@ const styles = StyleSheet.create({
   learningInputTitle: {
     fontSize: 22,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 29,
     fontFamily: 'Urbanist',
@@ -626,7 +557,6 @@ const styles = StyleSheet.create({
     height: 58,
   },
   learningInputCard: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     paddingTop: 12,
     paddingHorizontal: 12,
@@ -639,12 +569,10 @@ const styles = StyleSheet.create({
     marginTop: -24,
     marginBottom: 0,
     zIndex: 1,
-    // Note: backdrop-filter is not supported in React Native
   },
   learningInputContainer: {
-    backgroundColor: '#F6F7FA',
     borderWidth: 1,
-    borderColor: '#F6F7FA',
+    borderColor: 'transparent',
     borderRadius: 16,
     padding: 16,
     width: '100%',
@@ -716,7 +644,6 @@ const styles = StyleSheet.create({
     zIndex: 0,
   },
   notificationContent: {
-    backgroundColor: '#FEF9EB',
     borderRadius: 0,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
@@ -746,11 +673,9 @@ const styles = StyleSheet.create({
   notificationTitle: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
-    // Removed fixed width to allow text wrapping on all screen sizes
     flex: 1,
     textAlign: 'left',
   },
@@ -874,7 +799,6 @@ const styles = StyleSheet.create({
   tasksTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
@@ -884,7 +808,6 @@ const styles = StyleSheet.create({
   viewAllText: {
     fontSize: 14,
     fontWeight: '600',
-    color: '#1DB289',
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',
@@ -901,7 +824,6 @@ const styles = StyleSheet.create({
     height: 171,
   },
   horizontalTaskCard: {
-    backgroundColor: '#FFFFFF',
     borderRadius: 16,
     padding: 12,
     width: 141,
@@ -963,7 +885,6 @@ const styles = StyleSheet.create({
     bottom: '35%',
     fontSize: 12,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 18,
     fontFamily: 'Urbanist',
@@ -980,7 +901,6 @@ const styles = StyleSheet.create({
   taskTitle: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 24,
     fontFamily: 'Urbanist',
@@ -992,7 +912,6 @@ const styles = StyleSheet.create({
   taskSubtitle: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#263574',
     letterSpacing: -0.02,
     lineHeight: 21,
     fontFamily: 'Urbanist',

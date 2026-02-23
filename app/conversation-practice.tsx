@@ -4,6 +4,9 @@ import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context'
 import { useRouter, Stack } from 'expo-router';
 import { ProgressBar } from '@/components/ui/progress-bar';
 import { ScreenHeader } from '@/components/ui/screen-header';
+import { ThemedText } from '@/components/themed-text';
+import { ThemedView } from '@/components/themed-view';
+import { useThemeColor } from '@/hooks/use-theme-color';
 
 const { width: screenWidth } = Dimensions.get('window');
 
@@ -11,7 +14,8 @@ export default function ConversationPracticeScreen() {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<number | null>(2); // Pre-select "Hello" option
   const insets = useSafeAreaInsets();
-  
+  const progressBarBg = useThemeColor({ light: '#F6F7FA', dark: '#1C2124' }, 'text');
+
   const bottomSpacing = Platform.OS === 'ios' ? 16 : Math.max(insets.bottom, 16);
 
   const handleBackPress = () => {
@@ -41,7 +45,7 @@ export default function ConversationPracticeScreen() {
           headerShown: false,
         }}
       />
-      <View style={styles.container}>
+      <ThemedView style={styles.container}>
         <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
           {/* Header */}
           <View style={styles.headerContainer}>
@@ -54,16 +58,16 @@ export default function ConversationPracticeScreen() {
             {/* Progress Bar */}
             <View style={styles.progressSection}>
               <ProgressBar
-                progress={0.33} // 33% progress for demo
+                progress={0.33}
                 height={10}
-                backgroundColor="#F6F7FA"
+                backgroundColor={progressBarBg}
                 fillColor="#27EDB7"
               />
             </View>
           </View>
 
-          {/* White Overlay Container */}
-          <View style={styles.whiteOverlay}>
+          {/* Content overlay */}
+          <ThemedView lightColor="#FFFFFF" darkColor="#11181C" style={styles.whiteOverlay}>
             <ScrollView
               style={styles.quizScroll}
               contentContainerStyle={[styles.quizContent, { paddingBottom: bottomSpacing + 80 }]} // button height + spacing
@@ -76,47 +80,43 @@ export default function ConversationPracticeScreen() {
                   style={styles.questionBackgroundImage}
                   resizeMode="cover"
                 />
-                <Text style={styles.questionTextOverlay}>
+                <ThemedText style={styles.questionTextOverlay}>
                   What Does "Hola" Mean?
-                </Text>
+                </ThemedText>
               </View>
 
               {/* Answer Options Grid */}
               <View style={styles.optionsGrid}>
-                <TouchableOpacity 
-                  style={[styles.optionButton, selectedOption === 0 && styles.selectedOption]}
-                  onPress={() => handleOptionSelect(0)}
-                >
-                  <Text style={[styles.optionText, selectedOption === 0 && styles.selectedOptionText]}>
-                    👋 Bye
-                  </Text>
+                <TouchableOpacity onPress={() => handleOptionSelect(0)}>
+                  <ThemedView lightColor="rgba(246, 247, 250, 0.5)" darkColor="#1C2124" style={[styles.optionButton, selectedOption === 0 && styles.selectedOption]}>
+                    <ThemedText lightColor={selectedOption === 0 ? '#1FBE92' : undefined} darkColor={selectedOption === 0 ? '#27EDB7' : undefined} style={[styles.optionText, selectedOption === 0 && styles.selectedOptionText]}>
+                      👋 Bye
+                    </ThemedText>
+                  </ThemedView>
                 </TouchableOpacity>
-                
-                <TouchableOpacity 
-                  style={[styles.optionButton, selectedOption === 1 && styles.selectedOption]}
-                  onPress={() => handleOptionSelect(1)}
-                >
-                  <Text style={[styles.optionText, selectedOption === 1 && styles.selectedOptionText]}>
-                    🙏 Thank you
-                  </Text>
+
+                <TouchableOpacity onPress={() => handleOptionSelect(1)}>
+                  <ThemedView lightColor="rgba(246, 247, 250, 0.5)" darkColor="#1C2124" style={[styles.optionButton, selectedOption === 1 && styles.selectedOption]}>
+                    <ThemedText lightColor={selectedOption === 1 ? '#1FBE92' : undefined} darkColor={selectedOption === 1 ? '#27EDB7' : undefined} style={[styles.optionText, selectedOption === 1 && styles.selectedOptionText]}>
+                      🙏 Thank you
+                    </ThemedText>
+                  </ThemedView>
                 </TouchableOpacity>
-                
-                <TouchableOpacity 
-                  style={[styles.optionButton, selectedOption === 2 && styles.selectedOption]}
-                  onPress={() => handleOptionSelect(2)}
-                >
-                  <Text style={[styles.optionText, selectedOption === 2 && styles.selectedOptionText]}>
-                    😊 Hello
-                  </Text>
+
+                <TouchableOpacity onPress={() => handleOptionSelect(2)}>
+                  <ThemedView lightColor="rgba(246, 247, 250, 0.5)" darkColor="#1C2124" style={[styles.optionButton, selectedOption === 2 && styles.selectedOption]}>
+                    <ThemedText lightColor={selectedOption === 2 ? '#1FBE92' : undefined} darkColor={selectedOption === 2 ? '#27EDB7' : undefined} style={[styles.optionText, selectedOption === 2 && styles.selectedOptionText]}>
+                      😊 Hello
+                    </ThemedText>
+                  </ThemedView>
                 </TouchableOpacity>
-                
-                <TouchableOpacity 
-                  style={[styles.optionButton, selectedOption === 3 && styles.selectedOption]}
-                  onPress={() => handleOptionSelect(3)}
-                >
-                  <Text style={[styles.optionText, selectedOption === 3 && styles.selectedOptionText]}>
-                    🤲 Please
-                  </Text>
+
+                <TouchableOpacity onPress={() => handleOptionSelect(3)}>
+                  <ThemedView lightColor="rgba(246, 247, 250, 0.5)" darkColor="#1C2124" style={[styles.optionButton, selectedOption === 3 && styles.selectedOption]}>
+                    <ThemedText lightColor={selectedOption === 3 ? '#1FBE92' : undefined} darkColor={selectedOption === 3 ? '#27EDB7' : undefined} style={[styles.optionText, selectedOption === 3 && styles.selectedOptionText]}>
+                      🤲 Please
+                    </ThemedText>
+                  </ThemedView>
                 </TouchableOpacity>
               </View>
 
@@ -127,16 +127,16 @@ export default function ConversationPracticeScreen() {
                   onPress={handleNextPress}
                   disabled={selectedOption === null}
                 >
-                  <Text style={[styles.nextButtonText, selectedOption === null && styles.nextButtonTextDisabled]}>
+                  <ThemedText style={[styles.nextButtonText, selectedOption === null && styles.nextButtonTextDisabled]}>
                     Next
-                  </Text>
+                  </ThemedText>
                 </TouchableOpacity>
               </View>
             </ScrollView>
             <View style={styles.bottomGradient} pointerEvents="none" />
-          </View>
+          </ThemedView>
         </SafeAreaView>
-      </View>
+      </ThemedView>
     </>
   );
 }
@@ -144,7 +144,6 @@ export default function ConversationPracticeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F7FA',
   },
   safeArea: {
     flex: 1,
@@ -158,7 +157,6 @@ const styles = StyleSheet.create({
   },
   whiteOverlay: {
     flex: 1,
-    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     overflow: 'hidden',
@@ -204,11 +202,11 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'space-between',
     rowGap: 12,
+    columnGap: 12,
   },
   optionButton: {
-    width: '48%',
+    width: (screenWidth - 24 * 2 - 12) / 2,
     minHeight: 120,
-    backgroundColor: 'rgba(246, 247, 250, 0.5)',
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
@@ -230,7 +228,6 @@ const styles = StyleSheet.create({
   optionText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#263574',
     lineHeight: 24,
     letterSpacing: -0.32,
     fontFamily: 'Urbanist',
@@ -238,7 +235,6 @@ const styles = StyleSheet.create({
   },
   selectedOptionText: {
     fontWeight: '600',
-    color: '#1FBE92',
   },
   nextButtonContainer: {
     width: '100%',
@@ -256,7 +252,6 @@ const styles = StyleSheet.create({
   nextButtonText: {
     fontSize: 16,
     fontWeight: '600',
-    color: '#2F4291',
     lineHeight: 24,
     letterSpacing: -0.32,
     fontFamily: 'Urbanist',

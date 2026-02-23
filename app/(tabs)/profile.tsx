@@ -6,18 +6,22 @@ import { useRouter } from 'expo-router';
 
 import { ThemedText } from '@/components/themed-text';
 import { ThemedView } from '@/components/themed-view';
+import { useColorScheme, useSetColorScheme } from '@/hooks/use-color-scheme';
 import { useFeatureFlags } from '@/contexts/FeatureFlagContext';
 
 export default function ProfileScreen() {
   const router = useRouter();
-  const [darkTheme, setDarkTheme] = useState(false);
+  const colorScheme = useColorScheme();
+  const setColorScheme = useSetColorScheme();
+  const darkTheme = colorScheme === 'dark';
   const [pushNotifications, setPushNotifications] = useState(false);
   const { setFlag, isOn } = useFeatureFlags();
 
   // Note: do not auto-mark seen on mount; handled by explicit actions
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.contentContainer}>
+    <ThemedView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.contentContainer}>
       {/* Profile Header Section */}
       <View style={styles.profileHeader}>
         {/* Profile Picture */}
@@ -29,10 +33,14 @@ export default function ProfileScreen() {
         </View>
         
         {/* Name */}
-        <Text style={styles.name}>Zander Van Gogh</Text>
+        <ThemedText type="title" style={styles.name}>
+          Zander Van Gogh
+        </ThemedText>
         
         {/* Email */}
-        <Text style={styles.email}>zanvangogh@gmail.com</Text>
+        <ThemedText style={styles.email}>
+          zanvangogh@gmail.com
+        </ThemedText>
         
         {/* Edit Profile Button */}
         <TouchableOpacity style={styles.editProfileButton} onPress={() => router.push('/edit-profile')}>
@@ -41,10 +49,10 @@ export default function ProfileScreen() {
       </View>
 
       {/* Main Container Card - Menu + Preferences */}
-      <View style={styles.mainContainer}>
+      <ThemedView lightColor="#FFFFFF" darkColor="#151718" style={styles.mainContainer}>
         {/* Menu Section */}
         <View style={styles.menuSection}>
-        <Text style={styles.sectionHeader}>Menu</Text>
+        <ThemedText style={styles.sectionHeader}>Menu</ThemedText>
         
         {/* Learning Configurations Menu Item */}
         <TouchableOpacity style={styles.menuItem}>
@@ -60,7 +68,7 @@ export default function ProfileScreen() {
                 <Path d="M21.6667 27.5001C23.2775 27.5001 24.5833 26.1942 24.5833 24.5834C24.5833 22.9726 23.2775 21.6667 21.6667 21.6667C20.0558 21.6667 18.75 22.9726 18.75 24.5834C18.75 26.1942 20.0558 27.5001 21.6667 27.5001Z" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.menuItemText}>Learning Configurations</Text>
+            <ThemedText style={styles.menuItemText}>Learning Configurations</ThemedText>
           </View>
           <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
             <Path d="M12.0247 15.0584L17.083 10L12.0247 4.94168" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
@@ -82,7 +90,7 @@ export default function ProfileScreen() {
                 <Path d="M17.5 19.1667H22.5" stroke="#1DB289" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.menuItemText}>Subscription & Plans</Text>
+            <ThemedText style={styles.menuItemText}>Subscription & Plans</ThemedText>
           </View>
           <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
             <Path d="M12.0247 15.0584L17.083 10L12.0247 4.94168" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
@@ -102,7 +110,7 @@ export default function ProfileScreen() {
                 <Path d="M23.125 28.0332C24.7917 27.3666 26.25 26.1582 27.2167 24.4832C28.1667 22.8416 28.4833 21.0166 28.2583 19.2749" stroke="#1DB289" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.menuItemText}>Support</Text>
+            <ThemedText style={styles.menuItemText}>Support</ThemedText>
           </View>
           <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
             <Path d="M12.0247 15.0584L17.083 10L12.0247 4.94168" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
@@ -121,7 +129,7 @@ export default function ProfileScreen() {
                 <Path d="M20 20.4167V22.9167" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.menuItemText}>Privacy Policy</Text>
+            <ThemedText style={styles.menuItemText}>Privacy Policy</ThemedText>
           </View>
           <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
             <Path d="M12.0247 15.0584L17.083 10L12.0247 4.94168" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
@@ -141,7 +149,7 @@ export default function ProfileScreen() {
                 <Path d="M15.8335 24.1667H19.1668" stroke="#1DB289" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.menuItemText}>Terms & Conditions</Text>
+            <ThemedText style={styles.menuItemText}>Terms & Conditions</ThemedText>
           </View>
           <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
             <Path d="M12.0247 15.0584L17.083 10L12.0247 4.94168" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
@@ -152,7 +160,7 @@ export default function ProfileScreen() {
 
         {/* Preferences Section */}
         <View style={styles.preferencesSection}>
-        <Text style={styles.sectionHeader}>Preferences</Text>
+        <ThemedText style={styles.sectionHeader}>Preferences</ThemedText>
         
         {/* Dark Theme Preference */}
         <View style={styles.preferenceItem}>
@@ -163,9 +171,11 @@ export default function ProfileScreen() {
                 <Path d="M11.6916 20.35C11.9916 24.6416 15.6332 28.1333 19.9916 28.325C23.0666 28.4583 25.8166 27.025 27.4666 24.7666C28.1499 23.8416 27.7832 23.225 26.6416 23.4333C26.0832 23.5333 25.5082 23.575 24.9082 23.55C20.8332 23.3833 17.4999 19.975 17.4832 15.95C17.4749 14.8666 17.6999 13.8416 18.1082 12.9083C18.5582 11.875 18.0166 11.3833 16.9749 11.825C13.6749 13.2166 11.4166 16.5416 11.6916 20.35Z" stroke="#1DB289" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.preferenceItemText}>Dark theme</Text>
+            <ThemedText style={styles.preferenceItemText}>Dark theme</ThemedText>
           </View>
-          <TouchableOpacity onPress={() => setDarkTheme(!darkTheme)}>
+          <TouchableOpacity
+            onPress={() => setColorScheme(darkTheme ? 'light' : 'dark')}
+          >
             <Svg width={40} height={24} viewBox="0 0 40 24" fill="none">
               <Path d="M0 12C0 5.37258 5.37258 0 12 0H28C34.6274 0 40 5.37258 40 12C40 18.6274 34.6274 24 28 24H12C5.37258 24 0 18.6274 0 12Z" fill={darkTheme ? "#27EDB7" : "#F6F7FA"}/>
               <Path d={darkTheme ? "M18 12C18 6.47715 22.4772 2 28 2C33.5228 2 38 6.47715 38 12C38 17.5228 33.5228 22 28 22C22.4772 22 18 17.5228 18 12Z" : "M2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12Z"} fill={darkTheme ? "#263574" : "#5C5C5C"}/>
@@ -184,7 +194,7 @@ export default function ProfileScreen() {
                 <Path d="M22.5166 25.8833C22.5166 27.2583 21.3916 28.3833 20.0166 28.3833C19.3333 28.3833 18.6999 28.1 18.2499 27.65C17.7999 27.2 17.5166 26.5666 17.5166 25.8833" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10"/>
               </Svg>
             </View>
-            <Text style={styles.preferenceItemText}>Push notifications</Text>
+            <ThemedText style={styles.preferenceItemText}>Push notifications</ThemedText>
           </View>
           <TouchableOpacity onPress={() => setPushNotifications(!pushNotifications)}>
             <Svg width={40} height={24} viewBox="0 0 40 24" fill="none">
@@ -198,7 +208,7 @@ export default function ProfileScreen() {
 
         {/* Feature Testing Flags Section */}
         <View style={styles.featureFlagsSection}>
-        <Text style={styles.sectionHeader}>Feature Testing Flags</Text>
+        <ThemedText style={styles.sectionHeader}>Feature Testing Flags</ThemedText>
         
         {/* Extended First Run Feature Flag */}
         <View style={styles.preferenceItem}>
@@ -212,7 +222,7 @@ export default function ProfileScreen() {
                 <Path d="M21 17.6699L19 22.33" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.preferenceItemText}>Extended First Run</Text>
+            <ThemedText style={styles.preferenceItemText}>Extended First Run</ThemedText>
           </View>
           <TouchableOpacity onPress={() => {
             const next = !isOn('extendedFirstRun');
@@ -244,7 +254,7 @@ export default function ProfileScreen() {
                 <Path d="M21 17.6699L19 22.33" stroke="#1DB289" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
               </Svg>
             </View>
-            <Text style={styles.menuItemText}>Onboarding Screens</Text>
+            <ThemedText style={styles.menuItemText}>Onboarding Screens</ThemedText>
           </View>
           <Svg width={20} height={20} viewBox="0 0 20 20" fill="none">
             <Path d="M12.0247 15.0584L17.083 10L12.0247 4.94168" stroke="#2F4291" strokeWidth="1.5" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round"/>
@@ -272,16 +282,16 @@ export default function ProfileScreen() {
         </View>
         
         {/* Version Text */}
-        <Text style={styles.versionText}>Version - 1.0.1</Text>
-      </View>
+        <ThemedText style={styles.versionText}>Version - 1.0.1</ThemedText>
+      </ThemedView>
     </ScrollView>
+    </ThemedView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F6F7FA',
   },
   contentContainer: {
     paddingTop: 60,
@@ -293,7 +303,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
   },
   mainContainer: {
-    backgroundColor: '#FFFFFF',
     borderTopLeftRadius: 32,
     borderTopRightRadius: 32,
     paddingVertical: 16,
@@ -320,7 +329,6 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 22,
     fontWeight: '600',
-    color: '#263574',
     marginBottom: 5,
     textAlign: 'center',
     letterSpacing: -0.44,
@@ -328,7 +336,6 @@ const styles = StyleSheet.create({
   email: {
     fontSize: 14,
     fontWeight: '500',
-    color: '#263574',
     opacity: 0.7,
     marginBottom: 16,
     textAlign: 'center',
@@ -356,7 +363,6 @@ const styles = StyleSheet.create({
   sectionHeader: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#263574',
     opacity: 0.7,
     marginBottom: 12,
   },
@@ -384,7 +390,6 @@ const styles = StyleSheet.create({
   menuItemText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#263574',
     flex: 1,
   },
   preferencesSection: {
@@ -417,7 +422,6 @@ const styles = StyleSheet.create({
   preferenceItemText: {
     fontSize: 16,
     fontWeight: '500',
-    color: '#263574',
     flex: 1,
   },
   logoutSection: {
